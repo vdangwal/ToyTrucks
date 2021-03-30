@@ -1,0 +1,18 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        
+        {
+            "label": "run catalog service",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "-p",
+                "${workspaceFolder}/src/Services/Catalog/CatalogApi/Services.Catalog.Api.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        } 
+         
+    ]
+}
