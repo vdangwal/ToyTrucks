@@ -80,8 +80,11 @@ namespace Catalog.Api
 
             //psql -h localhost -p 5432 -U marcus -d hess_catalog_db
             var server = config["POSTGRES_SERVER"] ?? "localhost";
-            var port = config["POSTGRES_PORT"] ?? "6666";
+
+            var port = config["POSTGRES_PORT"] ?? "5432";
             var database = config["POSTGRES_DB"] ?? "hess_catalog_db";
+
+
             var user = config["POSTGRES_USER"] ?? "marcus";
             var password = config["POSTGRES_PASSWORD"] ?? "password";
 

@@ -14,8 +14,8 @@ services:
     environment: 
       POSTGRES_SERVER: "postgres_turk_db"
     ports: 
-      - 3500:3000
-    # depends_on: 
-    #   - postgres_turk_db
+      - 3500:80
+    depends_on: 
+      - postgres_turk_db
 
 
