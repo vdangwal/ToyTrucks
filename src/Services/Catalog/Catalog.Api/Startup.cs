@@ -35,7 +35,7 @@ namespace Catalog.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.Api", Version = "v1" });
             });
-            services.AddDbContext(Configuration);
+            services.AddPostgresDbContext(Configuration);
             services.AddScoped<ITruckRepository, TruckRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -70,7 +70,7 @@ namespace Catalog.Api
 
     public static class ServiceCollectionExtensionMethods
     {
-        public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddPostgresDbContext(this IServiceCollection services, IConfiguration config)
         {
 
             //Create  postgres container
