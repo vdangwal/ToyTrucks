@@ -9,6 +9,8 @@ services:
       POSTGRES_PASSWORD: "password"
     ports: 
       - 5432:5432
+    volumes:
+      - catalogapi_data:/data/db
   category_api:
     build: ./Services/Catalog/Catalog.Api/.
     environment: 
@@ -17,5 +19,8 @@ services:
       - 3500:80
     depends_on: 
       - postgres_turk_db
+
+volumes: 
+  catalogapi_data:
 
 
