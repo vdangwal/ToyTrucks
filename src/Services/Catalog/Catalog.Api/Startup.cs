@@ -72,19 +72,22 @@ namespace Catalog.Api
     {
         public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration config)
         {
+
+            //Create  postgres container
             //docker run -e POSTGRES_DB=hess_catalog_db -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres_catalog -d postgres
+            //run bash to access postgres container
             //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
-            //psql -h localhost -p 5432 -U postgres -d hess_catalog_db_thursday -W
 
             //psql -h localhost -p 5432 -U marcus -d hess_catalog_db
             var server = config["POSTGRES_SERVER"] ?? "localhost";
-            var port = config["POSTGRES_PORT"] ?? "5432";
+            var port = config["POSTGRES_PORT"] ?? "6666";
             var database = config["POSTGRES_DB"] ?? "hess_catalog_db";
             var user = config["POSTGRES_USER"] ?? "marcus";
             var password = config["POSTGRES_PASSWORD"] ?? "password";
 
             var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            System.Console.WriteLine($"connstr: {connectionString}");
+            System.Console.WriteLine($"connstr1: {connectionString}");
+
             //"User ID =postgres;Password=password;Server=localhost;Port=5432;Database=testDb;Integrated Security=true;Pooling=true;" //alternative
             services.AddDbContext<CatalogDbContext>(options =>
                 options.UseNpgsql(connectionString)

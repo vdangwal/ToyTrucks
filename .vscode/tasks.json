@@ -1,18 +1,16 @@
 {
     "version": "2.0.0",
     "tasks": [
-        
         {
-            "label": "run catalog service",
+            "label": "build",
             "command": "dotnet",
             "type": "process",
             "args": [
-                "run",
-                "-p",
-                "${workspaceFolder}/src/Services/Catalog/CatalogApi/Services.Catalog.Api.csproj"
+                "build",
+                "${workspaceFolder}/src/Services/Catalog/Catalog.Api/Catalog.Api.csproj",
+                "/property:GenerateFullPaths=true"
             ],
             "problemMatcher": "$msCompile"
-        } 
-         
+        }
     ]
 }

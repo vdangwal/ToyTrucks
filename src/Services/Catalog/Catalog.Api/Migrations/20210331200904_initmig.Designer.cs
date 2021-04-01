@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Services.Catalog.Api.Migrations
+namespace Catalog.Api.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20210331160253_namespacechange")]
-    partial class namespacechange
+    [Migration("20210331200904_initmig")]
+    partial class initmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
