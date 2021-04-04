@@ -1,6 +1,14 @@
 # Get Base Image (Full .NET Core SDK)
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS debug
+ENV ASPNETCORE_URLS=http://+:4400  
+# EXPOSE 80
+
+RUN apt-get update
+RUN apt-get install -y unzip
+RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdbg
+
+
+WORKDIR /work
 
 # Copy necessary files and restore as distinct layer
 COPY *.csproj ./
@@ -8,9 +16,19 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish -c Release -o out
+RUN dotnet publish --no-restore -o out -c Release
+#--no-launch-profile means it doesnt access launchSettings.json
+ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
-COPY --from=build-env /app/out . 
-ENTRYPOINT ["dotnet", "Catalog.Api.dll"]
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
+
+
+WORKDIR /app/
+#COPY --from=Debug /out/ /app/
+COPY --from=debug /out/ /app/
+RUN chmod +x /app/ 
+CMD dotnet Catalog.Api.dll
+
+#COPY --from=Debug /app/out . 
+# ENTRYPOINT ["dotnet", "Catalog.Api.dll"]

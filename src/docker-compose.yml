@@ -12,11 +12,16 @@ services:
     volumes:
       - catalogapi_data:/data/db
   category_api:
-    build: ./Services/Catalog/Catalog.Api/.
+    container_name: category_api
+    build: 
+      context: ./Services/Catalog/Catalog.Api
+      target: debug
     environment: 
       POSTGRES_SERVER: "postgres_turk_db"
     ports: 
-      - 3500:80
+      - 3500:4400
+    volumes:
+      - ./Services/Catalog/Catalog.Api/:/work/
     depends_on: 
       - postgres_turk_db
 
