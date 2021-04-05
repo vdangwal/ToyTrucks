@@ -22,9 +22,9 @@ namespace Catalog.Api.Controllers
 
         public CategoryController(ICategoryRepository service, ILogger<CategoryController> logger, IMapper mapper)
         {
-            _service = service;
-            _logger = logger;
-            _mapper = mapper;
+            _service = service ?? throw new ArgumentNullException(nameof(service));;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));;
         }
 
         [HttpGet]
