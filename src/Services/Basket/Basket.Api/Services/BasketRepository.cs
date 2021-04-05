@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
@@ -12,11 +13,13 @@ namespace Basket.Api.Services
         {
             _cache = cache;
         }
-        public async Task DeleteBasket(string userName)
+
+        private async Task<bool> HasUserName(string userName)
         {
             if (string.IsNullOrEmpty(userName))
                 throw new ArgumentNullException(nameof(userName));
-            await _cache.RemoveAsync(userName);
+            var result = await _cache.GetStringAsync(userName);
+            return result.Any();
         }
 
         public async Task<ShoppingCart> GetBasket(string userName)
@@ -35,6 +38,14 @@ namespace Basket.Api.Services
                 throw new ArgumentNullException(nameof(basket));
             await _cache.SetStringAsync(basket.UserName, JsonConvert.SerializeObject(basket));
             return await GetBasket(basket.UserName);
+        }
+
+        public async Task DeleteBasket(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+                throw new ArgumentNullException(nameof(userName));
+            if (await HasUserName(userName))
+                await _cache.RemoveAsync(userName);
         }
     }
 }

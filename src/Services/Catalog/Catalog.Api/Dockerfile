@@ -5,6 +5,7 @@ ENV ASPNETCORE_URLS=http://+:4400
 
 RUN apt-get update
 RUN apt-get install -y unzip
+# dls a sh script from ../getvsdbgsh and pipes it to /bin/sh for execution and provides a few arguments, most importantly the /vsdbg which is where the remote debugger will be extracted to
 RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdbg
 
 
