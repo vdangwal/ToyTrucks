@@ -32,6 +32,10 @@ namespace Basket.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.Api", Version = "v1" });
             });
+
+            services.AddRedisCache(Configuration);
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +58,21 @@ namespace Basket.Api
             {
                 endpoints.MapControllers();
             });
+        }
+    }
+
+    public static class ServiceExtensions
+    {
+        public static IServiceCollection AddRedisCache(this IServiceCollection services, IConfiguration config)
+        {
+            //docker run -d -p 6379:6379 --name redis_basket redis
+            var redisServer = config["REDIS_SERVER"] ?? "localhost";
+            var redisConnection = $"{redisServer}:6379";
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = redisConnection;
+            });
+            return services;
         }
     }
 }
