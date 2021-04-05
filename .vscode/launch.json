@@ -27,7 +27,7 @@
         //     }
         // },
         {
-            "name": ".NET Core Docker Attach",
+            "name": "CatalogApi Docker Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickRemoteProcess}",
@@ -44,6 +44,26 @@
             },
             "sourceFileMap": {
                 "/work": "${workspaceRoot}/src/Services/Catalog/Catalog.Api/"
+            }
+        },
+        {
+            "name": "BasketApi Docker Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "basket_api"
+                ],
+                "debuggerPath": "/root/vsdbg/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/basketwork": "${workspaceRoot}/src/Services/Basket/Basket.Api/"
             }
         }
     ]
