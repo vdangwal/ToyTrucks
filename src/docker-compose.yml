@@ -16,6 +16,17 @@ services:
     #environment: 
     ports:
       - 6379:6379
+  
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+      - 8080:8000
+      - 8090:9000
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    
 
   category_api:
     container_name: category_api
@@ -47,5 +58,6 @@ services:
 
 volumes: 
   catalogapi_data:
+  portainer_data:
 
 
