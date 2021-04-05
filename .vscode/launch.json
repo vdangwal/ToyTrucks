@@ -36,7 +36,7 @@
                 "pipeArgs": [
                     "exec",
                     "-i",
-                    "category_api"
+                    "catalog_api"
                 ],
                 "debuggerPath": "/root/vsdbg/vsdbg",
                 "pipeCwd": "${workspaceRoot}",

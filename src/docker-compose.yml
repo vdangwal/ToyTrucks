@@ -1,7 +1,7 @@
 version: '3.4'
 
 services: 
-  postgres_turk_db:
+  catalog_postgres_db:
     image: postgres
     environment: 
       #POSTGRES_DB: "turkish_catalog"
@@ -11,25 +11,36 @@ services:
       - 5432:5432
     volumes:
       - catalogapi_data:/data/db
-  redis_db:
+  basket_redis_db:
     image: redis:alpine
     #environment: 
     ports:
       - 6379:6379
+  
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+      - 8080:8000
+      - 8090:9000
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    
 
-  category_api:
-    container_name: category_api
+  catalog_api:
+    container_name: catalog_api
     build: 
       context: ./Services/Catalog/Catalog.Api
       target: debug
     environment: 
-      POSTGRES_SERVER: "postgres_turk_db"
+      POSTGRES_SERVER: "catalog_postgres_db"
     ports: 
       - 3500:4400
     volumes:
       - ./Services/Catalog/Catalog.Api/:/work/
     depends_on: 
-      - postgres_turk_db
+      - catalog_postgres_db
   
   basket_api:
     container_name: basket_api
@@ -37,15 +48,16 @@ services:
       context: ./Services/Basket/Basket.Api
       target: debug
     environment: 
-      REDIS_SERVER: "redis_db"
+      REDIS_SERVER: "basket_redis_db"
     ports: 
       - 3502:4402
     volumes:
       - ./Services/Basket/Basket.Api/:/basketwork/
     depends_on: 
-      - redis_db
+      - basket_redis_db
 
 volumes: 
   catalogapi_data:
+  portainer_data:
 
 
