@@ -6,7 +6,7 @@ using System;
 
 namespace Catalog.Api.Extensions
 {
-    public static class IHostExtensions
+    public static class HostExtensions
     {
         public static IHost MigrateAndSeedDatabase<T>(this IHost host, int retries = 3) where T : DbContext
         {
