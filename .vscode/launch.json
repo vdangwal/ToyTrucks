@@ -92,6 +92,26 @@
             "sourceFileMap": {
                 "/basketwork": "${workspaceRoot}/src/Services/Basket/Basket.Api/"
             }
+        },
+        {
+            "name": "DiscountApi Docker Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "discount_api"
+                ],
+                "debuggerPath": "/root/vsdbg/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/discountwork1": "${workspaceRoot}/src/Services/Discount/Discount.Api/"
+            }
         }
     ]
 }

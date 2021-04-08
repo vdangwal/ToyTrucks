@@ -1,9 +1,9 @@
-using Discount2.API.Entities;
+using Discount.API.Entities;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 
-namespace Discount2.API.Services
+namespace Discount.API.Services
 {
     public interface IDiscountRepository
     {

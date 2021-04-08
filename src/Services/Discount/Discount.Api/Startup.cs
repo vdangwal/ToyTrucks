@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Discount2.API.Services;
+using Discount.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace Discount2.Api
+namespace Discount.Api
 {
     public class Startup
     {
@@ -31,7 +31,7 @@ namespace Discount2.Api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Discount2.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Discount.Api", Version = "v1" });
             });
         }
 
@@ -42,7 +42,7 @@ namespace Discount2.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Discount2.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Discount.Api v1"));
             }
 
             //app.UseHttpsRedirection();

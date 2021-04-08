@@ -1,4 +1,4 @@
-namespace Discount2.API.Entities
+namespace Discount.API.Entities
 {
     public class Coupon
     {
