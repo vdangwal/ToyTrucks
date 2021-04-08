@@ -17,8 +17,10 @@ namespace Catalog.Api
             {
                 if (dbContext.Trucks.Any())
                 {
+                    Console.WriteLine("Database has already been seeded");
                     return;   // DB has been seeded
                 }
+                Console.WriteLine("Seeding database");
                 await PopulateTestData(dbContext);
 
             }

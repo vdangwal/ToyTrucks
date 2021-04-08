@@ -21,7 +21,6 @@ ENTRYPOINT ["dotnet", "run", "--no-launch-profile"]
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 
-
 WORKDIR /app/
 #COPY --from=Debug /out/ /app/
 COPY --from=debug /out/ /app/

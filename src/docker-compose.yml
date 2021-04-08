@@ -2,15 +2,15 @@ version: '3.4'
 
 services: 
   catalog_postgres_db:
-    image: postgres
+    image: postgres:alpine
     environment: 
-      #POSTGRES_DB: ""
+      POSTGRES_DB: "hess_catalog_db"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
       - 5432:5432
     volumes:
-      - catalogapi_data:/data/db
+      - catalogapi_data:/var/lib/postgresql/data
   
   basket_redis_db:
     image: redis:alpine
@@ -19,28 +19,29 @@ services:
       - 6379:6379
 
   discount_postgres_db:
-    container_name: discountdb
-    image: postgres
+    #container_name: discountdb
+    #restart: always
+    image: postgres:alpine
     environment: 
       POSTGRES_DB: "DiscountDb"
-      POSTGRES_USER: "admin"
+      POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
       - 5431:5432
     volumes:
       - discountapi_data:/var/lib/postgresql/discountdata/
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment: 
-      #POSTGRES_DB: ""
-      PGADMIN_DEFAULT_EMAIL: "admin@turkish.com"
-      PGADMIN_DEFAULT_PASSWORD: "password"
-    ports: 
-      - 5050:80
-    volumes:
-      - pgadmin_data:/root/.pgadmin
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   environment: 
+  #     #POSTGRES_DB: ""
+  #     PGADMIN_DEFAULT_EMAIL: "admin@turkish.com"
+  #     PGADMIN_DEFAULT_PASSWORD: "password"
+  #   ports: 
+  #     - 5050:80
+  #   volumes:
+  #     - pgadmin_data:/root/.pgadmin
 
   portainer:
     image: portainer/portainer-ce
@@ -59,12 +60,17 @@ services:
       target: debug
     environment: 
       POSTGRES_SERVER: "catalog_postgres_db"
+      POSTGRES_DB: "hess_catalog_db"
+      POSTGRES_USER: "marcus"
+      POSTGRES_PASSWORD: "password"
     ports: 
       - 3500:4400
     volumes:
       - ./Services/Catalog/Catalog.Api/:/work/
     depends_on: 
       - catalog_postgres_db
+
+ 
   
   basket_api:
     container_name: basket_api
@@ -80,10 +86,27 @@ services:
     depends_on: 
       - basket_redis_db
 
+  discount_api:
+    container_name: discount_api
+    build: 
+      context: ./Services/Discount/Discount2.Api
+    #   target: debug
+    environment: 
+      POSTGRES_SERVER: "discount_postgres_db"
+      POSTGRES_DB: "DiscountDb"
+      POSTGRES_USER: "marcus"
+      POSTGRES_PASSWORD: "password"
+    ports: 
+      - 3504:80
+    volumes:
+      - ./Services/Discount/Discount.Api/:/discountwork/
+    depends_on: 
+      - discount_postgres_db
+
 volumes: 
   catalogapi_data:
   discountapi_data:
   portainer_data:
-  pgadmin_data:
+  #pgadmin_data:
 
 
