@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-
+using Basket.Api.Dtos;
 namespace Basket.Api.Services
 {
     public class BasketRepository : IBasketRepository
