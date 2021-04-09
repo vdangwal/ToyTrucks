@@ -1,12 +1,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS debug
-ENV ASPNETCORE_URLS=http://+:4402
+ENV ASPNETCORE_URLS=http://+:4404 
 
 RUN apt-get update
 RUN apt-get install -y unzip
 # dls a sh script from ../getvsdbgsh and pipes it to /bin/sh for execution and provides a few arguments, most importantly the /vsdbg which is where the remote debugger will be extracted to
 RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdbg
 
-WORKDIR /basketwork
+WORKDIR /discountwork1
+
 
 # Copy necessary files and restore as distinct layer
 COPY *.csproj ./
@@ -22,7 +23,7 @@ ENTRYPOINT ["dotnet", "run", "--no-launch-profile"]
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 
 WORKDIR /app/
-#COPY --from=Debug /out/ /app/
+
 COPY --from=debug /out/ /app/
 RUN chmod +x /app/ 
-CMD dotnet Basket.Api.dll
+CMD dotnet Discount.Api.dll

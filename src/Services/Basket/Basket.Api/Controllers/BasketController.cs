@@ -17,6 +17,13 @@ namespace Basket.Api.Controllers
             _service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
+         [HttpGet]
+         
+        public string GetTime()
+        {
+            return DateTime.Now.ToString();            
+        }
+
         [HttpGet("{userName}", Name = "GetBasket")]
         [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status200OK)]
         public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)

@@ -79,14 +79,14 @@ namespace Catalog.Api
             //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
 
             //psql -h localhost -p 5432 -U marcus -d hess_catalog_db
-            var server = config["POSTGRES_SERVER"] ?? "localhost";
+            var server = config["POSTGRES_SERVER"];// ?? "localhost";
 
-            var port = config["POSTGRES_PORT"] ?? "5432";
-            var database = config["POSTGRES_DB"] ?? "hess_catalog_db";
+            var port = config["POSTGRES_PORT"];// ?? "5432";
+            var database = config["POSTGRES_DB"];// ?? "hess_catalog_db";
 
 
-            var user = config["POSTGRES_USER"] ?? "marcus";
-            var password = config["POSTGRES_PASSWORD"] ?? "password";
+            var user = config["POSTGRES_USER"];// ?? "marcus";
+            var password = config["POSTGRES_PASSWORD"];// ?? "password";
 
             var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
             System.Console.WriteLine($"connstr1: {connectionString}");
