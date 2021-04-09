@@ -14,6 +14,7 @@ using System.Net;
 namespace Catalog.Api.Controllers
 {
     [Route("api/trucks")]
+     [ApiVersion("1.0")]
     [ApiController]
     public class TruckController : ControllerBase
     {

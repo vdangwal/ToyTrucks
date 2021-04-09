@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace Catalog.Api.Controllers
 {
     [Route("api/categories")]
+     [ApiVersion("1.0")]
     [ApiController]
     public class CategoryController : ControllerBase
     {

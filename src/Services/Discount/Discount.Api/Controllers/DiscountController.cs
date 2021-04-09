@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 namespace Discount.Api.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [ApiVersion("1.0")]
+    //[Route("api/v{version:apiVersion}/discount")]
+    [Route("api/discount")]
     public class DiscountController : ControllerBase
     {
         private readonly IDiscountRepository _repository;
