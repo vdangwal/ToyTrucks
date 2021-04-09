@@ -1,4 +1,5 @@
-using Discount.API.Entities;
+using AutoMapper;
+using Discount.API.Models;
 using Discount.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,17 +14,19 @@ namespace Discount.Api.Controllers
     public class DiscountController : ControllerBase
     {
         private readonly IDiscountRepository _repository;
+        private readonly IMapper _mapper;
 
-        public DiscountController(IDiscountRepository repository)
+        public DiscountController(IDiscountRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Coupon>>> GetCoupons(string productName)
+        public async Task<ActionResult<IEnumerable<Coupon>>> GetDiscounts()
         {
-            var discount = await _repository.GetCoupons();
-            return Ok(discount);
+            var discounts = await _repository.GetDiscounts();
+            return Ok(_mapper.Map<IEnumerable<API.Dtos.Coupon>, IEnumerable<API.Models.Coupon>>(discounts));
         }
 
         [HttpGet("{productName}", Name = "GetDiscount")]
@@ -31,15 +34,16 @@ namespace Discount.Api.Controllers
         public async Task<ActionResult<Coupon>> GetDiscount(string productName)
         {
             var discount = await _repository.GetDiscount(productName);
-            return Ok(discount);
+            return Ok(_mapper.Map<API.Models.Coupon>(discount));
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Coupon>> CreateDiscount([FromBody] Coupon coupon)
         {
-            await _repository.CreateDiscount(coupon);
-            return CreatedAtRoute("GetDiscount", new { productName = coupon.ProductName }, coupon);
+            var couponDto = _mapper.Map<API.Dtos.Coupon>(coupon);
+            var resultCouponDto = await _repository.CreateDiscount(couponDto);
+            return CreatedAtRoute("GetDiscount", new { productName = coupon.ProductName }, _mapper.Map<API.Models.Coupon>(resultCouponDto));
         }
 
         [HttpPut]
@@ -47,8 +51,8 @@ namespace Discount.Api.Controllers
         [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Coupon>> UpdateDiscount([FromBody] Coupon coupon)
         {
-
-            var isUpdated = await _repository.UpdateDiscount(coupon);
+            var couponDto = _mapper.Map<API.Dtos.Coupon>(coupon);
+            var isUpdated = await _repository.UpdateDiscount(couponDto);
             return isUpdated ? NoContent() : BadRequest();
         }
 

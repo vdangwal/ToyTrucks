@@ -11,11 +11,10 @@ namespace Catalog.Api.Profiles
     {
         public CategoriesProfile()
         {
-            CreateMap<Category, Models.CategoryDto>();
+
             CreateMap<Models.CategoryDto, Category>()
                .ReverseMap();
 
-            // CreateMap<IEnumerable<Category>, IEnumerable<Models.CategoryDto>>();
         }
     }
 }

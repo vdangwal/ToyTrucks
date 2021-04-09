@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Basket.Api
+namespace Basket.Api.Dtos
 {
     public class ShoppingCart
     {

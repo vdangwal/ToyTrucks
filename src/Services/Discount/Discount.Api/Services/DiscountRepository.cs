@@ -1,5 +1,5 @@
 using Dapper;
-using Discount.API.Entities;
+using Discount.API.Dtos;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
@@ -14,7 +14,8 @@ namespace Discount.API.Services
         private readonly string _connectionString;
         private const string GET_COUPONS_SQL = "SELECT * FROM Coupon";
         private const string GET_DISCOUNT_SQL = "SELECT * FROM Coupon WHERE ProductName = @ProductName";
-        private const string CREATE_DISCOUNT_SQL = "INSERT INTO Coupon (ProductName, Description, Amount) VALUES (@ProductName, @Description, @Amount)";
+        private const string GET_DISCOUNT_BY_ID_SQL = "SELECT * FROM Coupon WHERE Id = @Id";
+        private const string CREATE_DISCOUNT_SQL = "INSERT INTO Coupon (ProductName, Description, Amount) VALUES (@ProductName, @Description, @Amount) RETURNING Id";
         private const string UPDATE_DISCOUNT_SQL = "UPDATE Coupon SET ProductName=@ProductName, Description = @Description, Amount = @Amount WHERE Id = @Id";
         private const string DELETE_DISCOUNT_SQL = "DELETE FROM Coupon WHERE ProductName = @ProductName";
         public DiscountRepository(IConfiguration configuration)
@@ -31,7 +32,15 @@ namespace Discount.API.Services
 
         }
 
-        public async Task<IEnumerable<Coupon>> GetCoupons()
+        public async Task<bool> DiscountExists(int id)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>
+                (GET_DISCOUNT_BY_ID_SQL, new { Id = id });
+            return (coupon != null);
+        }
+
+        public async Task<IEnumerable<Coupon>> GetDiscounts()
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -50,17 +59,27 @@ namespace Discount.API.Services
             return coupon != null ? coupon : new Coupon { ProductName = "No Discount", Amount = 0, Description = "No Discount Desc" };
 
         }
-
-        public async Task<bool> CreateDiscount(Coupon coupon)
+        public async Task<Coupon> GetDiscount(int Id)
         {
             using var connection = new NpgsqlConnection(_connectionString);
 
-            var affected =
-                await connection.ExecuteAsync
+            var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>
+                (GET_DISCOUNT_BY_ID_SQL, new { Id = Id });
+
+            return coupon;
+        }
+
+
+        public async Task<Coupon> CreateDiscount(Coupon coupon)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+
+            var newCouponId =
+                await connection.ExecuteScalarAsync<int>
                     (CREATE_DISCOUNT_SQL,
                             new { ProductName = coupon.ProductName, Description = coupon.Description, Amount = coupon.Amount });
 
-            return affected != 0;
+            return await GetDiscount(newCouponId);
         }
 
         public async Task<bool> UpdateDiscount(Coupon coupon)
