@@ -95,6 +95,7 @@ services:
       POSTGRES_SERVER: "discount_postgres_db"
       POSTGRES_DB: "DiscountDb"
       POSTGRES_USER: "marcus"
+      POSTGRES_PORT: "5432"
       POSTGRES_PASSWORD: "password"
     ports: 
       - 3504:4404
