@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
+using Microsoft.AspNetCore.Mvc.Versioning;
 namespace Catalog.Api
 {
     public class Startup
@@ -38,6 +38,13 @@ namespace Catalog.Api
             services.AddPostgresDbContext(Configuration);
             services.AddScoped<ITruckRepository, TruckRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+              services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
 
             services.AddCors(options =>
             {
