@@ -69,9 +69,7 @@ services:
       - ./Services/Catalog/Catalog.Api/:/work/
     depends_on: 
       - catalog_postgres_db
-
- 
-  
+   
   basket_api:
     container_name: basket_api
     build: 

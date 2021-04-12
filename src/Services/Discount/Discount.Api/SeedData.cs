@@ -25,20 +25,28 @@ namespace Discount.Api
         private static async Task PopulateTestData(NpgsqlConnection connection)
         {
             using var command = new NpgsqlCommand { Connection = connection };
-            command.CommandText = "DROP TABLE IF EXISTS Coupon";
-            await command.ExecuteNonQueryAsync();
+            command.CommandText = "SELECT count(*) FROM dCoupon";
+            var result = await command.ExecuteScalarAsync();
+            if (Convert.ToInt32(result) < 1)
+            {
+                System.Console.WriteLine("Seeding discount database");
+                command.CommandText = "DROP TABLE IF EXISTS Coupon";
+                await command.ExecuteNonQueryAsync();
 
-            command.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, 
+                command.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, 
                                                                 ProductName VARCHAR(24) NOT NULL,
                                                                 Description TEXT,
                                                                 Amount INT)";
-            await command.ExecuteNonQueryAsync();
+                await command.ExecuteNonQueryAsync();
 
-            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('IPhone X', 'IPhone Discount', 150);";
-            await command.ExecuteNonQueryAsync();
+                command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('IPhone X', 'IPhone Discount', 150);";
+                await command.ExecuteNonQueryAsync();
 
-            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Samsung 10', 'Samsung Discount', 100);";
-            await command.ExecuteNonQueryAsync();
+                command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Samsung 10', 'Samsung Discount', 100);";
+                await command.ExecuteNonQueryAsync();
+            }
+            else
+                Console.WriteLine("Discount database has already been seeded");
         }
     }
 }

@@ -29,8 +29,8 @@ namespace Discount.Api.Extensions
                 policy.Execute(() =>
                 {
                     SeedData.Initialize(connectionString).Wait();
-                    logger.LogInformation("Discount database seeded");
-                    Console.WriteLine("Discount database seeded");
+                    // logger.LogInformation("Discount database seeded");
+                    //Console.WriteLine("Discount database seeded");
 
                 });
                 return host;
