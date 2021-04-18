@@ -9,5 +9,12 @@
     <PackageReference Include="AutoMapper" Version="10.1.1"/>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0"/>
+    <PackageReference Include="Grpc.Net.Client" Version="2.36.0"/>
+    <PackageReference Include="Grpc.Tools" Version="2.37.0"/>
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.36.0"/>
+    <PackageReference Include="Google.Protobuf" Version="4.0.0-rc2"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="Protos\discount.proto" GrpcServices="Client"/>
   </ItemGroup>
 </Project>
