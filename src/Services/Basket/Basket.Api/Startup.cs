@@ -15,6 +15,8 @@ using Microsoft.OpenApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Discount.Grpc.Protos;
+using Basket.Api.GrpcServices;
+
 namespace Basket.Api
 {
     public class Startup
@@ -34,11 +36,13 @@ namespace Basket.Api
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
 
+            Console.WriteLine($"Grpc url: {Configuration["grpcServiceUrl"]}");
             services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
             {
                 opt.Address = new Uri(Configuration["grpcServiceUrl"]);
 
             });
+            services.AddScoped<DiscountGrpcService>();
             services.AddControllers();
             services.AddApiVersioning(options =>
           {
@@ -87,6 +91,7 @@ namespace Basket.Api
             //docker run -d -p 6379:6379 --name redis_basket redis
             var redisServer = config["REDIS_SERVER"] ?? "localhost";
             var redisConnection = $"{redisServer}:6379";
+            Console.WriteLine($"CONNECTION STRING Basket redis: {redisConnection}");
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = redisConnection;

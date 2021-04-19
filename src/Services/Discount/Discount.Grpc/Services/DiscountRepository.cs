@@ -28,7 +28,7 @@ namespace Discount.Grpc.Services
             var password = _config["POSTGRES_PASSWORD"];// ?? "password";
 
             _connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            Console.WriteLine(_connectionString);
+            Console.WriteLine($"CONNECTION STRING Discount: {_connectionString}");
 
         }
 
@@ -56,7 +56,7 @@ namespace Discount.Grpc.Services
             var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>
                 (GET_DISCOUNT_SQL, new { ProductName = productName });
 
-            return coupon != null ? coupon : new Coupon { ProductName = "No Discount", Amount = 0, Description = "No Discount Desc" };
+            return coupon;//!= null ? coupon : new Coupon { ProductName = "No Discount", Amount = 0, Description = "No Discount Desc" };
 
         }
         public async Task<Coupon> GetDiscount(int Id)

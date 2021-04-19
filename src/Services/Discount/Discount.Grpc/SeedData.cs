@@ -29,15 +29,15 @@ namespace Discount.Grpc
             await command.ExecuteNonQueryAsync();
 
             command.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, 
-                                                                ProductName VARCHAR(24) NOT NULL,
+                                                                ProductName VARCHAR(80) NOT NULL,
                                                                 Description TEXT,
                                                                 Amount INT)";
             await command.ExecuteNonQueryAsync();
 
-            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('IPhone X', 'IPhone Discount', 150);";
+            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1990 Tanker Truck', 'Hess 1990 Discount', 10);";
             await command.ExecuteNonQueryAsync();
 
-            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Samsung 10', 'Samsung Discount', 100);";
+            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1996 Emergency Truck', 'Hess 1996 Emergency Truck Discount', 8);";
             await command.ExecuteNonQueryAsync();
         }
     }

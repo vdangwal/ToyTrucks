@@ -21,14 +21,16 @@ namespace Discount.Grpc.Services
             _mapper = mapper;
         }
 
-        public override async Task<Coupon> GetDiscount(GetDiscountRequest request, ServerCallContext context)
+        public override async Task<GetDiscountResponse> GetDiscount(GetDiscountRequest request, ServerCallContext context)
         {
             var coupon = await _service.GetDiscount(request.ProductName);
+            GetDiscountResponse response = new GetDiscountResponse();
             if (coupon == null)
-                throw new RpcException(new Status(StatusCode.NotFound, $"Discount with Product name ={request.ProductName} was not found"));
+                _logger.LogWarning($"Discount with Product name ={request.ProductName} was not found");
+            else
+                response.Coupon = _mapper.Map<Protos.Coupon>(coupon);
 
-            var grpcCoupon = _mapper.Map<Protos.Coupon>(coupon);
-            return grpcCoupon;
+            return response;
         }
 
         public override async Task<GetDiscountsResponse> GetDiscounts(GetDiscountsRequest request, ServerCallContext context)

@@ -1,14 +1,16 @@
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Basket.Api.GrpcServices;
 using Basket.Api.Models;
 using Basket.Api.Services;
+using Discount.Grpc.Protos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.Api.Controllers
 {
- 
+
     [ApiVersion("1.0")]
     [Route("api/basket")]
     [ApiController]
@@ -16,11 +18,13 @@ namespace Basket.Api.Controllers
     {
         private readonly IBasketRepository _service;
         private readonly IMapper _mapper;
+        private readonly DiscountGrpcService _discountService;
 
-        public BasketController(IBasketRepository service, IMapper mapper)
+        public BasketController(IBasketRepository service, IMapper mapper, DiscountGrpcService discountService)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
-            _mapper = mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
         }
 
         [HttpGet]
@@ -48,6 +52,21 @@ namespace Basket.Api.Controllers
         {
             if (basket == null)
                 throw new ArgumentNullException(nameof(basket));
+
+            foreach (var item in basket.Items)
+            {
+
+                var discount = await _discountService.GetDiscount(item.ProductName);
+                //   if (discount is not null)
+                if (discount.Coupon is not null)
+                {
+                    item.Price -= discount.Coupon.Amount;
+                    Console.WriteLine($"discount for {item.ProductName}. New price is {item.Price}");
+                }
+                else
+                    Console.WriteLine($"No discount for {item.ProductName}");
+
+            }
 
             return Ok(await _service.UpdateBasket(_mapper.Map<Dtos.ShoppingCart>(basket)));
         }

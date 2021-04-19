@@ -15,6 +15,7 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
+#RUN dotnet restore
 RUN dotnet publish --no-restore -o out -c Release
 #--no-launch-profile means it doesnt access launchSettings.json
 ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
