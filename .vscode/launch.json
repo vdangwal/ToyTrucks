@@ -31,6 +31,32 @@
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": "Discount Grpc No docker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "requireExactSource": false,
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/Services/Discount/Discount.Grpc/bin/Debug/net5.0/Discount.Grpc.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Discount/Discount.Grpc",
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\\\bNow listening intently on:\\\\s+(https?://\\\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
             "name": "CatalogApi  No docker",
             "type": "coreclr",
             "request": "launch",
@@ -119,8 +145,28 @@
                 "/basketwork": "${workspaceRoot}/src/Services/Basket/Basket.Api/"
             }
         },
+        // {
+        //     "name": "DiscountApi Docker Attach",
+        //     "type": "coreclr",
+        //     "request": "attach",
+        //     "processId": "${command:pickRemoteProcess}",
+        //     "pipeTransport": {
+        //         "pipeProgram": "docker",
+        //         "pipeArgs": [
+        //             "exec",
+        //             "-i",
+        //             "discount_api"
+        //         ],
+        //         "debuggerPath": "/root/vsdbg/vsdbg",
+        //         "pipeCwd": "${workspaceRoot}",
+        //         "quoteArgs": false
+        //     },
+        //     "sourceFileMap": {
+        //         "/discountwork1": "${workspaceRoot}/src/Services/Discount/Discount.Api/"
+        //     }
+        // }
         {
-            "name": "DiscountApi Docker Attach",
+            "name": "DiscountGrpc Docker Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickRemoteProcess}",
@@ -129,14 +175,14 @@
                 "pipeArgs": [
                     "exec",
                     "-i",
-                    "discount_api"
+                    "discount_grpc"
                 ],
                 "debuggerPath": "/root/vsdbg/vsdbg",
                 "pipeCwd": "${workspaceRoot}",
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/discountwork1": "${workspaceRoot}/src/Services/Discount/Discount.Api/"
+                "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
             }
         }
     ]

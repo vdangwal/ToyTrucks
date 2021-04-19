@@ -14,6 +14,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Discount.Grpc.Protos;
+using Basket.Api.GrpcServices;
+
 namespace Basket.Api
 {
     public class Startup
@@ -30,14 +33,24 @@ namespace Basket.Api
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBasketRepository, BasketRepository>();
-            services.AddControllers();
-              services.AddApiVersioning(options =>
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
+
+            Console.WriteLine($"Grpc url: {Configuration["grpcServiceUrl"]}");
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
             {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ReportApiVersions = true;
-                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                opt.Address = new Uri(Configuration["grpcServiceUrl"]);
+
             });
+            services.AddScoped<DiscountGrpcService>();
+            services.AddControllers();
+            services.AddApiVersioning(options =>
+          {
+              options.AssumeDefaultVersionWhenUnspecified = true;
+              options.DefaultApiVersion = new ApiVersion(1, 0);
+              options.ReportApiVersions = true;
+              options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+          });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.Api", Version = "v1" });
@@ -78,6 +91,7 @@ namespace Basket.Api
             //docker run -d -p 6379:6379 --name redis_basket redis
             var redisServer = config["REDIS_SERVER"] ?? "localhost";
             var redisConnection = $"{redisServer}:6379";
+            Console.WriteLine($"CONNECTION STRING Basket redis: {redisConnection}");
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = redisConnection;

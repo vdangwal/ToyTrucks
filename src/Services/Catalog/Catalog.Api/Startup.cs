@@ -38,13 +38,13 @@ namespace Catalog.Api
             services.AddPostgresDbContext(Configuration);
             services.AddScoped<ITruckRepository, TruckRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-              services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ReportApiVersions = true;
-                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
-            });
+            services.AddApiVersioning(options =>
+          {
+              options.AssumeDefaultVersionWhenUnspecified = true;
+              options.DefaultApiVersion = new ApiVersion(1, 0);
+              options.ReportApiVersions = true;
+              options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+          });
 
             services.AddCors(options =>
             {
@@ -96,7 +96,7 @@ namespace Catalog.Api
             var password = config["POSTGRES_PASSWORD"];// ?? "password";
 
             var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            System.Console.WriteLine($"connstr1: {connectionString}");
+            Console.WriteLine($"CONNECTION STRING Catalog: {connectionString}");
 
             //"User ID =postgres;Password=password;Server=localhost;Port=5432;Database=testDb;Integrated Security=true;Pooling=true;" //alternative
             services.AddDbContext<CatalogDbContext>(options =>
