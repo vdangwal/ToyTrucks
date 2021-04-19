@@ -77,6 +77,7 @@ services:
       target: debug
     environment: 
       REDIS_SERVER: "basket_redis_db"
+      #grpcServiceUrl: discount_grpc
     ports: 
       - 3502:4402
     volumes:
@@ -84,10 +85,28 @@ services:
     depends_on: 
       - basket_redis_db
 
-  discount_api:
-    container_name: discount_api
+  # discount_api:
+  #   container_name: discount_api
+  #   build: 
+  #     context: ./Services/Discount/Discount.Api
+  #     target: debug
+  #   environment: 
+  #     POSTGRES_SERVER: "discount_postgres_db"
+  #     POSTGRES_DB: "DiscountDb"
+  #     POSTGRES_USER: "marcus"
+  #     POSTGRES_PORT: "5432"
+  #     POSTGRES_PASSWORD: "password"
+  #   ports: 
+  #     - 3504:4404
+  #   volumes:
+  #     - ./Services/Discount/Discount.Api/:/discountwork1/
+  #   depends_on: 
+  #     - discount_postgres_db
+
+  discount_grpc:
+    container_name: discount_grpc
     build: 
-      context: ./Services/Discount/Discount.Api
+      context: ./Services/Discount/Discount.Grpc
       target: debug
     environment: 
       POSTGRES_SERVER: "discount_postgres_db"
@@ -98,9 +117,11 @@ services:
     ports: 
       - 3504:4404
     volumes:
-      - ./Services/Discount/Discount.Api/:/discountwork1/
+      - ./Services/Discount/Discount.Grpc/:/discountgrpcwork/
     depends_on: 
       - discount_postgres_db
+
+      
 
 volumes: 
   catalogapi_data:
