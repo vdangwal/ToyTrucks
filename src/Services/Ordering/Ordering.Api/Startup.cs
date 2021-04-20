@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
+using Ordering.Application;
 namespace Ordering.Api
 {
     public class Startup
@@ -26,6 +26,8 @@ namespace Ordering.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddApplicationServices();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -56,4 +58,5 @@ namespace Ordering.Api
             });
         }
     }
+
 }
