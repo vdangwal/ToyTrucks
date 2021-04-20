@@ -2,16 +2,11 @@ using System;
 
 namespace Ordering.Application.Exceptions
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : ApplicationException
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-
-        public NotFoundException(string name, int id)
+        public NotFoundException(string name, object key)
+        : base($"Entity \"{name}\" ({key}) was not found")
         {
-            Id = id;
-            Name = name;
         }
     }
 }
