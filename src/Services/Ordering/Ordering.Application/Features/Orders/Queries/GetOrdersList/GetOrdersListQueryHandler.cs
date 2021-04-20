@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Ordering.Application.Contracts.Persistence;
 namespace Ordering.Application.Features.Orders.Queries.GetOrdersList
 {
-    public class GetOrdersListQueryHandler : IRequestHandler<GetOrdersListQuery, List<OrderDto>>
+    public class GetOrdersListQueryHandler : IRequestHandler<GetOrdersListQuery, IEnumerable<OrderDto>>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
@@ -23,5 +23,6 @@ namespace Ordering.Application.Features.Orders.Queries.GetOrdersList
             var orders = await _orderRepository.GetOrdersByUserName(request.UserName);
             return _mapper.Map<IEnumerable<OrderDto>>(orders);
         }
+
     }
 }
