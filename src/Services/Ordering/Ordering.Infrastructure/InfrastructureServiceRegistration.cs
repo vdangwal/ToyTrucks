@@ -14,11 +14,29 @@ namespace Ordering.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<OrderContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("OrderingConnectionString")));
 
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
-            services.AddScoped<IOrderRepository, OrderRepository>();
+
+
+
+            var server = configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
+
+
+            var database = configuration["ORDER_DB"];// ?? "hess_catalog_db";
+
+
+            var user = configuration["ORDER_USER"];// ?? "marcus";
+            var password = configuration["ORDER_PASSWORD"];// ?? "password";
+
+
+            var connectionString = $"Data Source={server};Database={database};Trusted_Connection=true;MultipleActiveResultSets=true";
+
+
+            services.AddDbContext<OrderContext>(options =>
+               options.UseSqlServer(connectionString));
+
+
+            services.AddTransient(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+            services.AddTransient<IOrderRepository, OrderRepository>();
 
             services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailService, EmailService>();
