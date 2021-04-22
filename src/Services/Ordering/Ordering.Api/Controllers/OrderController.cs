@@ -22,7 +22,7 @@ namespace Ordering.Api.Controllers
             _mediatr = mediatr ?? throw new ArgumentNullException(nameof(mediatr));
         }
 
-        [HttpGet("{userName:string}", Name = "OrdersByUsername")]
+        [HttpGet("{userName}", Name = "OrdersByUsername")]
         [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<OrderDto>>> OrdersByUsername(string userName)
         {

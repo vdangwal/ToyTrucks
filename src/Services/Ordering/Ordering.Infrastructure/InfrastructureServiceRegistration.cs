@@ -35,8 +35,8 @@ namespace Ordering.Infrastructure
                options.UseSqlServer(connectionString));
 
 
-            services.AddTransient(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
-            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailService, EmailService>();

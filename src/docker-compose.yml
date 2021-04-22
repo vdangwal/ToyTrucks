@@ -31,6 +31,17 @@ services:
     volumes:
       - discountapi_data:/var/lib/postgresql/discountdata/
 
+  order_sqlserver_db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: order_sqlserver_db
+    environment: 
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SwN12345678"
+    ports: 
+      - 1433:1433
+    # volumes:
+    #   - orderapi_data:/var/lib/postgresql/discountdata/
+
   # pgadmin:
   #   container_name: pgadmin
   #   image: dpage/pgadmin4
@@ -86,23 +97,6 @@ services:
     depends_on: 
       - basket_redis_db
 
-  # discount_api:
-  #   container_name: discount_api
-  #   build: 
-  #     context: ./Services/Discount/Discount.Api
-  #     target: debug
-  #   environment: 
-  #     POSTGRES_SERVER: "discount_postgres_db"
-  #     POSTGRES_DB: "DiscountDb"
-  #     POSTGRES_USER: "marcus"
-  #     POSTGRES_PORT: "5432"
-  #     POSTGRES_PASSWORD: "password"
-  #   ports: 
-  #     - 3504:4404
-  #   volumes:
-  #     - ./Services/Discount/Discount.Api/:/discountwork1/
-  #   depends_on: 
-  #     - discount_postgres_db
 
   discount_grpc:
     container_name: discount_grpc
@@ -127,6 +121,7 @@ services:
 volumes: 
   catalogapi_data:
   discountapi_data:
+  #orderapi_data:
   portainer_data:
   #pgadmin_data:
 
