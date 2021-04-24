@@ -14,26 +14,14 @@ namespace Ordering.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-
-
-
-
             var server = configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
-
-
             var database = configuration["ORDER_DB"];// ?? "hess_catalog_db";
-
-
             var user = configuration["ORDER_USER"];// ?? "marcus";
             var password = configuration["ORDER_PASSWORD"];// ?? "password";
-
-
-            var connectionString = $"Data Source={server};Database={database};Trusted_Connection=true;MultipleActiveResultSets=true";
-
+            var connectionString = $"Server={server};Database={database};User Id={user};Password={password};";
 
             services.AddDbContext<OrderContext>(options =>
                options.UseSqlServer(connectionString));
-
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
             services.AddScoped<IOrderRepository, OrderRepository>();

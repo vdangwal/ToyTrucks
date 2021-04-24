@@ -40,8 +40,10 @@ namespace Ordering.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            logDbConnectionstring(logger);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,6 +61,17 @@ namespace Ordering.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void logDbConnectionstring(ILogger<Startup> logger)
+        {
+            var server = Configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
+            var database = Configuration["ORDER_DB"];// ?? "hess_catalog_db";
+            var user = Configuration["ORDER_USER"];// ?? "marcus";
+            var password = Configuration["ORDER_PASSWORD"];// ?? "password";
+            var connectionString = $"Server={server};Database={database};User Id={user};Password={password};";
+            logger.LogInformation($"db conn string: {connectionString}");
+
         }
     }
 

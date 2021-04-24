@@ -36,7 +36,7 @@ services:
     container_name: order_sqlserver_db
     environment: 
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "SwN12345678"
+      MSSQL_SA_PASSWORD: "SwN12345678"
     ports: 
       - 1433:1433
     # volumes:
@@ -116,7 +116,23 @@ services:
     depends_on: 
       - discount_postgres_db
 
-      
+  order_api:
+    container_name: order_api
+    build: 
+      context: . # ./Services/Ordering
+      dockerfile: Services/Ordering/Ordering.Api/Dockerfile
+      #target: debug
+    environment: 
+      ORDER_SERVER: "order_sqlserver_db"
+      ORDER_DB: "OrderDb"
+      ORDER_USER: "sa"
+      ORDER_PASSWORD: "SwN12345678"
+    ports: 
+      - 3508:4406
+    volumes:
+      - ./Services/Ordering/Ordering.Api/:/orderapiwork/
+    depends_on: 
+      - order_sqlserver_db 
 
 volumes: 
   catalogapi_data:
