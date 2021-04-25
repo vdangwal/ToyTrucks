@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +17,16 @@ namespace Ordering.Infrastructure
         {
             var server = configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
             var database = configuration["ORDER_DB"];// ?? "hess_catalog_db";
+            var port = configuration["POSTGRES_PORT"];// ?? "5432"
             var user = configuration["ORDER_USER"];// ?? "marcus";
             var password = configuration["ORDER_PASSWORD"];// ?? "password";
-            var connectionString = $"Server={server};Database={database};User Id={user};Password={password};";
 
+            var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
+            Console.WriteLine($"CONNECTION STRING Catalog: {connectionString}");
             services.AddDbContext<OrderContext>(options =>
-               options.UseSqlServer(connectionString));
+               options.UseNpgsql(connectionString)
+                .UseSnakeCaseNamingConvention()
+                );
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
             services.AddScoped<IOrderRepository, OrderRepository>();

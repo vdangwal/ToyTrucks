@@ -32,13 +32,14 @@ services:
       - discountapi_data:/var/lib/postgresql/discountdata/
 
   order_sqlserver_db:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: postgres:alpine #mcr.microsoft.com/mssql/server:2017-latest
     container_name: order_sqlserver_db
     environment: 
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "SwN12345678"
+      POSTGRES_DB: "Order_db"
+      POSTGRES_USER: "marcus"
+      POSTGRES_PASSWORD: "password"
     ports: 
-      - 1433:1433
+      - 5430:5432
     # volumes:
     #   - orderapi_data:/var/lib/postgresql/discountdata/
 
@@ -125,8 +126,9 @@ services:
     environment: 
       ORDER_SERVER: "order_sqlserver_db"
       ORDER_DB: "OrderDb"
-      ORDER_USER: "sa"
-      ORDER_PASSWORD: "SwN12345678"
+      ORDER_PORT: "5430"
+      ORDER_USER: "marcus"
+      ORDER_PASSWORD: "password"
     ports: 
       - 3508:4406
     volumes:

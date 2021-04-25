@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿//using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +14,7 @@ namespace Ordering.Api.Extensions
     {
         public static IHost MigrateAndSeedDatabase<TContext>(this IHost host, int? retries = 3) where TContext : DbContext
         {
-            var policy = Policy.Handle<SqlException>().WaitAndRetry(retries.Value, times => TimeSpan.FromMilliseconds(times * 100));
+            var policy = Policy.Handle<Npgsql.NpgsqlException>().WaitAndRetry(retries.Value, times => TimeSpan.FromMilliseconds(times * 100));
 
             using (var scope = host.Services.CreateScope())
             {
@@ -24,9 +24,12 @@ namespace Ordering.Api.Extensions
                 //logDbConnectionstring(logger, config);
                 var server = configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
                 var database = configuration["ORDER_DB"];// ?? "hess_catalog_db";
+                var port = configuration["POSTGRES_PORT"];// ?? "5432"
                 var user = configuration["ORDER_USER"];// ?? "marcus";
                 var password = configuration["ORDER_PASSWORD"];// ?? "password";
-                var connectionString = $"Server={server};Database={database};User Id={user};Password={password};";
+
+                var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
+
                 logger.LogInformation($"db conn string: {connectionString}");
                 policy.Execute(() =>
                 {
