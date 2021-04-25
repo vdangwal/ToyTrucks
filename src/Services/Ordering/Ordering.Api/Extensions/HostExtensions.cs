@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using Ordering.Infrastructure.Persistence;
 using Polly;
 using System;
@@ -19,6 +20,14 @@ namespace Ordering.Api.Extensions
             {
                 var context = scope.ServiceProvider.GetRequiredService<TContext>();
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<OrderContextSeed>>();
+                var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                //logDbConnectionstring(logger, config);
+                var server = configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
+                var database = configuration["ORDER_DB"];// ?? "hess_catalog_db";
+                var user = configuration["ORDER_USER"];// ?? "marcus";
+                var password = configuration["ORDER_PASSWORD"];// ?? "password";
+                var connectionString = $"Server={server};Database={database};User Id={user};Password={password};";
+                logger.LogInformation($"db conn string: {connectionString}");
                 policy.Execute(() =>
                 {
                     context.Database.Migrate();

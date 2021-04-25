@@ -121,7 +121,7 @@ services:
     build: 
       context: . # ./Services/Ordering
       dockerfile: Services/Ordering/Ordering.Api/Dockerfile
-      #target: debug
+      target: debug
     environment: 
       ORDER_SERVER: "order_sqlserver_db"
       ORDER_DB: "OrderDb"
@@ -133,6 +133,7 @@ services:
       - ./Services/Ordering/Ordering.Api/:/orderapiwork/
     depends_on: 
       - order_sqlserver_db 
+      - catalog_api
 
 volumes: 
   catalogapi_data:
