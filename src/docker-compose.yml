@@ -1,16 +1,27 @@
 version: '3.4'
 
 services: 
-  catalog_postgres_db:
+  postgres_db:
     image: postgres:alpine
     environment: 
-      POSTGRES_DB: "hess_catalog_db"
+      #POSTGRES_DB: "hess_catalog_db"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
       - 5432:5432
-    volumes:
-      - catalogapi_data:/var/lib/postgresql/data
+    # volumes:
+    #   - truck-postgresdata:/var/lib/postgresql/data
+
+#   # catalog_postgres_db:
+#   #   image: postgres:alpine
+#   #   environment: 
+#   #     POSTGRES_DB: "hess_catalog_db"
+#   #     POSTGRES_USER: "marcus"
+#   #     POSTGRES_PASSWORD: "password"
+#   #   ports: 
+#   #     - 5432:5432
+#   #   volumes:
+#   #     - catalogapi_data:/var/lib/postgresql/data
   
   basket_redis_db:
     image: redis:alpine
@@ -18,30 +29,30 @@ services:
     ports:
       - 6379:6379
 
-  discount_postgres_db:
-    #container_name: discountdb
-    #restart: always
-    image: postgres:alpine
-    environment: 
-      POSTGRES_DB: "DiscountDb"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
-    ports: 
-      - 5431:5432
-    volumes:
-      - discountapi_data:/var/lib/postgresql/discountdata/
+  # discount_postgres_db:
+  #   #container_name: discountdb
+  #   #restart: always
+  #   image: postgres:alpine
+  #   environment: 
+  #     POSTGRES_DB: "DiscountDb"
+  #     POSTGRES_USER: "marcus"
+  #     POSTGRES_PASSWORD: "password"
+  #   ports: 
+  #     - 5431:5432
+  #   volumes:
+  #     - discountapi_data:/var/lib/postgresql/discountdata/
 
-  order_sqlserver_db:
-    image: postgres:alpine #mcr.microsoft.com/mssql/server:2017-latest
-    container_name: order_sqlserver_db
-    environment: 
-      POSTGRES_DB: "Order_db"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
-    ports: 
-      - 5430:5432
-    # volumes:
-    #   - orderapi_data:/var/lib/postgresql/discountdata/
+  # order_sqlserver_db:
+  #   image: postgres:alpine #mcr.microsoft.com/mssql/server:2017-latest
+  #   container_name: order_sqlserver_db
+  #   environment: 
+  #     POSTGRES_DB: "Order_db"
+  #     POSTGRES_USER: "marcus"
+  #     POSTGRES_PASSWORD: "password"
+  #   ports: 
+  #     - 5430:5432
+  #   # volumes:
+  #   #   - orderapi_data:/var/lib/postgresql/discountdata/
 
   # pgadmin:
   #   container_name: pgadmin
@@ -55,15 +66,15 @@ services:
   #   volumes:
   #     - pgadmin_data:/root/.pgadmin
 
-  portainer:
-    image: portainer/portainer-ce
-    container_name: portainer
-    ports:
-      - 8080:8000
-      - 8090:9000
-    volumes: 
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+  # portainer:
+  #   image: portainer/portainer-ce
+  #   container_name: portainer
+  #   ports:
+  #     - 8080:8000
+  #     - 8090:9000
+  #   volumes: 
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
 
   catalog_api:
     container_name: catalog_api
@@ -71,8 +82,8 @@ services:
       context: ./Services/Catalog/Catalog.Api
       target: debug
     environment: 
-      POSTGRES_SERVER: "catalog_postgres_db"
-      POSTGRES_DB: "hess_catalog_db"
+      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_DB: "catalogdb"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
@@ -80,7 +91,7 @@ services:
     volumes:
       - ./Services/Catalog/Catalog.Api/:/work/
     depends_on: 
-      - catalog_postgres_db
+      - postgres_db
    
   basket_api:
     container_name: basket_api
@@ -105,8 +116,8 @@ services:
       context: ./Services/Discount/Discount.Grpc
       target: debug
     environment: 
-      POSTGRES_SERVER: "discount_postgres_db"
-      POSTGRES_DB: "DiscountDb"
+      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_DB: "discountdb"
       POSTGRES_USER: "marcus"
       POSTGRES_PORT: "5432"
       POSTGRES_PASSWORD: "password"
@@ -115,32 +126,32 @@ services:
     volumes:
       - ./Services/Discount/Discount.Grpc/:/discountgrpcwork/
     depends_on: 
-      - discount_postgres_db
+      - postgres_db
 
   order_api:
     container_name: order_api
     build: 
-      context: . # ./Services/Ordering
-      dockerfile: Services/Ordering/Ordering.Api/Dockerfile
-      #target: debug
+      context: ./Services/Orders/Orders.Api
+      target: debug
     environment: 
-      ORDER_SERVER: "order_sqlserver_db"
-      ORDER_DB: "OrderDb"
-      ORDER_PORT: "5430"
-      ORDER_USER: "marcus"
-      ORDER_PASSWORD: "password"
+      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_DB: "orderdb"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "marcus"
+      POSTGRES_PASSWORD: "password"
     ports: 
       - 3508:4406
     volumes:
-      - ./Services/Ordering/Ordering.Api/:/orderapiwork/
+      - ./Services/Orders/Orders.Api/:/orderapiwork_boom/
     depends_on: 
-      - order_sqlserver_db 
+      - postgres_db 
 
-volumes: 
-  catalogapi_data:
-  discountapi_data:
-  #orderapi_data:
-  portainer_data:
-  #pgadmin_data:
+# volumes: 
+#   #truck-postgresdata:
+#   #catalogapi_data:
+#   #discountapi_data:
+#   #orderapi_data:
+#   portainer_data:
+#   #pgadmin_data:
 
 
