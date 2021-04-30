@@ -57,7 +57,8 @@ namespace Basket.Api
             });
 
             services.AddRedisCache(Configuration);
-
+            //once u attach a shell run redis-cli
+            //then keys *
 
         }
 
