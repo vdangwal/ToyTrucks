@@ -1,21 +1,20 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Catalog.Api.DbContexts;
-using Catalog.Api.Services;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Mvc.Versioning;
-namespace Catalog.Api
+using Orders.Api.DBContexts;
+using Orders.Api.Services;
+
+namespace Orders.Api
 {
     public class Startup
     {
@@ -29,14 +28,15 @@ namespace Catalog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders", Version = "v1" });
             });
+
             services.AddPostgresDbContext(Configuration);
-            services.AddScoped<ITruckRepository, TruckRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddApiVersioning(options =>
           {
@@ -59,7 +59,7 @@ namespace Catalog.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orders v1"));
             }
 
             // app.UseHttpsRedirection();
@@ -81,25 +81,24 @@ namespace Catalog.Api
         {
 
             //Create  postgres container
-            //docker run -e POSTGRES_DB=catalogdb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres_catalog -d postgres
+            //docker run -e POSTGRES_DB=orderdb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5430 --name postgres_order -d postgres
             //run bash to access postgres container
             //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
 
-            //psql -h localhost -p 5432 -U marcus -d catalogdb
+            //psql -h localhost -p 5432 -U marcus -d orderdb
             var server = config["POSTGRES_SERVER"];// ?? "localhost";
 
             var port = config["POSTGRES_PORT"];// ?? "5432";
-            var database = config["POSTGRES_DB"];// ?? "catalogdb";
+            var database = config["POSTGRES_DB"] ?? "orderdb";
 
 
             var user = config["POSTGRES_USER"];// ?? "marcus";
             var password = config["POSTGRES_PASSWORD"];// ?? "password";
 
             var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            Console.WriteLine($"CONNECTION STRING Catalog: {connectionString}");
+            Console.WriteLine($"CONNECTION STRING Order: {connectionString}");
 
-            //"User ID =postgres;Password=password;Server=localhost;Port=5432;Database=testDb;Integrated Security=true;Pooling=true;" //alternative
-            services.AddDbContext<CatalogDbContext>(options =>
+            services.AddDbContext<OrderDbContext>(options =>
                 options.UseNpgsql(connectionString)
                        .UseSnakeCaseNamingConvention()
                     );

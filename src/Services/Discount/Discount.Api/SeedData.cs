@@ -25,7 +25,7 @@ namespace Discount.Api
         private static async Task PopulateTestData(NpgsqlConnection connection)
         {
             using var command = new NpgsqlCommand { Connection = connection };
-            command.CommandText = "SELECT count(*) FROM dCoupon";
+            command.CommandText = "SELECT count(*) FROM Coupon";
             var result = await command.ExecuteScalarAsync();
             if (Convert.ToInt32(result) < 1)
             {

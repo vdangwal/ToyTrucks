@@ -1,35 +1,21 @@
 version: '3.4'
 
 services: 
-  catalog_postgres_db:
+  postgres_db:
     image: postgres:alpine
     environment: 
-      POSTGRES_DB: "hess_catalog_db"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
       - 5432:5432
-    volumes:
-      - catalogapi_data:/var/lib/postgresql/data
-  
+    # volumes:
+    #   - truck-postgresdata:/var/lib/postgresql/data
+   
   basket_redis_db:
     image: redis:alpine
     #environment: 
     ports:
       - 6379:6379
-
-  discount_postgres_db:
-    #container_name: discountdb
-    #restart: always
-    image: postgres:alpine
-    environment: 
-      POSTGRES_DB: "DiscountDb"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
-    ports: 
-      - 5431:5432
-    volumes:
-      - discountapi_data:/var/lib/postgresql/discountdata/
 
   # pgadmin:
   #   container_name: pgadmin
@@ -43,15 +29,15 @@ services:
   #   volumes:
   #     - pgadmin_data:/root/.pgadmin
 
-  portainer:
-    image: portainer/portainer-ce
-    container_name: portainer
-    ports:
-      - 8080:8000
-      - 8090:9000
-    volumes: 
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+  # portainer:
+  #   image: portainer/portainer-ce
+  #   container_name: portainer
+  #   ports:
+  #     - 8080:8000
+  #     - 8090:9000
+  #   volumes: 
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
 
   catalog_api:
     container_name: catalog_api
@@ -59,8 +45,8 @@ services:
       context: ./Services/Catalog/Catalog.Api
       target: debug
     environment: 
-      POSTGRES_SERVER: "catalog_postgres_db"
-      POSTGRES_DB: "hess_catalog_db"
+      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_DB: "catalogdb"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
@@ -68,7 +54,7 @@ services:
     volumes:
       - ./Services/Catalog/Catalog.Api/:/work/
     depends_on: 
-      - catalog_postgres_db
+      - postgres_db
    
   basket_api:
     container_name: basket_api
@@ -77,8 +63,8 @@ services:
       target: debug
     environment: 
       REDIS_SERVER: "basket_redis_db"
-      #grpcServiceUrl: http://discount_grpc:4404
-      grpcServiceUrl: discount_grpc
+      grpcServiceUrl: http://discount_grpc:4404
+      #grpcServiceUrl: discount_grpc
     ports: 
       - 3502:4402
     volumes:
@@ -86,32 +72,14 @@ services:
     depends_on: 
       - basket_redis_db
 
-  # discount_api:
-  #   container_name: discount_api
-  #   build: 
-  #     context: ./Services/Discount/Discount.Api
-  #     target: debug
-  #   environment: 
-  #     POSTGRES_SERVER: "discount_postgres_db"
-  #     POSTGRES_DB: "DiscountDb"
-  #     POSTGRES_USER: "marcus"
-  #     POSTGRES_PORT: "5432"
-  #     POSTGRES_PASSWORD: "password"
-  #   ports: 
-  #     - 3504:4404
-  #   volumes:
-  #     - ./Services/Discount/Discount.Api/:/discountwork1/
-  #   depends_on: 
-  #     - discount_postgres_db
-
   discount_grpc:
     container_name: discount_grpc
     build: 
       context: ./Services/Discount/Discount.Grpc
       target: debug
     environment: 
-      POSTGRES_SERVER: "discount_postgres_db"
-      POSTGRES_DB: "DiscountDb"
+      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_DB: "discountdb"
       POSTGRES_USER: "marcus"
       POSTGRES_PORT: "5432"
       POSTGRES_PASSWORD: "password"
@@ -120,14 +88,32 @@ services:
     volumes:
       - ./Services/Discount/Discount.Grpc/:/discountgrpcwork/
     depends_on: 
-      - discount_postgres_db
+      - postgres_db
 
-      
+  order_api:
+    container_name: order_api
+    build: 
+      context: ./Services/Orders/Orders.Api
+      target: debug
+    environment: 
+      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_DB: "orderdb"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "marcus"
+      POSTGRES_PASSWORD: "password"
+    ports: 
+      - 3508:4406
+    volumes:
+      - ./Services/Orders/Orders.Api/:/orderapiwork_boom/
+    depends_on: 
+      - postgres_db 
 
-volumes: 
-  catalogapi_data:
-  discountapi_data:
-  portainer_data:
-  #pgadmin_data:
+# volumes: 
+#   #truck-postgresdata:
+#   #catalogapi_data:
+#   #discountapi_data:
+#   #orderapi_data:
+#   portainer_data:
+#   #pgadmin_data:
 
 
