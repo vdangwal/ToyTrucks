@@ -4,55 +4,18 @@ services:
   postgres_db:
     image: postgres:alpine
     environment: 
-      #POSTGRES_DB: "hess_catalog_db"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
       - 5432:5432
     # volumes:
     #   - truck-postgresdata:/var/lib/postgresql/data
-
-#   # catalog_postgres_db:
-#   #   image: postgres:alpine
-#   #   environment: 
-#   #     POSTGRES_DB: "hess_catalog_db"
-#   #     POSTGRES_USER: "marcus"
-#   #     POSTGRES_PASSWORD: "password"
-#   #   ports: 
-#   #     - 5432:5432
-#   #   volumes:
-#   #     - catalogapi_data:/var/lib/postgresql/data
-  
+   
   basket_redis_db:
     image: redis:alpine
     #environment: 
     ports:
       - 6379:6379
-
-  # discount_postgres_db:
-  #   #container_name: discountdb
-  #   #restart: always
-  #   image: postgres:alpine
-  #   environment: 
-  #     POSTGRES_DB: "DiscountDb"
-  #     POSTGRES_USER: "marcus"
-  #     POSTGRES_PASSWORD: "password"
-  #   ports: 
-  #     - 5431:5432
-  #   volumes:
-  #     - discountapi_data:/var/lib/postgresql/discountdata/
-
-  # order_sqlserver_db:
-  #   image: postgres:alpine #mcr.microsoft.com/mssql/server:2017-latest
-  #   container_name: order_sqlserver_db
-  #   environment: 
-  #     POSTGRES_DB: "Order_db"
-  #     POSTGRES_USER: "marcus"
-  #     POSTGRES_PASSWORD: "password"
-  #   ports: 
-  #     - 5430:5432
-  #   # volumes:
-  #   #   - orderapi_data:/var/lib/postgresql/discountdata/
 
   # pgadmin:
   #   container_name: pgadmin
@@ -108,7 +71,6 @@ services:
       - ./Services/Basket/Basket.Api/:/basketwork/
     depends_on: 
       - basket_redis_db
-
 
   discount_grpc:
     container_name: discount_grpc

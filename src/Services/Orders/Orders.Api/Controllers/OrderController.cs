@@ -10,9 +10,6 @@ using Orders.Api.Services;
 using Orders.Api.Models;
 using Entities = Orders.Api.Entities;
 using Microsoft.Extensions.Logging;
-// using Ordering.Application.Features.Orders.Commands.CheckoutOrder;
-// using Ordering.Application.Features.Orders.Commands.UpdateOrder;
-// using Ordering.Application.Features.Orders.Commands.DeleteOrder;
 
 namespace Orders.Api.Controllers
 {
