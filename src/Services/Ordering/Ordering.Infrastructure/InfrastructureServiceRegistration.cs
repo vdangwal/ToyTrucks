@@ -16,13 +16,13 @@ namespace Ordering.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             var server = configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
-            var database = configuration["ORDER_DB"];// ?? "hess_catalog_db";
+            var database = configuration["ORDER_DB"];// ?? "orderdb";
             var port = configuration["POSTGRES_PORT"];// ?? "5432"
             var user = configuration["ORDER_USER"];// ?? "marcus";
             var password = configuration["ORDER_PASSWORD"];// ?? "password";
 
             var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            Console.WriteLine($"CONNECTION STRING Catalog: {connectionString}");
+            Console.WriteLine($"CONNECTION STring ording: {connectionString}");
             services.AddDbContext<OrderContext>(options =>
                options.UseNpgsql(connectionString)
                 .UseSnakeCaseNamingConvention()

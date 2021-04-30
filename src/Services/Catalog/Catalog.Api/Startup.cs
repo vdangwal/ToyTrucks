@@ -81,15 +81,15 @@ namespace Catalog.Api
         {
 
             //Create  postgres container
-            //docker run -e POSTGRES_DB=hess_catalog_db -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres_catalog -d postgres
+            //docker run -e POSTGRES_DB=catalogdb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres_catalog -d postgres
             //run bash to access postgres container
             //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
 
-            //psql -h localhost -p 5432 -U marcus -d hess_catalog_db
+            //psql -h localhost -p 5432 -U marcus -d catalogdb
             var server = config["POSTGRES_SERVER"];// ?? "localhost";
 
             var port = config["POSTGRES_PORT"];// ?? "5432";
-            var database = config["POSTGRES_DB"];// ?? "hess_catalog_db";
+            var database = config["POSTGRES_DB"];// ?? "catalogdb";
 
 
             var user = config["POSTGRES_USER"];// ?? "marcus";

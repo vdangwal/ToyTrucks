@@ -23,7 +23,7 @@ namespace Ordering.Api.Extensions
                 var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
                 //logDbConnectionstring(logger, config);
                 var server = configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
-                var database = configuration["ORDER_DB"];// ?? "hess_catalog_db";
+                var database = configuration["ORDER_DB"];// ?? "orderdb";
                 var port = configuration["POSTGRES_PORT"];// ?? "5432"
                 var user = configuration["ORDER_USER"];// ?? "marcus";
                 var password = configuration["ORDER_PASSWORD"];// ?? "password";

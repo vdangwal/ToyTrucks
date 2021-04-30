@@ -23,7 +23,7 @@ namespace Orders.Api
                     Console.WriteLine("Order database has already been seeded");
                     return;
                 }
-                Console.WriteLine("Seeding Order database");
+                Console.WriteLine("Seeding OrderApi database");
                 await PopulateTestData(dbContext);
             }
         }

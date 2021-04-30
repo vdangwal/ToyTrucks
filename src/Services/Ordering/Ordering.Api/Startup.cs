@@ -66,7 +66,7 @@ namespace Ordering.Api
         private void logDbConnectionstring(ILogger<Startup> logger)
         {
             var server = Configuration["ORDER_SERVER"];// ?? "(localdb)\\mssqllocaldb";
-            var database = Configuration["ORDER_DB"];// ?? "hess_catalog_db";
+            var database = Configuration["ORDER_DB"];// ?? "orderdb";
             var user = Configuration["ORDER_USER"];// ?? "marcus";
             var password = Configuration["ORDER_PASSWORD"];// ?? "password";
             var connectionString = $"Server={server};Database={database};User Id={user};Password={password};";

@@ -19,16 +19,10 @@ namespace Discount.Grpc.Extensions
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<TContext>>();
                 var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-                var server = config["POSTGRES_SERVER"];
-                var port = config["POSTGRES_PORT"];
-                var database = config["POSTGRES_DB"];
-                var user = config["POSTGRES_USER"];
-                var password = config["POSTGRES_PASSWORD"];
-                var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-
+            
                 policy.Execute(() =>
                 {
-                    SeedData.Initialize(connectionString).Wait();
+                    SeedData.Initialize(config).Wait();
                     logger.LogInformation("Discount database seeded");
                     Console.WriteLine("Discount database seeded");
 

@@ -27,11 +27,37 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
+        // {
+        //     // Use IntelliSense to find out which attributes exist for C# debugging
+        //     // Use hover for the description of the existing attributes
+        //     // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+        //     "name": "Discount Grpc No docker",
+        //     "type": "coreclr",
+        //     "request": "launch",
+        //     "preLaunchTask": "build",
+        //     "requireExactSource": false,
+        //     // If you have changed target frameworks, make sure to update the program path.
+        //     "program": "${workspaceFolder}/src/Services/Discount/Discount.Grpc/bin/Debug/net5.0/Discount.Grpc.dll",
+        //     "args": [],
+        //     "cwd": "${workspaceFolder}/src/Services/Discount/Discount.Grpc",
+        //     "stopAtEntry": false,
+        //     // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+        //     "serverReadyAction": {
+        //         "action": "openExternally",
+        //         "pattern": "\\\\bNow listening intently on:\\\\s+(https?://\\\\S+)"
+        //     },
+        //     "env": {
+        //         "ASPNETCORE_ENVIRONMENT": "Development"
+        //     },
+        //     "sourceFileMap": {
+        //         "/Views": "${workspaceFolder}/Views"
+        //     }
+        // },
         {
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": "Discount Grpc No docker",
+            "name": "DiscountGrpc  No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -44,7 +70,7 @@
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\\\bNow listening intently on:\\\\s+(https?://\\\\S+)"
+                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -109,15 +135,41 @@
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": "OrderApi No docker",
+            "name": "OrdersApi No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "requireExactSource": false,
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Services/Ordering/Ordering.Api/bin/Debug/net5.0/Ordering.Api.dll",
+            "program": "${workspaceFolder}/src/Services/Orders/Orders.Api/bin/Debug/net5.0/Orders.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Services/Ordering/Ordering.Api",
+            "cwd": "${workspaceFolder}/src/Services/Orders/Orders.Api",
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": "temp No docker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "requireExactSource": false,
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/Services/temp/Temp.Api/bin/Debug/net5.0/Temp.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/temp/Temp.Api",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
@@ -172,7 +224,7 @@
             }
         },
         // {
-        //     "name": "DiscountApi Docker Attach",
+        //     "name": "DiscountGrpc Docker Attach",
         //     "type": "coreclr",
         //     "request": "attach",
         //     "processId": "${command:pickRemoteProcess}",
@@ -181,18 +233,18 @@
         //         "pipeArgs": [
         //             "exec",
         //             "-i",
-        //             "discount_api"
+        //             "discount_grpc"
         //         ],
         //         "debuggerPath": "/root/vsdbg/vsdbg",
         //         "pipeCwd": "${workspaceRoot}",
         //         "quoteArgs": false
         //     },
         //     "sourceFileMap": {
-        //         "/discountwork1": "${workspaceRoot}/src/Services/Discount/Discount.Api/"
+        //         "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
         //     }
-        // }
+        // },
         {
-            "name": "DiscountGrpc Docker Attach",
+            "name": "OrderApi Docker Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickRemoteProcess}",
@@ -201,14 +253,14 @@
                 "pipeArgs": [
                     "exec",
                     "-i",
-                    "discount_grpc"
+                    "order_api"
                 ],
                 "debuggerPath": "/root/vsdbg/vsdbg",
                 "pipeCwd": "${workspaceRoot}",
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
+                "/orderapiwork": "${workspaceRoot}/src/Services/Orders/Orders.Api/"
             }
         }
     ]

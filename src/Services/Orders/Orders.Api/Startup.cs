@@ -81,22 +81,22 @@ namespace Orders.Api
         {
 
             //Create  postgres container
-            //docker run -e POSTGRES_DB=OrderDb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5430 --name postgres_order -d postgres
+            //docker run -e POSTGRES_DB=orderdb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5430 --name postgres_order -d postgres
             //run bash to access postgres container
             //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
 
-            //psql -h localhost -p 5432 -U marcus -d hess_catalog_db
+            //psql -h localhost -p 5432 -U marcus -d orderdb
             var server = config["POSTGRES_SERVER"];// ?? "localhost";
 
             var port = config["POSTGRES_PORT"];// ?? "5432";
-            var database = config["POSTGRES_DB"];// ?? "OrderDb";
+            var database = config["POSTGRES_DB"] ?? "orderdb";
 
 
             var user = config["POSTGRES_USER"];// ?? "marcus";
             var password = config["POSTGRES_PASSWORD"];// ?? "password";
 
             var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            Console.WriteLine($"CONNECTION STRING Catalog: {connectionString}");
+            Console.WriteLine($"CONNECTION STRING Order: {connectionString}");
 
             services.AddDbContext<OrderDbContext>(options =>
                 options.UseNpgsql(connectionString)
