@@ -16,6 +16,16 @@ services:
     #environment: 
     ports:
       - 6379:6379
+  
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    environment: 
+      teds: ""
+    ports:
+      - 5672:5672
+      - 15672:15672 #dashboard
+
 
   # pgadmin:
   #   container_name: pgadmin
