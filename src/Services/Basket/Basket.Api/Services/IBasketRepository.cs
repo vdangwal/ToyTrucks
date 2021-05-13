@@ -7,8 +7,8 @@ namespace Basket.Api.Services
 {
     public interface IBasketRepository
     {
-        Task<ShoppingCart> GetBasket(string userName);
-        Task<ShoppingCart> UpdateBasket(ShoppingCart basket);
+        Task<ShoppingCartDto> GetBasket(string userName);
+        Task<ShoppingCartDto> UpdateBasket(ShoppingCartDto basket);
         Task DeleteBasket(string userName);
     }
 }

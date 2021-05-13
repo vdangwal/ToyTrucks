@@ -50,9 +50,9 @@ namespace Basket.Api
             services.AddMyMassTransit(Configuration);
 
             services.AddMyRedisCache(Configuration);
-            //once u attach a shell run redis-cli
-            //then keys *
 
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,6 +79,36 @@ namespace Basket.Api
 
     public static class ServiceExtensions
     {
+        public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
+        {
+            Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
+            {
+                opt.Address = new Uri(config["grpcServiceUrl"]);
+
+            });
+            services.AddScoped<DiscountGrpcService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMyMassTransit(this IServiceCollection services, IConfiguration config)
+        {
+            Console.WriteLine($"EventBusAddress: {config["EventBusAddress"]}");
+
+            services.AddMassTransit(configuration =>
+            {
+                configuration.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(config["EventBusAddress"]);
+                });
+            });
+            services.AddMassTransitHostedService();
+
+            return services;
+
+        }
+
         public static IServiceCollection AddMyRedisCache(this IServiceCollection services, IConfiguration config)
         {
             //docker run -d -p 6379:6379 --name redis_basket redis
@@ -90,32 +120,9 @@ namespace Basket.Api
                 options.Configuration = redisConnection;
             });
             return services;
-        }
 
-        public static IServiceCollection AddMyMassTransit(this IServiceCollection services, IConfiguration config)
-        {
-            services.AddMassTransit(configuration =>
-            {
-                configuration.UsingRabbitMq((ctx, cfg) =>
-                {
-                    cfg.Host(config["EventBusAddress"]);
-                });
-            });
-            services.AddMassTransitHostedService();
-            return services;
-        }
-
-        public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
-        {
-            Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
-            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
-            {
-                opt.Address = new Uri(config["grpcServiceUrl"]);
-
-            });
-            services.AddScoped<DiscountGrpcService>();
-            services.AddControllers();
-            return services;
+            //once u attach a shell run redis-cli
+            //then keys *
         }
 
     }

@@ -1,6 +1,6 @@
 namespace Basket.Api.Dtos
 {
-    public class ShoppingCartItem
+    public class ShoppingCartItemDto
     {
         public int Quantity { get; set; }
         public string Color { get; set; }

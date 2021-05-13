@@ -13,6 +13,7 @@ services:
    
   basket_redis_db:
     image: redis:alpine
+    restart: always
     #environment: 
     ports:
       - 6379:6379
@@ -20,11 +21,12 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
+    restart: always
     environment: 
       teds: ""
     ports:
-      - 5672:5672
-      - 15672:15672 #dashboard
+      - "5672:5672"
+      - "15672:15672"
 
 
   # pgadmin:
@@ -69,18 +71,21 @@ services:
   basket_api:
     container_name: basket_api
     build: 
-      context: ./Services/Basket/Basket.Api
+      context: .
+      dockerfile: Services/Basket/Basket.Api/Dockerfile
       target: debug
     environment: 
       REDIS_SERVER: "basket_redis_db"
-      grpcServiceUrl: http://discount_grpc:4404
-      #grpcServiceUrl: discount_grpc
+      grpcServiceUrl: "http://discount_grpc"
+      # EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+      EventBusAddress: "shite"
     ports: 
       - 3502:4402
-    volumes:
-      - ./Services/Basket/Basket.Api/:/basketwork/
+    # volumes:
+    #   - ./Services/Basket/Basket.Api/:/basketwork/
     depends_on: 
       - basket_redis_db
+      - rabbitmq
 
   discount_grpc:
     container_name: discount_grpc

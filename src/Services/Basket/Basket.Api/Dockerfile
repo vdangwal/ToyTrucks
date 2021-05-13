@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS debug
-ENV ASPNETCORE_URLS=http://+:4402
+#ENV ASPNETCORE_URLS=http://+:4402
 
 RUN apt-get update
 RUN apt-get install -y unzip
@@ -7,22 +7,26 @@ RUN apt-get install -y unzip
 RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdbg
 
 WORKDIR /basketwork
+#src\Services\Basket\Basket.Api\Basket.Api.csproj 
+COPY ["Services/Basket/Basket.Api/Basket.Api.csproj", "Services/Basket/Basket.Api/"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+# # Copy necessary files and restore as distinct layer
+# #COPY *.csproj ./
+RUN dotnet restore Services/Basket/Basket.Api/Basket.Api.csproj
 
-# Copy necessary files and restore as distinct layer
-COPY *.csproj ./
-RUN dotnet restore
-
-# Copy everything else and build
+# # Copy everything else and build
 COPY . ./
-RUN dotnet publish --no-restore -o out -c Release
-#--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
+#WORKDIR "/basketwork/Basket"
 
-# Build runtime image
+RUN dotnet publish Services/Basket/Basket.Api/Basket.Api.csproj --no-restore -o out -c Release
+# #--no-launch-profile means it doesnt access launchSettings.json
+ENTRYPOINT ["dotnet", "run", "-p" , "Services/Basket/Basket.Api/", "--no-launch-profile"] 
+#ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
+# # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 
 WORKDIR /app/
-#COPY --from=Debug /out/ /app/
-COPY --from=debug /out/ /app/
+
+COPY --from=debug /basketwork/out /app/
 RUN chmod +x /app/ 
 CMD dotnet Basket.Api.dll
