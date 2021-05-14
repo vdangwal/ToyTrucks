@@ -77,12 +77,11 @@ services:
     environment: 
       REDIS_SERVER: "basket_redis_db"
       grpcServiceUrl: "http://discount_grpc"
-      # EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      EventBusAddress: "shite"
+      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
     ports: 
       - 3502:4402
-    # volumes:
-    #   - ./Services/Basket/Basket.Api/:/basketwork/
+    volumes:
+      - ./Services/Basket/Basket.Api/:/basketwork/Services/Basket/Basket.Api/
     depends_on: 
       - basket_redis_db
       - rabbitmq

@@ -98,6 +98,7 @@ namespace Basket.Api
 
             services.AddMassTransit(configuration =>
             {
+                //create new service bus
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(config["EventBusAddress"]);
