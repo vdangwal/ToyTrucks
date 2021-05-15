@@ -1,12 +1,4 @@
-# directories
-**/bin/
-**/obj/
-**/out/
+bin/
+obj/
 
-# files
-Dockerfile*
-**/*.trx
-**/*.md
-**/*.ps1
-**/*.cmd
-**/*.sh
+ 

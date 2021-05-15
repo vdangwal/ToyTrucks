@@ -107,7 +107,8 @@ services:
   order_api:
     container_name: order_api
     build: 
-      context: ./Services/Orders/Orders.Api
+      context: .
+      dockerfile: Services/Orders/Orders.Api/Dockerfile
       target: debug
     environment: 
       POSTGRES_SERVER: "postgres_db"
@@ -115,12 +116,14 @@ services:
       POSTGRES_PORT: "5432"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
+      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
     ports: 
       - 3508:4406
     volumes:
-      - ./Services/Orders/Orders.Api/:/orderapiwork_boom/
+      - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
     depends_on: 
       - postgres_db 
+      - rabbitmq
 
 # volumes: 
 #   #truck-postgresdata:

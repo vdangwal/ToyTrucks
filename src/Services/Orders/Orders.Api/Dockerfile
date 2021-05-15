@@ -9,22 +9,22 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 
 WORKDIR /orderapiwork
 
-# Copy necessary files and restore as distinct layer
-COPY *.csproj ./
-RUN dotnet restore
+COPY ["Services/Orders/Orders.Api/Orders.Api.csproj", "Services/Orders/Orders.Api/"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+RUN dotnet restore Services/Orders/Orders.Api/Orders.Api.csproj
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish --no-restore -o out -c Release
+RUN dotnet publish Services/Orders/Orders.Api/Orders.Api.csproj --no-restore -o out -c Release
 #--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
+ENTRYPOINT ["dotnet", "run", "-p", "Services/Orders/Orders.Api/", "--no-launch-profile"] 
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 
 WORKDIR /app/
 #COPY --from=Debug /out/ /app/
-COPY --from=debug /out/ /app/
+COPY --from=debug /orderapiwork/out/ /app/
 RUN chmod +x /app/ 
 CMD dotnet Orders.Api.dll
 
