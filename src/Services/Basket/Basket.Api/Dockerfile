@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS debug
-#ENV ASPNETCORE_URLS=http://+:4402
+ENV ASPNETCORE_URLS=http://+:4402
 
 RUN apt-get update
 RUN apt-get install -y unzip

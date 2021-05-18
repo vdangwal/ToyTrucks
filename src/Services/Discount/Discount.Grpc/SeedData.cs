@@ -31,6 +31,10 @@ namespace Discount.Grpc
                         {
                             await CreateDatabase(connection, database);
                         }
+                        else
+                        {
+                            Console.WriteLine("Discount database already created");
+                        }
                     }
                     else
                         throw new Exception($"Cant open connection when creating {database}");
@@ -65,9 +69,11 @@ namespace Discount.Grpc
 
         private static async Task CreateDatabase(NpgsqlConnection connection, string databaseName)
         {
+
             using var command = new NpgsqlCommand { Connection = connection };
             command.CommandText = $"CREATE DATABASE {databaseName};";
             await command.ExecuteNonQueryAsync();
+            Console.WriteLine("Created Discount database");
         }
 
         private static async Task PopulateTestData(NpgsqlConnection connection)
@@ -87,6 +93,7 @@ namespace Discount.Grpc
 
             command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1996 Emergency Truck', 'Hess 1996 Emergency Truck Discount', 8);";
             await command.ExecuteNonQueryAsync();
+            Console.WriteLine("Seeded Discount database");
         }
     }
 }

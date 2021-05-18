@@ -7,13 +7,13 @@ namespace EventBus.Messages.Events
         public IntegrationBaseEvent()
         : this(Guid.NewGuid(), DateTime.Now)
         { }
-        public IntegrationBaseEvent(Guid id, DateTime createDate)
+        public IntegrationBaseEvent(Guid eventId, DateTime createDate)
         {
-            Id = id;
+            EventId = eventId;
             CreationDate = createDate;
         }
 
-        public Guid Id { get; private set; }
+        public Guid EventId { get; private set; }
         public DateTime CreationDate { get; private set; }
 
     }

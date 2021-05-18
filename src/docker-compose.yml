@@ -76,7 +76,7 @@ services:
       target: debug
     environment: 
       REDIS_SERVER: "basket_redis_db"
-      grpcServiceUrl: "http://discount_grpc"
+      grpcServiceUrl: "http://discount_grpc:4404"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
     ports: 
       - 3502:4402
