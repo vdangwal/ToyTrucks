@@ -69,7 +69,6 @@ namespace Discount.Grpc
 
         private static async Task CreateDatabase(NpgsqlConnection connection, string databaseName)
         {
-
             using var command = new NpgsqlCommand { Connection = connection };
             command.CommandText = $"CREATE DATABASE {databaseName};";
             await command.ExecuteNonQueryAsync();

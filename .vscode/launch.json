@@ -23,7 +23,7 @@
             }
         },
         {
-            "name": "DiscountGrpc  No docker",
+            "name": "DiscountGrpc No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -164,7 +164,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/basketwork": "${workspaceRoot}/src/Services/Basket/Basket.Api/"
+                "/basketwork": "${workspaceRoot}/src/"
             }
         },
         {
@@ -184,7 +184,27 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/orderapiwork": "${workspaceRoot}/src/Services/Orders/Orders.Api/"
+                "/orderapiwork": "${workspaceRoot}/src/"
+            }
+        },
+        {
+            "name": "DiscountGrpc Docker Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "discount_grpc"
+                ],
+                "debuggerPath": "/root/vsdbg/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
             }
         },
         {
