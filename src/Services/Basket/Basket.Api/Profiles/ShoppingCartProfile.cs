@@ -6,8 +6,8 @@ namespace Basket.Api.Profiles
     {
         public ShoppingCartProfile()
         {
-            CreateMap<Models.ShoppingCart, Dtos.ShoppingCart>().ReverseMap();
-            CreateMap<Models.ShoppingCartItem, Dtos.ShoppingCartItem>().ReverseMap();
+            CreateMap<Models.ShoppingCart, Dtos.ShoppingCartDto>().ReverseMap();
+            CreateMap<Models.ShoppingCartItem, Dtos.ShoppingCartItemDto>().ReverseMap();
         }
     }
 }

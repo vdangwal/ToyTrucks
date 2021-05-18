@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace Basket.Api.Dtos
 {
-    public class ShoppingCart
+    public class ShoppingCartDto
     {
         public string UserName { get; set; }
 
-        public List<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
-        public ShoppingCart() { }
+        public List<ShoppingCartItemDto> Items { get; set; } = new List<ShoppingCartItemDto>();
+        public ShoppingCartDto() { }
 
-        public ShoppingCart(string userName)
+        public ShoppingCartDto(string userName)
         {
             UserName = userName;
         }

@@ -13,9 +13,21 @@ services:
    
   basket_redis_db:
     image: redis:alpine
+    restart: always
     #environment: 
     ports:
       - 6379:6379
+  
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: always
+    environment: 
+      teds: ""
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
 
   # pgadmin:
   #   container_name: pgadmin
@@ -59,18 +71,20 @@ services:
   basket_api:
     container_name: basket_api
     build: 
-      context: ./Services/Basket/Basket.Api
+      context: .
+      dockerfile: Services/Basket/Basket.Api/Dockerfile
       target: debug
     environment: 
       REDIS_SERVER: "basket_redis_db"
-      grpcServiceUrl: http://discount_grpc:4404
-      #grpcServiceUrl: discount_grpc
+      grpcServiceUrl: "http://discount_grpc:4404"
+      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
     ports: 
       - 3502:4402
     volumes:
-      - ./Services/Basket/Basket.Api/:/basketwork/
+      - ./Services/Basket/Basket.Api/:/basketwork/Services/Basket/Basket.Api/
     depends_on: 
       - basket_redis_db
+      - rabbitmq
 
   discount_grpc:
     container_name: discount_grpc
@@ -93,7 +107,8 @@ services:
   order_api:
     container_name: order_api
     build: 
-      context: ./Services/Orders/Orders.Api
+      context: .
+      dockerfile: Services/Orders/Orders.Api/Dockerfile
       target: debug
     environment: 
       POSTGRES_SERVER: "postgres_db"
@@ -101,12 +116,14 @@ services:
       POSTGRES_PORT: "5432"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
+      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
     ports: 
       - 3508:4406
     volumes:
-      - ./Services/Orders/Orders.Api/:/orderapiwork_boom/
+      - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
     depends_on: 
       - postgres_db 
+      - rabbitmq
 
 # volumes: 
 #   #truck-postgresdata:

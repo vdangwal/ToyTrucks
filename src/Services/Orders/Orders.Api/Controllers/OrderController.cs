@@ -31,6 +31,7 @@ namespace Orders.Api.Controllers
         }
 
         [HttpGet("{userName}", Name = "OrdersByUsername")]
+        [Route("{orderId:int}")]
         [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<OrderDto>> OrderById(int orderId)
@@ -51,6 +52,7 @@ namespace Orders.Api.Controllers
         }
 
         [HttpGet("{userName}", Name = "OrdersByUsername")]
+        [Route("{userName:alpha}")]
         [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<OrderDto>>> OrdersByUsername(string userName)

@@ -13,6 +13,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Orders.Api.DBContexts;
 using Orders.Api.Services;
+using MassTransit;
+using EventBus.Messages.Common;
+using Orders.Api.Entities;
 
 namespace Orders.Api
 {
@@ -38,6 +41,10 @@ namespace Orders.Api
             services.AddPostgresDbContext(Configuration);
             services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<BasketCheckoutConsumer>();
+
+            services.AddClientMassTransit(Configuration);
+
             services.AddApiVersioning(options =>
           {
               options.AssumeDefaultVersionWhenUnspecified = true;
@@ -103,6 +110,29 @@ namespace Orders.Api
                        .UseSnakeCaseNamingConvention()
                     );
             return services;
+        }
+
+        public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
+        {
+            Console.WriteLine($"EventBusAddress: {config["EventBusAddress"]}");
+
+            services.AddMassTransit(configuration =>
+            {
+
+                configuration.AddConsumer<BasketCheckoutConsumer>();
+                configuration.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(config["EventBusAddress"]);
+                    cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue, c =>
+                    {
+                        c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
+                    });
+                });
+            });
+            services.AddMassTransitHostedService();
+
+            return services;
+
         }
 
     }

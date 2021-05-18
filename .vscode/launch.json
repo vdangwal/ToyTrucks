@@ -2,20 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
             "name": "Discount No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "requireExactSource": false,
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Services/Discount/Discount.Api/bin/Debug/net5.0/Discount.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Discount/Discount.Api",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
@@ -27,47 +22,16 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
-        // {
-        //     // Use IntelliSense to find out which attributes exist for C# debugging
-        //     // Use hover for the description of the existing attributes
-        //     // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        //     "name": "Discount Grpc No docker",
-        //     "type": "coreclr",
-        //     "request": "launch",
-        //     "preLaunchTask": "build",
-        //     "requireExactSource": false,
-        //     // If you have changed target frameworks, make sure to update the program path.
-        //     "program": "${workspaceFolder}/src/Services/Discount/Discount.Grpc/bin/Debug/net5.0/Discount.Grpc.dll",
-        //     "args": [],
-        //     "cwd": "${workspaceFolder}/src/Services/Discount/Discount.Grpc",
-        //     "stopAtEntry": false,
-        //     // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
-        //     "serverReadyAction": {
-        //         "action": "openExternally",
-        //         "pattern": "\\\\bNow listening intently on:\\\\s+(https?://\\\\S+)"
-        //     },
-        //     "env": {
-        //         "ASPNETCORE_ENVIRONMENT": "Development"
-        //     },
-        //     "sourceFileMap": {
-        //         "/Views": "${workspaceFolder}/Views"
-        //     }
-        // },
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": "DiscountGrpc  No docker",
+            "name": "DiscountGrpc No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "requireExactSource": false,
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Services/Discount/Discount.Grpc/bin/Debug/net5.0/Discount.Grpc.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Discount/Discount.Grpc",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
@@ -80,20 +44,15 @@
             }
         },
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
             "name": "CatalogApi  No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "requireExactSource": false,
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Services/Catalog/Catalog.Api/bin/Debug/net5.0/Catalog.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Catalog/Catalog.Api",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
@@ -106,20 +65,15 @@
             }
         },
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
             "name": "BasketApi No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "requireExactSource": false,
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Services/Basket/Basket.Api/bin/Debug/net5.0/Basket.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Basket/Basket.Api",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
@@ -132,20 +86,15 @@
             }
         },
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
             "name": "OrdersApi No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "requireExactSource": false,
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Services/Orders/Orders.Api/bin/Debug/net5.0/Orders.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Orders/Orders.Api",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
@@ -158,20 +107,15 @@
             }
         },
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
             "name": "temp No docker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "requireExactSource": false,
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Services/temp/Temp.Api/bin/Debug/net5.0/Temp.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/temp/Temp.Api",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
@@ -220,29 +164,9 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/basketwork": "${workspaceRoot}/src/Services/Basket/Basket.Api/"
+                "/basketwork": "${workspaceRoot}/src/"
             }
         },
-        // {
-        //     "name": "DiscountGrpc Docker Attach",
-        //     "type": "coreclr",
-        //     "request": "attach",
-        //     "processId": "${command:pickRemoteProcess}",
-        //     "pipeTransport": {
-        //         "pipeProgram": "docker",
-        //         "pipeArgs": [
-        //             "exec",
-        //             "-i",
-        //             "discount_grpc"
-        //         ],
-        //         "debuggerPath": "/root/vsdbg/vsdbg",
-        //         "pipeCwd": "${workspaceRoot}",
-        //         "quoteArgs": false
-        //     },
-        //     "sourceFileMap": {
-        //         "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
-        //     }
-        // },
         {
             "name": "OrderApi Docker Attach",
             "type": "coreclr",
@@ -260,7 +184,36 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/orderapiwork": "${workspaceRoot}/src/Services/Orders/Orders.Api/"
+                "/orderapiwork": "${workspaceRoot}/src/"
+            }
+        },
+        {
+            "name": "DiscountGrpc Docker Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "discount_grpc"
+                ],
+                "debuggerPath": "/root/vsdbg/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
+            }
+        },
+        {
+            "name": "Docker .NET Core Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/Services/Basket/Basket.Api/Basket.Api.csproj"
             }
         }
     ]

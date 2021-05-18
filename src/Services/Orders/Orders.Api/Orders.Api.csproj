@@ -20,6 +20,13 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0"/>
+    <PackageReference Include="MassTransit" Version="7.1.8"/>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.8"/>
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.1.8"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
   </ItemGroup>
 
 </Project>

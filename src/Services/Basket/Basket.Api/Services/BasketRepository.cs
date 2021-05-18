@@ -22,17 +22,17 @@ namespace Basket.Api.Services
             return result.Any();
         }
 
-        public async Task<ShoppingCart> GetBasket(string userName)
+        public async Task<ShoppingCartDto> GetBasket(string userName)
         {
             if (string.IsNullOrEmpty(userName))
                 throw new ArgumentNullException(nameof(userName));
             var basket = await _cache.GetStringAsync(userName);
             if (string.IsNullOrEmpty(basket))
                 return null;
-            return JsonConvert.DeserializeObject<ShoppingCart>(basket);
+            return JsonConvert.DeserializeObject<ShoppingCartDto>(basket);
         }
 
-        public async Task<ShoppingCart> UpdateBasket(ShoppingCart basket)
+        public async Task<ShoppingCartDto> UpdateBasket(ShoppingCartDto basket)
         {
             if (basket == null || string.IsNullOrEmpty(basket.UserName))
                 throw new ArgumentNullException(nameof(basket));

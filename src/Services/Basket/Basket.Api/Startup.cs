@@ -11,11 +11,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Discount.Grpc.Protos;
 using Basket.Api.GrpcServices;
+using MassTransit;
 
 namespace Basket.Api
 {
@@ -36,14 +37,7 @@ namespace Basket.Api
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
 
-            Console.WriteLine($"Grpc url: {Configuration["grpcServiceUrl"]}");
-            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
-            {
-                opt.Address = new Uri(Configuration["grpcServiceUrl"]);
 
-            });
-            services.AddScoped<DiscountGrpcService>();
-            services.AddControllers();
             services.AddApiVersioning(options =>
           {
               options.AssumeDefaultVersionWhenUnspecified = true;
@@ -51,15 +45,14 @@ namespace Basket.Api
               options.ReportApiVersions = true;
               options.ApiVersionReader = new HeaderApiVersionReader("api-version");
           });
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.Api", Version = "v1" });
-            });
 
-            services.AddRedisCache(Configuration);
-            //once u attach a shell run redis-cli
-            //then keys *
+            services.AddMyGrpcClient(Configuration);
+            services.AddMyMassTransit(Configuration);
 
+            services.AddMyRedisCache(Configuration);
+
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,8 +61,7 @@ namespace Basket.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.Api v1"));
+
             }
 
             // app.UseHttpsRedirection();
@@ -87,7 +79,38 @@ namespace Basket.Api
 
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddRedisCache(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
+        {
+            Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
+            {
+                opt.Address = new Uri(config["grpcServiceUrl"]);
+
+            });
+            services.AddScoped<DiscountGrpcService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMyMassTransit(this IServiceCollection services, IConfiguration config)
+        {
+            Console.WriteLine($"EventBusAddress: {config["EventBusAddress"]}");
+
+            services.AddMassTransit(configuration =>
+            {
+                //create new service bus
+                configuration.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(config["EventBusAddress"]);
+                });
+            });
+            services.AddMassTransitHostedService();
+
+            return services;
+
+        }
+
+        public static IServiceCollection AddMyRedisCache(this IServiceCollection services, IConfiguration config)
         {
             //docker run -d -p 6379:6379 --name redis_basket redis
             var redisServer = config["REDIS_SERVER"] ?? "localhost";
@@ -98,6 +121,10 @@ namespace Basket.Api
                 options.Configuration = redisConnection;
             });
             return services;
+
+            //once u attach a shell run redis-cli
+            //then keys *
         }
+
     }
 }
