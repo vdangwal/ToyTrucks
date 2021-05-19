@@ -10,6 +10,7 @@ WORKDIR /basketwork
 #src\Services\Basket\Basket.Api\Basket.Api.csproj 
 COPY ["Services/Basket/Basket.Api/Basket.Api.csproj", "Services/Basket/Basket.Api/"]
 COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+COPY ["Services/Discount/Discount.Grpc/Protos/discount.proto", "Services/Discount/Discount.Grpc/Protos/"]
 # # Copy necessary files and restore as distinct layer
 # #COPY *.csproj ./
 RUN dotnet restore Services/Basket/Basket.Api/Basket.Api.csproj

@@ -18,7 +18,7 @@
     <PackageReference Include="MassTransit.AspNetCore" Version="7.1.8"/>
   </ItemGroup>
   <ItemGroup>
-    <Protobuf Include="Protos\discount.proto" GrpcServices="Client"/>
+    <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
