@@ -1,7 +1,11 @@
+
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace Orders.Api.Entities
 {
     public class Order : EntityBase
     {
+        [BsonElement("UserName")]
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
 

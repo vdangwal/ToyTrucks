@@ -17,7 +17,7 @@ namespace Orders.Api
         {
             CreateHostBuilder(args)
             .Build()
-            .MigrateAndSeedDatabase<OrderDbContext>(retries: 3)
+            // .MigrateAndSeedDatabase<OrderDbContext>(retries: 3)
             .Run();
         }
 

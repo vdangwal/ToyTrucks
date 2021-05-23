@@ -30,14 +30,12 @@ namespace Orders.Api.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        [HttpGet("{userName}", Name = "OrdersByUsername")]
-        [Route("{orderId:int}")]
+        [HttpGet]
+        [Route("{orderId::length(24)}")]
         [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<OrderDto>> OrderById(int orderId)
+        public async Task<ActionResult<OrderDto>> OrderById(string orderId)
         {
-            // var query = new GetOrdersListQuery(userName);
-            //var orders = await _mediatr.Send(query);
             try
             {
                 var orders = await _service.GetByOrderIdAsync(orderId);
@@ -51,14 +49,11 @@ namespace Orders.Api.Controllers
 
         }
 
-        [HttpGet("{userName}", Name = "OrdersByUsername")]
-        [Route("{userName:alpha}")]
+        [HttpGet("{userName:alpha}", Name = "OrdersByUsername")]
         [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<OrderDto>>> OrdersByUsername(string userName)
         {
-            // var query = new GetOrdersListQuery(userName);
-            //var orders = await _mediatr.Send(query);
             if (string.IsNullOrEmpty(userName))
                 return BadRequest();
             var orders = await _service.GetOrdersByUserName(userName);
@@ -111,10 +106,10 @@ namespace Orders.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{orderId:int}", Name = "DeleteOrder")]
+        [HttpDelete("{orderId:alpha}", Name = "DeleteOrder")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<int>> DeleteOrder(int orderId)
+        public async Task<ActionResult<int>> DeleteOrder(string orderId)
         {
             try
             {

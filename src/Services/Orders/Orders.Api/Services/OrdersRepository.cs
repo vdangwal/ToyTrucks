@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using Orders.Api.DBContexts;
 using Orders.Api.Entities;
 namespace Orders.Api.Services
@@ -10,64 +12,91 @@ namespace Orders.Api.Services
     public class OrdersRepository : IOrdersRepository
     {
 
-        private readonly OrderDbContext _dbContext;
+        private readonly IOrderContext _context;
 
-        public OrdersRepository(OrderDbContext dbContext)
+        public OrdersRepository(IOrderContext dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        private async Task<bool> OrderExists(int orderId)
+        private async Task<bool> OrderExists(ObjectId orderId)
         {
-            return await _dbContext.Orders.AnyAsync(o => o.Id == orderId);
+            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.Id, orderId);
+            return await _context.Orders
+                                 .Find(filter)
+                                 .AnyAsync();
         }
 
-        public async Task<Order> GetByOrderIdAsync(int id)
+        public async Task<Order> GetByOrderIdAsync(string id)
         {
-            if (!await OrderExists(id))
+            var orderId = new ObjectId(id);
+            if (!await OrderExists(orderId))
                 throw new Exception($"Order doesnt exist with id of {id}");
-            return await _dbContext.Orders
-                         .Where(o => o.Id == id)
-                         .FirstOrDefaultAsync();
+
+            //   FilterDefinition<Order> filter = Builders<Order>.Filter.ElemMatch(p => p.Id, id);
+            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.Id, orderId);
+
+            return await _context.Orders
+                                 .Find(filter)
+                                 .FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<Order>> GetOrdersAsync()
         {
-            return await _dbContext.Orders.ToListAsync();
+            return await _context.Orders
+                                 .Find(_ => true)
+                                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName)
         {
-            return await _dbContext.Orders
-                         .Where(o => o.UserName == userName)
-                         .ToListAsync();
+            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.UserName, userName);
+            return await _context.Orders
+                                 .Find(filter)
+                                 .ToListAsync();
         }
 
         public async Task<Order> AddOrderAsync(Order order)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
-            var newEntity = await _dbContext.Orders.AddAsync(order);
-            await _dbContext.SaveChangesAsync();
-            return newEntity.Entity;
+            // var newEntity = await _context.Orders.AddAsync(order);
+            // await _context.SaveChangesAsync();
+            // return newEntity.Entity;
+
+            await _context.Orders.InsertOneAsync(order);
+            return await Task.FromResult(order);
         }
 
-        public async Task UpdateOrderAsync(Order order)
+        public async Task<bool> UpdateOrderAsync(Order order)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
             if (!await OrderExists(order.Id))
                 throw new Exception($"Order doesnt exist with id of {order.Id}");
-            _dbContext.Entry(order).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+
+            var updateResult = await _context.Orders
+                                             .ReplaceOneAsync(filter: g => g.Id == order.Id, replacement: order);
+
+            return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
+
+            // _context.Entry(order).State = EntityState.Modified;
+            // await _context.SaveChangesAsync();
         }
-        public async Task DeleteOrderAsync(int id)
+        public async Task<bool> DeleteOrderAsync(string id)
         {
-            var order = await GetByOrderIdAsync(id);
-            if (order == null)
-                throw new ArgumentNullException(nameof(order));
-            _dbContext.Orders.Remove(order);
-            await _dbContext.SaveChangesAsync();
+            // var order = await GetByOrderIdAsync(id);
+            // if (order == null)
+            //     throw new ArgumentNullException(nameof(order));
+            // _context.Orders.Remove(order);
+            // await _context.SaveChangesAsync();
+
+            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.Id, new ObjectId(id));
+
+            DeleteResult deleteResult = await _context.Orders
+                                                      .DeleteOneAsync(filter);
+
+            return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
     }
 }
