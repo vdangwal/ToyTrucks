@@ -7,9 +7,9 @@ namespace Orders.Api.Services
     {
         Task<IEnumerable<Order>> GetOrdersByUserName(string userName);
         Task<IReadOnlyList<Order>> GetOrdersAsync();
-        Task<Order> GetByOrderIdAsync(int id);
+        Task<Order> GetByOrderIdAsync(string id);
         Task<Order> AddOrderAsync(Order order);
-        Task UpdateOrderAsync(Order order);
-        Task DeleteOrderAsync(int id);
+        Task<bool> UpdateOrderAsync(Order order);
+        Task<bool> DeleteOrderAsync(string id);
     }
 }

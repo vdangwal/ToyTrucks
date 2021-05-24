@@ -16,7 +16,7 @@ using Orders.Api.Services;
 using MassTransit;
 using EventBus.Messages.Common;
 using Orders.Api.Entities;
-
+using MongoDB;
 namespace Orders.Api
 {
     public class Startup
@@ -38,10 +38,12 @@ namespace Orders.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders", Version = "v1" });
             });
 
-            services.AddPostgresDbContext(Configuration);
+            //    services.AddDbContext(Configuration);
             services.AddScoped<IOrdersRepository, OrdersRepository>();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IOrderContext, OrderContext>();
             services.AddScoped<BasketCheckoutConsumer>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddClientMassTransit(Configuration);
 
@@ -84,8 +86,11 @@ namespace Orders.Api
 
     public static class ServiceCollectionExtensionMethods
     {
-        public static IServiceCollection AddPostgresDbContext(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration config)
         {
+
+            //services.AddMongoDb()
+            // services.AddMongoDb();
 
             //Create  postgres container
             //docker run -e POSTGRES_DB=orderdb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5430 --name postgres_order -d postgres
