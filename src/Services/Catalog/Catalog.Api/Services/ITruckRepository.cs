@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Catalog.Api.Services
 {
-  public interface ITruckRepository
+    public interface ITruckRepository
     {
         Task<IEnumerable<Truck>> GetTrucks();
         Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId);
         Task<Truck> GetTruckById(Guid truckId);
+        Task<Truck> GetTruckByName(string truckName);
         Task AddTruck(Truck truck);
         Task<bool> UpdateTruck(Truck truck);
         Task<bool> SaveChanges();

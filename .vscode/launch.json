@@ -47,7 +47,7 @@
             "name": "CatalogApi  No docker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build2",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/Services/Catalog/Catalog.Api/bin/Debug/net5.0/Catalog.Api.dll",
             "args": [],
