@@ -82,17 +82,18 @@ namespace Discount.Grpc
             await command.ExecuteNonQueryAsync();
 
             command.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, 
+                                                                ProductId  VARCHAR(60) NOT NULL,
                                                                 ProductName VARCHAR(80) NOT NULL,
                                                                 Description TEXT,
                                                                 Amount INT)";
             await command.ExecuteNonQueryAsync();
 
-            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1990 Tanker Truck', 'Hess 1990 Discount', 10);";
-            await command.ExecuteNonQueryAsync();
+            // command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1990 Tanker Truck', 'Hess 1990 Discount', 10);";
+            // await command.ExecuteNonQueryAsync();
 
-            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1996 Emergency Truck', 'Hess 1996 Emergency Truck Discount', 8);";
-            await command.ExecuteNonQueryAsync();
-            Console.WriteLine("Seeded Discount database");
+            // command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1996 Emergency Truck', 'Hess 1996 Emergency Truck Discount', 8);";
+            // await command.ExecuteNonQueryAsync();
+            Console.WriteLine("Created Discount database");
         }
     }
 }

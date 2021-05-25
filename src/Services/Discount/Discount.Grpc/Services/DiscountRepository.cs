@@ -14,8 +14,9 @@ namespace Discount.Grpc.Services
         private readonly string _connectionString;
         private const string GET_COUPONS_SQL = "SELECT * FROM Coupon";
         private const string GET_DISCOUNT_SQL = "SELECT * FROM Coupon WHERE ProductName = @ProductName";
-        private const string GET_DISCOUNT_BY_ID_SQL = "SELECT * FROM Coupon WHERE Id = @Id";
-        private const string CREATE_DISCOUNT_SQL = "INSERT INTO Coupon (ProductName, Description, Amount) VALUES (@ProductName, @Description, @Amount) RETURNING Id";
+        private const string GET_DISCOUNT_BY_ID_SQL = "SELECT * FROM Coupon WHERE ProductId = @Id";
+        private const string GET_DISCOUNT_BY_RECORDID_SQL = "SELECT * FROM Coupon WHERE Id = @Id";
+        private const string CREATE_DISCOUNT_SQL = "INSERT INTO Coupon (ProductName, ProductId, Description, Amount) VALUES (@ProductName, @ProductId, @Description, @Amount) RETURNING Id";
         private const string UPDATE_DISCOUNT_SQL = "UPDATE Coupon SET ProductName=@ProductName, Description = @Description, Amount = @Amount WHERE Id = @Id";
         private const string DELETE_DISCOUNT_SQL = "DELETE FROM Coupon WHERE ProductName = @ProductName";
         public DiscountRepository(IConfiguration configuration)
@@ -36,7 +37,7 @@ namespace Discount.Grpc.Services
         {
             using var connection = new NpgsqlConnection(_connectionString);
             var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>
-                (GET_DISCOUNT_BY_ID_SQL, new { Id = id });
+                (GET_DISCOUNT_BY_RECORDID_SQL, new { Id = id });
             return (coupon != null);
         }
 
@@ -59,15 +60,26 @@ namespace Discount.Grpc.Services
             return coupon;//!= null ? coupon : new Coupon { ProductName = "No Discount", Amount = 0, Description = "No Discount Desc" };
 
         }
-        public async Task<Coupon> GetDiscount(int Id)
+        public async Task<Coupon> GetDiscountById(string productId)
         {
             using var connection = new NpgsqlConnection(_connectionString);
 
             var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>
-                (GET_DISCOUNT_BY_ID_SQL, new { Id = Id });
+                (GET_DISCOUNT_BY_ID_SQL, new { Id = productId });
 
             return coupon;
         }
+
+        async Task<Coupon> GetDiscountById(int recordId)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+
+            var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>
+                (GET_DISCOUNT_BY_RECORDID_SQL, new { Id = recordId });
+
+            return coupon;
+        }
+
 
 
         public async Task<Coupon> CreateDiscount(Coupon coupon)
@@ -77,9 +89,9 @@ namespace Discount.Grpc.Services
             var newCouponId =
                 await connection.ExecuteScalarAsync<int>
                     (CREATE_DISCOUNT_SQL,
-                            new { ProductName = coupon.ProductName, Description = coupon.Description, Amount = coupon.Amount });
+                            new { ProductName = coupon.ProductName, ProductId = coupon.ProductId, Description = coupon.Description, Amount = coupon.Amount });
 
-            return await GetDiscount(newCouponId);
+            return await GetDiscountById(newCouponId);
         }
 
         public async Task<bool> UpdateDiscount(Coupon coupon)

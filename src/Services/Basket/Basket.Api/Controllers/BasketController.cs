@@ -61,7 +61,7 @@ namespace Basket.Api.Controllers
             foreach (var item in basket.Items)
             {
 
-                var discount = await _discountService.GetDiscount(item.ProductName);
+                var discount = await _discountService.GetDiscount(item.ProductId);
                 //   if (discount is not null)
                 if (discount.Coupon is not null)
                 {
@@ -94,6 +94,7 @@ namespace Basket.Api.Controllers
             base.Response.Headers.Add("Allow", "GET, POST, OPTIONS, PATCH, DELETE");
             return Ok();
         }
+
         [Route("[action]")] //we need to add method name to url ie
         [HttpPost]
         [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status202Accepted)]
@@ -121,6 +122,39 @@ namespace Basket.Api.Controllers
             return Accepted();
 
 
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> CreateDiscount([FromBody] Coupon coupon)
+        {
+            if (coupon == null)
+                throw new ArgumentNullException(nameof(coupon));
+
+            var discount = await _discountService.CreateDiscount(coupon);
+            if (discount == null)
+                return BadRequest();
+
+            return Accepted();
+        }
+
+        [HttpGet("[action]/{productId}", Name = "GetDiscount")]
+        [ProducesResponseType(typeof(Coupon), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Coupon>> GetDiscount(string productId)
+        {
+            if (string.IsNullOrEmpty(productId))
+                return BadRequest();
+
+            var discountResponse = await _discountService.GetDiscount(productId);
+            if (discountResponse?.Coupon == null)
+                return NotFound();
+            // var basket = _mapper.Map<ShoppingCart>(basketDto);
+
+            return Ok(discountResponse.Coupon);
         }
     }
 }

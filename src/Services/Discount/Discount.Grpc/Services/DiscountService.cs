@@ -23,10 +23,21 @@ namespace Discount.Grpc.Services
 
         public override async Task<GetDiscountResponse> GetDiscount(GetDiscountRequest request, ServerCallContext context)
         {
-            var coupon = await _service.GetDiscount(request.ProductName);
+            var productId = Guid.Empty;
+            // try
+            // {
+            //     productId = Guid.Parse(request.ProductId);
+            // }
+            // catch (System.Exception ex)
+            // {
+            //     _logger.LogError(ex, "Error converting productId to Guid");
+            //     throw;
+            // }
+
+            var coupon = await _service.GetDiscountById(request.ProductId);
             GetDiscountResponse response = new GetDiscountResponse();
             if (coupon == null)
-                _logger.LogWarning($"Discount with Product name ={request.ProductName} was not found");
+                _logger.LogWarning($"Discount with Product id ={productId} was not found");
             else
                 response.Coupon = _mapper.Map<Protos.Coupon>(coupon);
 
