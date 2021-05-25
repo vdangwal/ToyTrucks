@@ -4,13 +4,13 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\CleanWorkspace.bat",
+            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\BuildWorkspace.bat",
             "problemMatcher": []
         },
         {
-            "label": "build2",
+            "label": "clean",
             "type": "shell",
-            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\BuildWorkspace.bat"
+            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\CleanWorkspace.bat"
         },
         {
             "type": "docker-build",

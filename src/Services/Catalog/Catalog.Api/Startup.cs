@@ -86,6 +86,9 @@ namespace Catalog.Api
             //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
 
             //psql -h localhost -p 5432 -U marcus -d catalogdb
+            // \l lists dbs 
+            // \c <db> connects to db 
+            // \d lists db objects
             var server = config["POSTGRES_SERVER"];// ?? "localhost";
 
             var port = config["POSTGRES_PORT"];// ?? "5432";

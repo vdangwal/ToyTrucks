@@ -92,12 +92,7 @@ namespace Orders.Api
             //services.AddMongoDb()
             // services.AddMongoDb();
 
-            //Create  postgres container
-            //docker run -e POSTGRES_DB=orderdb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5430 --name postgres_order -d postgres
-            //run bash to access postgres container
-            //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
-
-            //psql -h localhost -p 5432 -U marcus -d orderdb
+            
             var server = config["POSTGRES_SERVER"];// ?? "localhost";
 
             var port = config["POSTGRES_PORT"];// ?? "5432";
