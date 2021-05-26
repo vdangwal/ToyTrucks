@@ -48,6 +48,19 @@ namespace Catalog.Api.Services
                                         .FirstOrDefaultAsync(t => t.TruckId == truckId);
         }
 
+        public async Task<Truck> GetTruckByName(string truckName)
+        {
+            if (string.IsNullOrEmpty(truckName))
+            {
+                _logger.LogError("Truck name to query is null");
+                throw new ArgumentException(nameof(truckName));
+            }
+            return await _context.Trucks.Include(t => t.Categories)
+                                        .Include(t => t.Photos)
+                                        .AsSplitQuery()
+                                        .FirstOrDefaultAsync(t => t.Name == truckName);
+        }
+
         public async Task<IEnumerable<Truck>> GetTrucks()
         {
             return await _context.Trucks.Include(t => t.Categories)
@@ -72,13 +85,13 @@ namespace Catalog.Api.Services
 
         public async Task<bool> UpdateTruck(Truck truck)
         {
-            if (truck ==null)
+            if (truck == null)
             {
                 _logger.LogError("Truck to update is null");
                 throw new ArgumentNullException(nameof(truck));
             }
 
-            var truckToUpdate =await _context.Trucks.SingleOrDefaultAsync(t => t.TruckId == truck.TruckId);
+            var truckToUpdate = await _context.Trucks.SingleOrDefaultAsync(t => t.TruckId == truck.TruckId);
             if (truckToUpdate == null)
             {
                 _logger.LogError("Truck to update doesnt exist in the db");
@@ -94,7 +107,7 @@ namespace Catalog.Api.Services
             truckToUpdate.Quantity = truck.Quantity;
             truckToUpdate.Year = truck.Year;
 
-           return   await SaveChanges();
+            return await SaveChanges();
         }
     }
 }

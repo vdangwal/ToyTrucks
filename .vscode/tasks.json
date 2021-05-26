@@ -3,14 +3,14 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/Services/Discount/Discount.Grpc/Discount.Grpc.csproj",
-                "/property:GenerateFullPaths=true"
-            ],
-            "problemMatcher": "$msCompile"
+            "type": "shell",
+            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\BuildWorkspace.bat",
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\CleanWorkspace.bat"
         },
         {
             "type": "docker-build",

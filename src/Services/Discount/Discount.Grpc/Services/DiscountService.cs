@@ -23,10 +23,21 @@ namespace Discount.Grpc.Services
 
         public override async Task<GetDiscountResponse> GetDiscount(GetDiscountRequest request, ServerCallContext context)
         {
-            var coupon = await _service.GetDiscount(request.ProductName);
+            var productId = Guid.Empty;
+            // try
+            // {
+            //     productId = Guid.Parse(request.ProductId);
+            // }
+            // catch (System.Exception ex)
+            // {
+            //     _logger.LogError(ex, "Error converting productId to Guid");
+            //     throw;
+            // }
+
+            var coupon = await _service.GetDiscountById(request.ProductId);
             GetDiscountResponse response = new GetDiscountResponse();
             if (coupon == null)
-                _logger.LogWarning($"Discount with Product name ={request.ProductName} was not found");
+                _logger.LogWarning($"Discount with Product id ={productId} was not found");
             else
                 response.Coupon = _mapper.Map<Protos.Coupon>(coupon);
 
@@ -76,9 +87,9 @@ namespace Discount.Grpc.Services
         public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
         {
 
-            var deleted = await _service.DeleteDiscount(request.ProductName);
+            var deleted = await _service.DeleteDiscount(request.ProductId);
             if (deleted == false)
-                _logger.LogWarning($"Coupon with productName= {request.ProductName} was not deleted");
+                _logger.LogWarning($"Coupon with productId= {request.ProductId} was not deleted");
 
             var response = new DeleteDiscountResponse
             {

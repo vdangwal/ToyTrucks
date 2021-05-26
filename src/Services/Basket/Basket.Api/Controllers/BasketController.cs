@@ -10,6 +10,7 @@ using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Basket.Api.Controllers
 {
@@ -23,13 +24,15 @@ namespace Basket.Api.Controllers
         private readonly IMapper _mapper;
         private readonly DiscountGrpcService _discountService;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ILogger<BasketController> _logger;
 
-        public BasketController(IBasketRepository service, IMapper mapper, DiscountGrpcService discountService, IPublishEndpoint publishEndpoint)
+        public BasketController(IBasketRepository service, IMapper mapper, DiscountGrpcService discountService, IPublishEndpoint publishEndpoint, ILogger<BasketController> logger)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
             _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
@@ -61,7 +64,7 @@ namespace Basket.Api.Controllers
             foreach (var item in basket.Items)
             {
 
-                var discount = await _discountService.GetDiscount(item.ProductName);
+                var discount = await _discountService.GetDiscount(item.ProductId);
                 //   if (discount is not null)
                 if (discount.Coupon is not null)
                 {
@@ -94,6 +97,7 @@ namespace Basket.Api.Controllers
             base.Response.Headers.Add("Allow", "GET, POST, OPTIONS, PATCH, DELETE");
             return Ok();
         }
+
         [Route("[action]")] //we need to add method name to url ie
         [HttpPost]
         [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status202Accepted)]
@@ -121,6 +125,80 @@ namespace Basket.Api.Controllers
             return Accepted();
 
 
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> CreateDiscount([FromBody] Coupon coupon)
+        {
+            if (coupon == null)
+                throw new ArgumentNullException(nameof(coupon));
+
+            var discount = await _discountService.CreateDiscount(coupon);
+            if (discount == null)
+                return BadRequest();
+
+            return Accepted();
+        }
+
+        [HttpGet("[action]/{productId}", Name = "GetDiscount")]
+        [ProducesResponseType(typeof(Coupon), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Coupon>> GetDiscount(string productId)
+        {
+            if (string.IsNullOrEmpty(productId))
+                return BadRequest();
+
+            var discountResponse = await _discountService.GetDiscount(productId);
+            if (discountResponse?.Coupon == null)
+                return NotFound();
+            // var basket = _mapper.Map<ShoppingCart>(basketDto);
+
+            return Ok(discountResponse.Coupon);
+        }
+
+        [HttpDelete("[action]/{productId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteDiscount(string productId)
+        {
+            if (string.IsNullOrEmpty(productId))
+                return BadRequest();
+
+            var discountResponse = await _discountService.DeleteDiscount(productId);
+            if (discountResponse == null)
+                return NotFound();
+            // var basket = _mapper.Map<ShoppingCart>(basketDto);
+
+            return NoContent();
+        }
+
+        [HttpPut(Name = "UpdateDiscount")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateDiscount([FromBody] Coupon coupon)
+        {
+            if (coupon == null)
+                return BadRequest();
+
+
+            try
+            {
+                await _discountService.UpdateDiscount(coupon);
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, $"Error updating discount with name of {coupon.ProductName}");
+                return NotFound();
+            }
+
+            //await _mediatr.Send(order);
+            return NoContent();
         }
     }
 }
