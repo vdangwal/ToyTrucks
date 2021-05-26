@@ -18,7 +18,7 @@ namespace Discount.Grpc.Services
         private const string GET_DISCOUNT_BY_RECORDID_SQL = "SELECT * FROM Coupon WHERE Id = @Id";
         private const string CREATE_DISCOUNT_SQL = "INSERT INTO Coupon (ProductName, ProductId, Description, Amount) VALUES (@ProductName, @ProductId, @Description, @Amount) RETURNING Id";
         private const string UPDATE_DISCOUNT_SQL = "UPDATE Coupon SET ProductName=@ProductName, Description = @Description, Amount = @Amount WHERE Id = @Id";
-        private const string DELETE_DISCOUNT_SQL = "DELETE FROM Coupon WHERE ProductName = @ProductName";
+        private const string DELETE_DISCOUNT_SQL = "DELETE FROM Coupon WHERE ProductId = @ProductId";
         public DiscountRepository(IConfiguration configuration)
         {
             _config = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -105,12 +105,12 @@ namespace Discount.Grpc.Services
             return affected != 0;
         }
 
-        public async Task<bool> DeleteDiscount(string productName)
+        public async Task<bool> DeleteDiscount(string productId)
         {
             using var connection = new NpgsqlConnection(_connectionString);
 
             var affected = await connection.ExecuteAsync(DELETE_DISCOUNT_SQL,
-                new { ProductName = productName });
+                new { ProductId = productId });
 
             return affected != 0;
         }

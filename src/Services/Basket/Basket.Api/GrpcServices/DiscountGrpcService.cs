@@ -24,5 +24,11 @@ namespace Basket.Api.GrpcServices
 
             return await _discountProtoService.CreateDiscountAsync(coupon);
         }
+
+        public async Task<DeleteDiscountResponse> DeleteDiscount(string productId)
+        {
+            DeleteDiscountRequest request = new DeleteDiscountRequest { ProductId = productId };
+            return await _discountProtoService.DeleteDiscountAsync(request);
+        }
     }
 }

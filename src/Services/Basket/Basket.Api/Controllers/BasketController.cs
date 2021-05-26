@@ -156,5 +156,22 @@ namespace Basket.Api.Controllers
 
             return Ok(discountResponse.Coupon);
         }
+
+        [HttpDelete("[action]/{productId}")]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteDiscount(string productId)
+        {
+            if (string.IsNullOrEmpty(productId))
+                return BadRequest();
+
+            var discountResponse = await _discountService.DeleteDiscount(productId);
+            if (discountResponse == null)
+                return NotFound();
+            // var basket = _mapper.Map<ShoppingCart>(basketDto);
+
+            return NoContent();
+        }
     }
 }

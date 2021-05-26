@@ -87,9 +87,9 @@ namespace Discount.Grpc.Services
         public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
         {
 
-            var deleted = await _service.DeleteDiscount(request.ProductName);
+            var deleted = await _service.DeleteDiscount(request.ProductId);
             if (deleted == false)
-                _logger.LogWarning($"Coupon with productName= {request.ProductName} was not deleted");
+                _logger.LogWarning($"Coupon with productId= {request.ProductId} was not deleted");
 
             var response = new DeleteDiscountResponse
             {

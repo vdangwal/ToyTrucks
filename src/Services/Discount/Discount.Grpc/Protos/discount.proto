@@ -30,7 +30,7 @@ message GetDiscountsRequest{
 //     Coupon Coupon=1;
 // }
 message DeleteDiscountRequest{
-    string productName =1;
+    string productId =1;
 }
 
 message GetDiscountResponse{
