@@ -10,6 +10,7 @@ using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Basket.Api.Controllers
 {
@@ -23,13 +24,15 @@ namespace Basket.Api.Controllers
         private readonly IMapper _mapper;
         private readonly DiscountGrpcService _discountService;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ILogger<BasketController> _logger;
 
-        public BasketController(IBasketRepository service, IMapper mapper, DiscountGrpcService discountService, IPublishEndpoint publishEndpoint)
+        public BasketController(IBasketRepository service, IMapper mapper, DiscountGrpcService discountService, IPublishEndpoint publishEndpoint, ILogger<BasketController> logger)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
             _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
@@ -158,9 +161,9 @@ namespace Basket.Api.Controllers
         }
 
         [HttpDelete("[action]/{productId}")]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> DeleteDiscount(string productId)
         {
             if (string.IsNullOrEmpty(productId))
@@ -171,6 +174,30 @@ namespace Basket.Api.Controllers
                 return NotFound();
             // var basket = _mapper.Map<ShoppingCart>(basketDto);
 
+            return NoContent();
+        }
+
+        [HttpPut(Name = "UpdateDiscount")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateDiscount([FromBody] Coupon coupon)
+        {
+            if (coupon == null)
+                return BadRequest();
+
+
+            try
+            {
+                await _discountService.UpdateDiscount(coupon);
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, $"Error updating discount with name of {coupon.ProductName}");
+                return NotFound();
+            }
+
+            //await _mediatr.Send(order);
             return NoContent();
         }
     }

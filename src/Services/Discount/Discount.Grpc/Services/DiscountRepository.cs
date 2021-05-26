@@ -17,7 +17,7 @@ namespace Discount.Grpc.Services
         private const string GET_DISCOUNT_BY_ID_SQL = "SELECT * FROM Coupon WHERE ProductId = @Id";
         private const string GET_DISCOUNT_BY_RECORDID_SQL = "SELECT * FROM Coupon WHERE Id = @Id";
         private const string CREATE_DISCOUNT_SQL = "INSERT INTO Coupon (ProductName, ProductId, Description, Amount) VALUES (@ProductName, @ProductId, @Description, @Amount) RETURNING Id";
-        private const string UPDATE_DISCOUNT_SQL = "UPDATE Coupon SET ProductName=@ProductName, Description = @Description, Amount = @Amount WHERE Id = @Id";
+        private const string UPDATE_DISCOUNT_SQL = "UPDATE Coupon SET ProductName=@ProductName, Description = @Description, Amount = @Amount WHERE ProductId = @ProductId";
         private const string DELETE_DISCOUNT_SQL = "DELETE FROM Coupon WHERE ProductId = @ProductId";
         public DiscountRepository(IConfiguration configuration)
         {
@@ -100,7 +100,7 @@ namespace Discount.Grpc.Services
 
             var affected = await connection.ExecuteAsync
                     (UPDATE_DISCOUNT_SQL,
-                            new { ProductName = coupon.ProductName, Description = coupon.Description, Amount = coupon.Amount, Id = coupon.Id });
+                            new { ProductName = coupon.ProductName, Description = coupon.Description, Amount = coupon.Amount, ProductId = coupon.ProductId });
 
             return affected != 0;
         }
