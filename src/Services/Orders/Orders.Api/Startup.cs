@@ -90,25 +90,7 @@ namespace Orders.Api
         {
 
             //services.AddMongoDb()
-            // services.AddMongoDb();
-
-            
-            var server = config["POSTGRES_SERVER"];// ?? "localhost";
-
-            var port = config["POSTGRES_PORT"];// ?? "5432";
-            var database = config["POSTGRES_DB"] ?? "orderdb";
-
-
-            var user = config["POSTGRES_USER"];// ?? "marcus";
-            var password = config["POSTGRES_PASSWORD"];// ?? "password";
-
-            var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            Console.WriteLine($"CONNECTION STRING Order: {connectionString}");
-
-            services.AddDbContext<OrderDbContext>(options =>
-                options.UseNpgsql(connectionString)
-                       .UseSnakeCaseNamingConvention()
-                    );
+            // services.AddMongoDb(); 
             return services;
         }
 
