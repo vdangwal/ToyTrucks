@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Orders.Api.Models
 {
     public class OrderDto
@@ -5,7 +7,7 @@ namespace Orders.Api.Models
         public string Id { get; set; }
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
-
+        private readonly List<OrderItemDto> _orderItems;
         // BillingAddress
         public string FirstName { get; set; }
         public string LastName { get; set; }

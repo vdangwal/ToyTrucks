@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Orders.Api.Entities
@@ -8,6 +9,7 @@ namespace Orders.Api.Entities
         [BsonElement("UserName")]
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
+        private readonly List<OrderItem> _orderItems;
 
         // BillingAddress
         public string FirstName { get; set; }
