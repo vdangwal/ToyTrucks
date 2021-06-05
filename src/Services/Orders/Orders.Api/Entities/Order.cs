@@ -9,7 +9,7 @@ namespace Orders.Api.Entities
         [BsonElement("UserName")]
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
-        private readonly List<OrderItem> _orderItems;
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         // BillingAddress
         public string FirstName { get; set; }

@@ -14,6 +14,7 @@ namespace Orders.Api.Profiles
                     .ForMember(d => d.Id, s => s.MapFrom(a => new ObjectId(a.Id)))
                     .ReverseMap();
             CreateMap<Order, BasketCheckoutEvent>().ReverseMap();
+            CreateMap<OrderItem, ShoppingCartItem>().ReverseMap();
         }
     }
 }

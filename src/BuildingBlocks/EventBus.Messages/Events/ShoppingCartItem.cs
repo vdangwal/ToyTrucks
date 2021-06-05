@@ -1,17 +1,11 @@
-using System;
-
-namespace Orders.Api.Entities
+namespace EventBus.Messages.Events
 {
-    public class OrderItem
+    public class ShoppingCartItem
     {
-
-        private string _pictureUrl;
-        private decimal _discount;
         public int Quantity { get; set; }
         public string Color { get; set; }
         public decimal Price { get; set; }
         public string ProductId { get; set; }
         public string ProductName { get; set; }
-
     }
 }

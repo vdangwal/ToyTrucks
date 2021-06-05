@@ -20,5 +20,7 @@ namespace EventBus.Messages.Events
         public string Expiration { get; set; }
         public string CVV { get; set; }
         public int PaymentMethod { get; set; }
+
+        public ShoppingCart Basket { get; set; }
     }
 }

@@ -2,11 +2,12 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Basket.Api.Dtos;
+//using Basket.Api.Events;
 using Basket.Api.GrpcServices;
 using Basket.Api.Models;
 using Basket.Api.Services;
 using Discount.Grpc.Protos;
-using EventBus.Messages.Events;
+//using ;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -116,7 +117,8 @@ namespace Basket.Api.Controllers
             if (basket == null)
                 return BadRequest();
 
-            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            var eventMessage = _mapper.Map<EventBus.Messages.Events.BasketCheckoutEvent>(basketCheckout);
+            eventMessage.Basket = _mapper.Map<EventBus.Messages.Events.ShoppingCart>(basket);
             eventMessage.TotalPrice = basket.TotalPrice;
 
             await _publishEndpoint.Publish(eventMessage);
