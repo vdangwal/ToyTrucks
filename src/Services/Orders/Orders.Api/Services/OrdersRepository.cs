@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Orders.Api.DBContexts;
-using Orders.Api.Entities;
+using Orders.Api.Models;
 namespace Orders.Api.Services
 {
     public class OrdersRepository : IOrdersRepository
@@ -21,42 +21,42 @@ namespace Orders.Api.Services
 
         private async Task<bool> OrderExists(ObjectId orderId)
         {
-            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.Id, orderId);
+            FilterDefinition<OrderDto> filter = Builders<OrderDto>.Filter.Eq(p => p.Id, orderId);
             return await _context.Orders
                                  .Find(filter)
                                  .AnyAsync();
         }
 
-        public async Task<Order> GetByOrderIdAsync(string id)
+        public async Task<OrderDto> GetByOrderIdAsync(string id)
         {
             var orderId = new ObjectId(id);
             if (!await OrderExists(orderId))
                 throw new Exception($"Order doesnt exist with id of {id}");
 
             //   FilterDefinition<Order> filter = Builders<Order>.Filter.ElemMatch(p => p.Id, id);
-            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.Id, orderId);
+            FilterDefinition<OrderDto> filter = Builders<OrderDto>.Filter.Eq(p => p.Id, orderId);
 
             return await _context.Orders
                                  .Find(filter)
                                  .FirstOrDefaultAsync();
         }
 
-        public async Task<IReadOnlyList<Order>> GetOrdersAsync()
+        public async Task<IReadOnlyList<OrderDto>> GetOrdersAsync()
         {
             return await _context.Orders
                                  .Find(_ => true)
                                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName)
+        public async Task<IEnumerable<OrderDto>> GetOrdersByUserName(string userName)
         {
-            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.UserName, userName);
+            FilterDefinition<OrderDto> filter = Builders<OrderDto>.Filter.Eq(p => p.UserName, userName);
             return await _context.Orders
                                  .Find(filter)
                                  .ToListAsync();
         }
 
-        public async Task<Order> AddOrderAsync(Order order)
+        public async Task<OrderDto> AddOrderAsync(OrderDto order)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
@@ -68,7 +68,7 @@ namespace Orders.Api.Services
             return await Task.FromResult(order);
         }
 
-        public async Task<bool> UpdateOrderAsync(Order order)
+        public async Task<bool> UpdateOrderAsync(OrderDto order)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
@@ -91,7 +91,7 @@ namespace Orders.Api.Services
             // _context.Orders.Remove(order);
             // await _context.SaveChangesAsync();
 
-            FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(p => p.Id, new ObjectId(id));
+            FilterDefinition<OrderDto> filter = Builders<OrderDto>.Filter.Eq(p => p.Id, new ObjectId(id));
 
             DeleteResult deleteResult = await _context.Orders
                                                       .DeleteOneAsync(filter);

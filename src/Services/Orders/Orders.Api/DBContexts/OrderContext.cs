@@ -1,5 +1,5 @@
 using MongoDB.Driver;
-using Orders.Api.Entities;
+using Orders.Api.Models;
 using Microsoft.Extensions.Configuration;
 namespace Orders.Api.DBContexts
 {
@@ -18,7 +18,7 @@ namespace Orders.Api.DBContexts
             var client = new MongoClient($"mongodb://{server}:{port}");
 
             var db = client.GetDatabase(database);
-            Orders = db.GetCollection<Order>(collection);
+            Orders = db.GetCollection<OrderDto>(collection);
 
             OrderSeedData.SeedData(Orders);
 
@@ -33,6 +33,6 @@ namespace Orders.Api.DBContexts
             //db.Orders.remove({});
             //db.Orders.find({}).pretty();
         }
-        public IMongoCollection<Order> Orders { get; }
+        public IMongoCollection<OrderDto> Orders { get; }
     }
 }

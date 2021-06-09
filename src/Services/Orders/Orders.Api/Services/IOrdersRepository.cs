@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orders.Api.Entities;
+//using Orders.Api.Entities;
+using Orders.Api.Models;
+
 namespace Orders.Api.Services
 {
     public interface IOrdersRepository
     {
-        Task<IEnumerable<Order>> GetOrdersByUserName(string userName);
-        Task<IReadOnlyList<Order>> GetOrdersAsync();
-        Task<Order> GetByOrderIdAsync(string id);
-        Task<Order> AddOrderAsync(Order order);
-        Task<bool> UpdateOrderAsync(Order order);
+        Task<IEnumerable<OrderDto>> GetOrdersByUserName(string userName);
+        Task<IReadOnlyList<OrderDto>> GetOrdersAsync();
+        Task<OrderDto> GetByOrderIdAsync(string id);
+        Task<OrderDto> AddOrderAsync(OrderDto order);
+        Task<bool> UpdateOrderAsync(OrderDto order);
         Task<bool> DeleteOrderAsync(string id);
     }
 }

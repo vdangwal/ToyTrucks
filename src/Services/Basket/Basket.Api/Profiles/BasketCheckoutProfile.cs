@@ -6,7 +6,7 @@ namespace Basket.Api.Profiles
     {
         public BasketCheckoutProfile()
         {
-            CreateMap<Models.BasketCheckout, EventBus.Messages.Events.BasketCheckoutEvent>().ReverseMap();
+            CreateMap<Models.BasketCheckout, Basket.Api.Events.BasketCheckoutEvent>().ReverseMap();
         }
     }
 }
