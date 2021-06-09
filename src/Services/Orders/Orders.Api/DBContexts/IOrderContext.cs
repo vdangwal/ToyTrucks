@@ -1,9 +1,9 @@
 using MongoDB.Driver;
-using Orders.Api.Entities;
+using Orders.Api.Models;
 namespace Orders.Api.DBContexts
 {
     public interface IOrderContext
     {
-        IMongoCollection<Order> Orders { get; }
+        IMongoCollection<OrderDto> Orders { get; }
     }
 }

@@ -73,12 +73,12 @@ namespace Orders.Api.Controllers
         [HttpPost(Name = "CheckoutOrder")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<int>> CheckoutOrder([FromBody] OrderDto orderDto)
+        public async Task<ActionResult<int>> CheckoutOrder([FromBody] Entities.Order order)
         {
-            if (orderDto == null)
+            if (order == null)
                 return BadRequest();
-            var order = _mapper.Map<Entities.Order>(orderDto);
-            var returnOrder = await _service.AddOrderAsync(order);
+            var orderDto = _mapper.Map<OrderDto>(order);
+            var returnOrder = await _service.AddOrderAsync(orderDto);
             return Ok(returnOrder?.Id);
         }
 
@@ -86,19 +86,19 @@ namespace Orders.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<int>> UpdateOrder([FromBody] OrderDto orderDto)
+        public async Task<ActionResult<int>> UpdateOrder([FromBody] Entities.Order order)
         {
-            if (orderDto == null)
+            if (order == null)
                 return BadRequest();
 
-            var order = _mapper.Map<Entities.Order>(orderDto);
+            var orderDto = _mapper.Map<OrderDto>(order);
             try
             {
-                await _service.UpdateOrderAsync(order);
+                await _service.UpdateOrderAsync(orderDto);
             }
             catch (System.Exception ex)
             {
-                _logger.LogError(ex, $"Error updating order with UserName of {orderDto.UserName} as it does not exist");
+                _logger.LogError(ex, $"Error updating order with UserName of {order.UserName} as it does not exist");
                 return NotFound();
             }
 

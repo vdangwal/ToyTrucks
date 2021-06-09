@@ -1,16 +1,14 @@
-using System.Collections.Generic;
-using MongoDB.Bson;
-using Orders.Api.Entities;
+using Orders.Api.Models;
 
-namespace Orders.Api.Models
+namespace Orders.Api.Events
 {
-    public class OrderDto : EntityBase
+    public class BasketCheckoutEvent
     {
-        // public ObjectId Id { get; set; }
-
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
-        public OrderBasket OrderItems { get; set; }
+
+        public OrderBasket Basket { get; set; }
+
         // BillingAddress
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -26,5 +24,6 @@ namespace Orders.Api.Models
         public string Expiration { get; set; }
         public string CVV { get; set; }
         public int PaymentMethod { get; set; }
+
     }
 }

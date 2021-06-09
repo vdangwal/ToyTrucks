@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orders.Api.DBContexts;
-using Orders.Api.Extensions;
+
 
 namespace Orders.Api
 {
@@ -17,7 +17,6 @@ namespace Orders.Api
         {
             CreateHostBuilder(args)
             .Build()
-            // .MigrateAndSeedDatabase<OrderDbContext>(retries: 3)
             .Run();
         }
 
