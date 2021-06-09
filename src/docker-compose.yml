@@ -142,7 +142,6 @@ volumes:
   mongo_data:
 #   #truck-postgresdata:
 #   #catalogapi_data:
-#   #discountapi_data:
 #   #orderapi_data:
 #   portainer_data:
 #   #pgadmin_data:
