@@ -47,9 +47,10 @@ namespace Basket.Api
           });
 
             services.AddMyGrpcClient(Configuration);
+            services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
-            services.AddMyRedisCache(Configuration);
+
 
 
             services.AddControllers();

@@ -112,31 +112,32 @@ services:
     depends_on: 
       - postgres_db
 
-  order_api:
-    container_name: order_api
-    build: 
-      context: .
-      dockerfile: Services/Orders/Orders.Api/Dockerfile
-      target: debug
-    environment: 
-      POSTGRES_SERVER: "postgres_db"
-      POSTGRES_DB: "orderdb"
-      POSTGRES_PORT: "5432"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      MONGO_SERVER: "orderdb"
-      MONGO_PORT: "27017"
-      MONGO_DB: "OrderDb"
-      MONGO_COLLECTION: "Orders"
-    ports: 
-      - 3508:4406
-    volumes:
-      - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
-    depends_on: 
-      - postgres_db 
-      - rabbitmq
-      - orderdb
+  # order_api:
+  #   container_name: order_api
+  #   build: 
+  #     context: .
+  #     dockerfile: Services/Orders/Orders.Api/Dockerfile
+  #     target: debug
+  #   environment: 
+  #     POSTGRES_SERVER: "postgres_db"
+  #     POSTGRES_DB: "orderdb"
+  #     POSTGRES_PORT: "5432"
+  #     POSTGRES_USER: "marcus"
+  #     POSTGRES_PASSWORD: "password"
+  #     EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+  #     BasketCheckoutQueue: "basketcheckout-queue"
+  #     MONGO_SERVER: "orderdb"
+  #     MONGO_PORT: "27017"
+  #     MONGO_DB: "OrderDb"
+  #     MONGO_COLLECTION: "Orders"
+  #   ports: 
+  #     - 3508:4406
+  #   volumes:
+  #     - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
+  #   depends_on: 
+  #     - postgres_db 
+  #     - rabbitmq
+  #     - orderdb
 
 volumes: 
   mongo_data:

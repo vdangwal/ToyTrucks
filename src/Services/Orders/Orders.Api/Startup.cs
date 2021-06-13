@@ -14,7 +14,7 @@ using Microsoft.OpenApi.Models;
 using Orders.Api.DBContexts;
 using Orders.Api.Services;
 using MassTransit;
-using EventBus.Messages.Common;
+
 using Orders.Api.Entities;
 using MongoDB;
 namespace Orders.Api
@@ -100,12 +100,11 @@ namespace Orders.Api
 
             services.AddMassTransit(configuration =>
             {
-
                 configuration.AddConsumer<BasketCheckoutConsumer>();
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(config["EventBusAddress"]);
-                    cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue, c =>
+                    cfg.ReceiveEndpoint(config["BasketCheckoutQueue"], c =>
                     {
                         c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
                     });
