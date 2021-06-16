@@ -25,5 +25,8 @@
     <PackageReference Include="MongoDB.Bson" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Driver.Core" Version="2.12.3"/>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
+  </ItemGroup>
    
 </Project>

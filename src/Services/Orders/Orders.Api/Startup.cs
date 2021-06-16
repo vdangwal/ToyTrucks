@@ -96,7 +96,7 @@ namespace Orders.Api
 
         public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
         {
-            Console.WriteLine($"EventBusAddress: {config["EventBusAddress"]}");
+          
 
             services.AddMassTransit(configuration =>
             {

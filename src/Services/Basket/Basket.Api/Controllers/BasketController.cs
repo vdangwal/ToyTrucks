@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Basket.Api.Dtos;
-
+using EventBus.Messages.Events;
 using Basket.Api.GrpcServices;
 using Basket.Api.Models;
 using Basket.Api.Services;
@@ -207,6 +207,40 @@ namespace Basket.Api.Controllers
 
             //await _mediatr.Send(order);
             return NoContent();
+        }
+
+        [Route("[action]")] //we need to add method name to url ie
+        [HttpGet]
+        public async Task<ActionResult> Border([FromBody] SampleData eve)
+        {
+
+
+            //var eventMessage = new tempevent() { UserName = "tizzer" };
+
+
+            await _publishEndpoint.Publish(eve);
+
+
+            return Accepted();
+
+
+        }
+
+        [Route("[action]")] //we need to add method name to url ie
+        [HttpGet]
+        public async Task<ActionResult> orderfuck([FromBody] SampleData eve)
+        {
+
+
+            //var eventMessage = new tempevent() { UserName = "tizzer" };
+
+
+            await _publishEndpoint.Publish(eve);
+
+
+            return Accepted();
+
+
         }
     }
 }
