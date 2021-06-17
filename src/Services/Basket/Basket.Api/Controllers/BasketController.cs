@@ -65,7 +65,7 @@ namespace Basket.Api.Controllers
             foreach (var item in basket.Items)
             {
 
-                var discount = await _discountService.GetDiscount(item.ProductId);
+                var discount = await _discountService.GetDiscount(item.ProductName);
                 //   if (discount is not null)
                 if (discount.Coupon is not null)
                 {

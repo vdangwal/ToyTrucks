@@ -12,25 +12,19 @@ service DiscountProtoService{
 
 message Coupon{
     int32 id=1;
-    string productId =2;
-    string productName =3;
-    string description =4;
-    int32 amount=5;
+    string productName =2;
+    string description =3;
+    int32 amount=4;
 }
 
 message GetDiscountRequest{
-    string productId =1;
+    string productName =1;
 }
 message GetDiscountsRequest{
 }
-// message CreateDiscountRequest{
-//     Coupon Coupon=1;
-// }
-// message UpdateDiscountRequest{
-//     Coupon Coupon=1;
-// }
+ 
 message DeleteDiscountRequest{
-    string productId =1;
+    string productName =1;
 }
 
 message GetDiscountResponse{
@@ -39,9 +33,7 @@ message GetDiscountResponse{
 message GetDiscountsResponse{
     repeated Coupon Coupons=1;
 }
-// message CreateDiscountResponse{
-//     Coupon Coupon=1;
-// }
+ 
 message UpdateDiscountResponse{
     bool created=1;
 }

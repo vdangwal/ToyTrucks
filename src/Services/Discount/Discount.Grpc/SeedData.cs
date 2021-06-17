@@ -75,24 +75,31 @@ namespace Discount.Grpc
             Console.WriteLine("Created Discount database");
         }
 
+        //psql -h localhost -p 5432 -U marcus -d catalogdb
+        // \l lists dbs 
+        // \c <db> connects to db 
+        // \d lists db objects
+
         private static async Task PopulateTestData(NpgsqlConnection connection)
         {
             using var command = new NpgsqlCommand { Connection = connection };
             command.CommandText = "DROP TABLE IF EXISTS Coupon";
             await command.ExecuteNonQueryAsync();
 
+
+
             command.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, 
-                                                                ProductId  VARCHAR(60) NOT NULL,
                                                                 ProductName VARCHAR(80) NOT NULL,
                                                                 Description TEXT,
                                                                 Amount INT)";
             await command.ExecuteNonQueryAsync();
 
-            // command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1990 Tanker Truck', 'Hess 1990 Discount', 10);";
-            // await command.ExecuteNonQueryAsync();
+            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1990 Tanker Truck', 'Hess 1990 Discount', 10);";
+            await command.ExecuteNonQueryAsync();
 
-            // command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1996 Emergency Truck', 'Hess 1996 Emergency Truck Discount', 8);";
-            // await command.ExecuteNonQueryAsync();
+            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Hess 1996 Emergency Truck', 'Hess 1996 Emergency Truck Discount', 8);";
+            await command.ExecuteNonQueryAsync();
+
             Console.WriteLine("Created Discount database");
         }
     }
