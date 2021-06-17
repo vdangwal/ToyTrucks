@@ -1,6 +1,6 @@
 namespace EventBus.Messages.Events
 {
-    public class BasketCheckoutEvent : IntegrationBaseEvent
+    public class BasketCheckoutEvent
     {
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }

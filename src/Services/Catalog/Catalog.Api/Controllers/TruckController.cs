@@ -72,23 +72,24 @@ namespace Catalog.Api.Controllers
             return Ok(truck);
         }
 
-        // [HttpGet]
-        // //[Route("{truckName:alpha}")]
-        // [TruckFilter]
-        // [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        // [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        // [ProducesResponseType(typeof(TruckDto), (int)HttpStatusCode.OK)]
+        [HttpGet]
+        [Route("[action]")]
+        [TruckFilter]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(TruckDto), (int)HttpStatusCode.OK)]
 
-        // public async Task<ActionResult<TruckDto>> TruckByName([FromBody] string truckName)
-        // {
-        //     if (string.IsNullOrEmpty(truckName))
-        //         return BadRequest();
+        public async Task<ActionResult<TruckDto>> TruckByName([FromBody] TruckByNameObject tbno)
+        {
+            // var truckName = "sds";
+            if (string.IsNullOrEmpty(tbno.TruckName))
+                return BadRequest();
 
-        //     var truck = await _service.GetTruckByName(truckName);
-        //     if (truck == null)
-        //         return NotFound();
-        //     return Ok(truck);
-        // }
+            var truck = await _service.GetTruckByName(tbno.TruckName);
+            if (truck == null)
+                return NotFound();
+            return Ok(truck);
+        }
 
         [HttpPut]
         [TruckFilter]
@@ -103,5 +104,10 @@ namespace Catalog.Api.Controllers
             else
                 return BadRequest();
         }
+    }
+
+    public class TruckByNameObject
+    {
+        public string TruckName { get; set; }
     }
 }

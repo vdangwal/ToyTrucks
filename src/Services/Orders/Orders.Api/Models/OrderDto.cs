@@ -10,7 +10,7 @@ namespace Orders.Api.Models
 
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
-        public OrderBasket OrderItems { get; set; }
+
         // BillingAddress
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -26,5 +26,7 @@ namespace Orders.Api.Models
         public string Expiration { get; set; }
         public string CVV { get; set; }
         public int PaymentMethod { get; set; }
+
+        public OrderBasket OrderItems { get; set; }
     }
 }

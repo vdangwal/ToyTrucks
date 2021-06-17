@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Basket.Api.Dtos;
-
+using EventBus.Messages.Events;
 using Basket.Api.GrpcServices;
-using Basket.Api.Models;
+
 using Basket.Api.Services;
 using Discount.Grpc.Protos;
 using Basket.Api.Events;
@@ -65,7 +65,7 @@ namespace Basket.Api.Controllers
             foreach (var item in basket.Items)
             {
 
-                var discount = await _discountService.GetDiscount(item.ProductId);
+                var discount = await _discountService.GetDiscount(item.ProductName);
                 //   if (discount is not null)
                 if (discount.Coupon is not null)
                 {
@@ -112,6 +112,9 @@ namespace Basket.Api.Controllers
             //set total price on basketcheckout
             //SEND CEHCKOUTevent to rabbit
             //empty the basket
+
+
+
 
             var basket = await _service.GetBasket(basketCheckout.UserName);
             if (basket == null)
@@ -201,6 +204,40 @@ namespace Basket.Api.Controllers
 
             //await _mediatr.Send(order);
             return NoContent();
+        }
+
+        [Route("[action]")] //we need to add method name to url ie
+        [HttpGet]
+        public async Task<ActionResult> Border([FromBody] SampleData eve)
+        {
+
+
+            //var eventMessage = new tempevent() { UserName = "tizzer" };
+
+
+            await _publishEndpoint.Publish(eve);
+
+
+            return Accepted();
+
+
+        }
+
+        [Route("[action]")] //we need to add method name to url ie
+        [HttpGet]
+        public async Task<ActionResult> orderfuck([FromBody] SampleData eve)
+        {
+
+
+            //var eventMessage = new tempevent() { UserName = "tizzer" };
+
+
+            await _publishEndpoint.Publish(eve);
+
+
+            return Accepted();
+
+
         }
     }
 }

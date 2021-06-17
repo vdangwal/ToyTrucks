@@ -12,9 +12,9 @@ namespace Basket.Api.GrpcServices
             _discountProtoService = discountProtoService ?? throw new ArgumentNullException(nameof(discountProtoService));
         }
 
-        public async Task<GetDiscountResponse> GetDiscount(string productId)
+        public async Task<GetDiscountResponse> GetDiscount(string productName)
         {
-            var discountRequest = new GetDiscountRequest { ProductId = productId };
+            var discountRequest = new GetDiscountRequest { ProductName = productName };
 
             return await _discountProtoService.GetDiscountAsync(discountRequest);
         }
@@ -25,9 +25,9 @@ namespace Basket.Api.GrpcServices
             return await _discountProtoService.CreateDiscountAsync(coupon);
         }
 
-        public async Task<DeleteDiscountResponse> DeleteDiscount(string productId)
+        public async Task<DeleteDiscountResponse> DeleteDiscount(string productName)
         {
-            DeleteDiscountRequest request = new DeleteDiscountRequest { ProductId = productId };
+            DeleteDiscountRequest request = new DeleteDiscountRequest { ProductName = productName };
             return await _discountProtoService.DeleteDiscountAsync(request);
         }
 

@@ -1,4 +1,5 @@
 using AutoMapper;
+using EventBus.Messages.Events;
 
 namespace Basket.Api.Profiles
 {
@@ -6,8 +7,8 @@ namespace Basket.Api.Profiles
     {
         public ShoppingCartProfile()
         {
-            CreateMap<Models.ShoppingCart, Dtos.ShoppingCartDto>().ReverseMap();
-            CreateMap<Models.ShoppingCartItem, Dtos.ShoppingCartItemDto>().ReverseMap();
+            CreateMap<ShoppingCart, Dtos.ShoppingCartDto>().ReverseMap();
+            CreateMap<ShoppingCartItem, Dtos.ShoppingCartItemDto>().ReverseMap();
         }
     }
 }

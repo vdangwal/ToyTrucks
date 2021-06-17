@@ -5,10 +5,10 @@ using AutoMapper;
 //using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Orders.Api.Events;
+
 using Orders.Api.Services;
 using Orders.Api.Models;
-
+using EventBus.Messages.Events;
 namespace Orders.Api.Entities
 {
     public class BasketCheckoutConsumer : IConsumer<BasketCheckoutEvent>
@@ -25,7 +25,7 @@ namespace Orders.Api.Entities
 
         public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
         {
-
+            System.Console.WriteLine($"IN ORDERS COnsumer with {context.Message.UserName}");
             var order = _mapper.Map<OrderDto>(context.Message);
             // foreach (var item in context.Message.Basket.Items)
             // {
@@ -37,4 +37,5 @@ namespace Orders.Api.Entities
             _logger.LogInformation("Order added");
         }
     }
+
 }

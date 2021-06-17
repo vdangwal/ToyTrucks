@@ -8,12 +8,12 @@ namespace Discount.Grpc.Services
 {
     public interface IDiscountRepository
     {
-        Task<bool> DiscountExists(int Id);
+        Task<bool> DiscountExists(string productName);
         Task<IEnumerable<Coupon>> GetDiscounts();
         Task<Coupon> GetDiscount(string productName);
-        Task<Coupon> GetDiscountById(string productId);
+        Task<Coupon> GetDiscountById(int recordId);
         Task<Coupon> CreateDiscount(Coupon coupon);
         Task<bool> UpdateDiscount(Coupon coupon);
-        Task<bool> DeleteDiscount(string productId);
+        Task<bool> DeleteDiscount(string productName);
     }
 }

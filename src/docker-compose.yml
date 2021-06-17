@@ -125,6 +125,7 @@ services:
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+      BasketCheckoutQueue: "basketcheckout-queue"
       MONGO_SERVER: "orderdb"
       MONGO_PORT: "27017"
       MONGO_DB: "OrderDb"
@@ -138,11 +139,29 @@ services:
       - rabbitmq
       - orderdb
 
+  # border_api:
+  #   container_name: border_api
+  #   build: 
+  #     context: .
+  #     dockerfile: Services/Borders/Borders.Api/Dockerfile
+  #     target: debug
+  #   environment: 
+     
+  #     EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+  #     BasketCheckoutQueue: "basketcheckout-queue"
+     
+  #   ports: 
+  #     - 3508:4406
+  #   # volumes:
+  #   #   - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
+  #   depends_on: 
+  #     - rabbitmq
+
+
 volumes: 
   mongo_data:
 #   #truck-postgresdata:
 #   #catalogapi_data:
-#   #discountapi_data:
 #   #orderapi_data:
 #   portainer_data:
 #   #pgadmin_data:

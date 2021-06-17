@@ -1,9 +1,9 @@
 using AutoMapper;
-// using EventBus.Messages.Events;
+using EventBus.Messages.Events;
 using MongoDB.Bson;
 using Orders.Api.Entities;
 using Orders.Api.Models;
-using Orders.Api.Events;
+
 namespace Orders.Api.Profiles
 {
     public class OrderProfile : Profile
@@ -16,6 +16,10 @@ namespace Orders.Api.Profiles
             CreateMap<OrderDto, BasketCheckoutEvent>()
                     .ForMember(d => d.Basket, s => s.MapFrom(a => a.OrderItems))
                     .ReverseMap();
+
+            CreateMap<OrderBasket, ShoppingCart>().ReverseMap();
+            CreateMap<OrderItemDto, ShoppingCartItem>().ReverseMap();
+
             CreateMap<OrderItem, OrderItemDto>().ReverseMap();
         }
     }
