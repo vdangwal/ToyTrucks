@@ -1,6 +1,6 @@
-namespace Basket.Api.Models
+namespace EventBus.Messages.Events
 {
-    public class BasketCheckout
+    public class BasketCheckoutEvent
     {
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
@@ -20,5 +20,7 @@ namespace Basket.Api.Models
         public string Expiration { get; set; }
         public string CVV { get; set; }
         public int PaymentMethod { get; set; }
+
+        public ShoppingCart Basket { get; set; }
     }
 }

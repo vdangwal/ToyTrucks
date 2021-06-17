@@ -4,7 +4,7 @@ using AutoMapper;
 using Basket.Api.Dtos;
 using EventBus.Messages.Events;
 using Basket.Api.GrpcServices;
-using Basket.Api.Models;
+
 using Basket.Api.Services;
 using Discount.Grpc.Protos;
 using Basket.Api.Events;
@@ -113,21 +113,18 @@ namespace Basket.Api.Controllers
             //SEND CEHCKOUTevent to rabbit
             //empty the basket
 
-            var eventMessage = new tempevent() { UserName = "tizzer" };
 
+
+
+            var basket = await _service.GetBasket(basketCheckout.UserName);
+            if (basket == null)
+                return BadRequest();
+
+            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            eventMessage.Basket = _mapper.Map<ShoppingCart>(basket);
+            eventMessage.TotalPrice = basket.TotalPrice;
 
             await _publishEndpoint.Publish(eventMessage);
-
-
-            // var basket = await _service.GetBasket(basketCheckout.UserName);
-            // if (basket == null)
-            //     return BadRequest();
-
-            // var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
-            // eventMessage.Basket = _mapper.Map<ShoppingCart>(basket);
-            // eventMessage.TotalPrice = basket.TotalPrice;
-
-            // await _publishEndpoint.Publish(eventMessage);
 
             await _service.DeleteBasket(basketCheckout.UserName);
             return Accepted();

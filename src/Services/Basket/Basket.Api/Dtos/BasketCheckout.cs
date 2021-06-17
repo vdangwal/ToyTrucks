@@ -1,13 +1,9 @@
-using Orders.Api.Models;
-
-namespace Orders.Api.Events
+namespace Basket.Api.Dtos
 {
-    public class BasketCheckoutEvent
+    public class BasketCheckout
     {
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
-
-        public OrderBasket Basket { get; set; }
 
         // BillingAddress
         public string FirstName { get; set; }
@@ -24,6 +20,5 @@ namespace Orders.Api.Events
         public string Expiration { get; set; }
         public string CVV { get; set; }
         public int PaymentMethod { get; set; }
-
     }
 }

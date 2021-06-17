@@ -1,4 +1,4 @@
-namespace Basket.Api.Models
+namespace EventBus.Messages.Events
 {
     public class ShoppingCartItem
     {

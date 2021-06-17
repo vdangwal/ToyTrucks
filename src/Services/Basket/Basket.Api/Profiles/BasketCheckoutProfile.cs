@@ -1,12 +1,12 @@
 using AutoMapper;
-
+using EventBus.Messages.Events;
 namespace Basket.Api.Profiles
 {
     public class BasketCheckoutProfile : Profile
     {
         public BasketCheckoutProfile()
         {
-            CreateMap<Models.BasketCheckout, Basket.Api.Events.BasketCheckoutEvent>().ReverseMap();
+            CreateMap<Basket.Api.Dtos.BasketCheckout, BasketCheckoutEvent>().ReverseMap();
         }
     }
 }
