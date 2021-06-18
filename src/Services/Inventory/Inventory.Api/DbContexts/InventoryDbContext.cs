@@ -15,7 +15,7 @@ namespace Inventory.Api.DbContexts
 
         }
 
-        public DbSet<TruckInventoryDto> TruckInventorys { get; set; }
+        public DbSet<TruckInventoryDto> TruckInventory { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -27,7 +27,7 @@ namespace Inventory.Api.Services
                 _logger.LogError("truckName to query is null");
                 throw new ArgumentException(nameof(truckName));
             }
-            return await _context.TruckInventorys
+            return await _context.TruckInventory
                                         .FirstOrDefaultAsync(t => t.TruckName == truckName);
         }
         //Task AddTruckInventory(TruckInventoryDto truckInventory);
@@ -36,7 +36,7 @@ namespace Inventory.Api.Services
             if (truckInventory == null)
                 throw new ArgumentNullException(nameof(truckInventory));
 
-            var truckInventoryToUpdate = await _context.TruckInventorys
+            var truckInventoryToUpdate = await _context.TruckInventory
                                                 .SingleOrDefaultAsync(t => t.Id == truckInventory.Id);
             if (truckInventoryToUpdate == null)
             {
@@ -55,7 +55,7 @@ namespace Inventory.Api.Services
                 throw new ArgumentException(nameof(truckName));
             }
 
-            var truckInventory = await _context.TruckInventorys
+            var truckInventory = await _context.TruckInventory
                                                 .SingleOrDefaultAsync(t => t.TruckName == truckName);
             if (truckInventory == null)
             {
