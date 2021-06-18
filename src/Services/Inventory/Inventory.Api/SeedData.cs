@@ -28,12 +28,12 @@ namespace Inventory.Api
 
         private static async Task PopulateTruckInventorys(InventoryDbContext dbContext)
         {
-            string truckInventorySql = "insert into TruckInventory(name, quantity) values " +
+            string truckInventorySql = "insert into truck_inventory(truck_name, quantity) values " +
                 "('Hess 1986 Fire Truck', 2), " +
             "  ('Hess 1987 18 Wheeler Bank', 7)," +
             "  ('Hess 1988 Truck and Racer', 5), " +
             " ('Hess 1989 Fire Truck Bank', 2), " +
-            " ('Hess 1990 Tanker Truck', 1990, 2), " +
+            " ('Hess 1990 Tanker Truck',  2), " +
             " ('Hess 1991 Truck and Racer', 2), " +
             " ('Hess 1992 18 Wheeler and Racer', 3), " +
             " ('Hess 1994 Rescue Truck', 22), " +
@@ -50,7 +50,7 @@ namespace Inventory.Api
             " ('Hess 2005 Emergency Truck with Rescue Vehicle', 1), " +
             " ('Hess 2006 Truck and Helicopter',8), " +
             " ('Hess 2008 Toy Truck & Front End Loader', 1), " +
-            " ('Hess 2009 Toy Race Car and Racer', 2009, 7), " +
+            " ('Hess 2009 Toy Race Car and Racer',  7), " +
             " ('Hess 2011 Toy Truck and Racer',4), " +
            " ('Hess 2012 Helicopter and Rescue SUV', 1), " +
            " ('Hess 2013 Truck & Tractor', 1), " +
