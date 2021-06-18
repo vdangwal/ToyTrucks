@@ -16,8 +16,8 @@ namespace Catalog.Api.Services
 
         public CategoryRepository(CatalogDbContext context, ILogger<CategoryRepository> logger)
         {
-            _context = context;
-            _logger = logger;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task AddCategory(Category category)
@@ -27,8 +27,8 @@ namespace Catalog.Api.Services
                 _logger.LogError("Category to add is null");
                 throw new ArgumentNullException(nameof(category));
             }
-              await _context.Categories.AddAsync(category);
-        
+            await _context.Categories.AddAsync(category);
+
         }
 
         public async Task<IEnumerable<Category>> GetCategories()
@@ -38,7 +38,7 @@ namespace Catalog.Api.Services
 
         public async Task<IEnumerable<Category>> GetCategoriesBySize(bool isMini = false)
         {
-            return await _context.Categories.Where(c=>c.IsMiniTruck == isMini)
+            return await _context.Categories.Where(c => c.IsMiniTruck == isMini)
                                             .ToListAsync();
         }
 
@@ -60,7 +60,7 @@ namespace Catalog.Api.Services
                 _logger.LogError("Category to add is null");
                 throw new ArgumentNullException(nameof(category));
             }
-            
+
         }
     }
 }

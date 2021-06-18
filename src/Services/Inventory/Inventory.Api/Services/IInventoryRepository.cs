@@ -9,7 +9,8 @@ namespace Inventory.Api.Services
         //         Task<IEnumerable<Category>> GetCategoriesBySize(bool isMini = false);
         Task<TruckInventoryDto> GetTruckInventory(string truckName);
         //Task AddTruckInventory(TruckInventoryDto truckInventory);
-        void UpdateTruckInventory(TruckInventoryDto truckInventory);
+        Task<bool> UpdateTruckInventory(TruckInventoryDto truckInventory);
+        Task<int> HasEnoughQuantity(string truckName, int quantityWanted);
         Task<bool> SaveChanges();
     }
 }
