@@ -82,25 +82,25 @@ namespace Inventory.Api
         {
 
             //Create  postgres container
-            //docker run -e POSTGRES_DB=catalogdb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres_catalog -d postgres
+            //docker run -e POSTGRES_DB=inventorydb -e POSTGRES_USER=marcus -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres_catalog -d postgres
             //run bash to access postgres container
             //docker exec -it 480c32e2bb53 "bash" //where 480c3.. is the container id
 
-            //psql -h localhost -p 5432 -U marcus -d catalogdb
+            //psql -h localhost -p 5432 -U marcus -d inventorydb
             // \l lists dbs 
             // \c <db> connects to db 
             // \d lists db objects
             var server = config["POSTGRES_SERVER"];// ?? "localhost";
 
             var port = config["POSTGRES_PORT"];// ?? "5432";
-            var database = config["POSTGRES_DB"];// ?? "catalogdb";
+            var database = config["POSTGRES_DB"];// ?? "inventorydb";
 
 
             var user = config["POSTGRES_USER"];// ?? "marcus";
             var password = config["POSTGRES_PASSWORD"];// ?? "password";
 
             var connectionString = $"Host={server}; Port={port}; Database={database}; Username={user}; Password={password};";
-            Console.WriteLine($"CONNECTION STRING Catalog: {connectionString}");
+            Console.WriteLine($"CONNECTION STRING Inventory: {connectionString}");
 
             //"User ID =postgres;Password=password;Server=localhost;Port=5432;Database=testDb;Integrated Security=true;Pooling=true;" //alternative
             services.AddDbContext<InventoryDbContext>(options =>
