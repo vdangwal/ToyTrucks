@@ -6,14 +6,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using Inventory.Api.DbContexts;
+using Inventory.Api.Extensions;
 namespace Inventory.Api
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args)
+               .Build()
+               .MigrateAndSeedDatabase<InventoryDbContext>(retries: 3)
+               .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
