@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 //using EventBus.Messages.Events;
@@ -16,11 +17,14 @@ namespace Orders.Api.Entities
         private readonly IOrdersRepository _service;
         private readonly IMapper _mapper;
         private readonly ILogger<BasketCheckoutConsumer> _logger;
-        public BasketCheckoutConsumer(IMapper mapper, ILogger<BasketCheckoutConsumer> logger, IOrdersRepository service)
+        private readonly IPublishEndpoint _publishEndpoint;
+
+        public BasketCheckoutConsumer(IMapper mapper, ILogger<BasketCheckoutConsumer> logger, IOrdersRepository service, IPublishEndpoint publishEndpoint)
         {
-            _mapper = mapper;
-            _logger = logger;
-            _service = service;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _service = service ?? throw new ArgumentNullException(nameof(service));
+            _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
         public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
@@ -33,8 +37,27 @@ namespace Orders.Api.Entities
             // }
             // //  order.OrderItems = _mapper.Map<List<OrderItem>>(context.Message.Basket);
             var returnOrder = await _service.AddOrderAsync(order);
+            await UpdateInventory(context.Message.Basket);
             Console.WriteLine("Order added");
             _logger.LogInformation("Order added");
+        }
+
+        private async Task UpdateInventory(ShoppingCart cart)
+        {
+            if (cart == null || cart.Items.Any() == false)
+                return;
+            foreach (var item in cart.Items)
+            {
+
+                var eventMessage = new UpdatedInventory();
+                eventMessage.ProductId = item.ProductId;
+                eventMessage.ProductName = item.ProductName;
+                eventMessage.Quantity = item.Quantity;
+                Console.WriteLine($"trying to update inventory for {eventMessage.ProductName }");
+                await _publishEndpoint.Publish(eventMessage);
+                _logger.LogInformation($"Update Inventory event published for Name {eventMessage.ProductName} with new quantity {eventMessage.Quantity}");
+            }
+
         }
     }
 

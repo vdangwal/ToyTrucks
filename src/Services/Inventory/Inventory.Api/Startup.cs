@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Inventory.Api.Services;
 using Inventory.Api.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
+using Inventory.Api.Events;
 
 namespace Inventory.Api
 {
@@ -38,6 +40,9 @@ namespace Inventory.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Inventory.Api", Version = "v1" });
             });
             services.AddPostgresDbContext(Configuration);
+            services.AddClientMassTransit(Configuration);
+
+
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddApiVersioning(options =>
@@ -108,6 +113,26 @@ namespace Inventory.Api
                        .UseSnakeCaseNamingConvention()
                     );
             return services;
+        }
+
+        public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddMassTransit(configuration =>
+            {
+                configuration.AddConsumer<InventoryUpdatedConsumer>();
+                configuration.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(config["EventBusAddress"]);
+                    cfg.ReceiveEndpoint(config["InventoryUpdatedQueue"], c =>
+                    {
+                        c.ConfigureConsumer<InventoryUpdatedConsumer>(ctx);
+                    });
+                });
+            });
+            services.AddMassTransitHostedService();
+
+            return services;
+
         }
 
     }
