@@ -107,6 +107,27 @@
             }
         },
         {
+            "name": "Inventory Api No docker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "requireExactSource": false,
+            "program": "${workspaceFolder}/src/Services/Inventory/Inventory.Api/bin/Debug/net5.0/Inventory.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Inventory/Inventory.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "temp No docker",
             "type": "coreclr",
             "request": "launch",
@@ -205,6 +226,26 @@
             },
             "sourceFileMap": {
                 "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
+            }
+        },
+        {
+            "name": "Inventory Docker Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "inventory_api"
+                ],
+                "debuggerPath": "/root/vsdbg/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/inventoryapiwork": "${workspaceRoot}/src/Services/Inventory/Inventory.Api/"
             }
         },
         {

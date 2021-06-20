@@ -139,6 +139,28 @@ services:
       - rabbitmq
       - orderdb
 
+  inventory_api:
+    container_name: inventory_api
+    build: 
+      context: .
+      dockerfile: Services/Inventory/Inventory.Api/Dockerfile
+      target: debug
+    environment: 
+      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_DB: "inventorydb"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "marcus"
+      POSTGRES_PASSWORD: "password"
+      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+      InventoryUpdatedQueue: "inventoryupdated-queue"
+    ports: 
+      - 3504:4408
+    volumes:
+      - ./Services/Inventory/Inventory.Api/:/inventoryapiwork/Services/Inventory/Inventory.Api/
+    depends_on: 
+      - postgres_db 
+      - rabbitmq
+
   # border_api:
   #   container_name: border_api
   #   build: 
