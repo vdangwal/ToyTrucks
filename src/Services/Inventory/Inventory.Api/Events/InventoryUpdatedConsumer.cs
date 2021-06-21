@@ -9,19 +9,21 @@ using AutoMapper;
 
 namespace Inventory.Api.Events
 {
-    public class InventoryUpdatedConsumer : IConsumer<UpdatedInventory>
+    public class InventoryUpdatedConsumer : IConsumer<InventoryToUpdate>
     {
         private readonly ILogger<InventoryUpdatedConsumer> _logger;
         private readonly IInventoryRepository _service;
         private readonly IMapper _mapper;
+        // private readonly IPublishEndpoint _publishEndpoint;
         public InventoryUpdatedConsumer(ILogger<InventoryUpdatedConsumer> logger, IInventoryRepository service, IMapper mapper)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            //    _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
-        public async Task Consume(ConsumeContext<UpdatedInventory> context)
+        public async Task Consume(ConsumeContext<InventoryToUpdate> context)
         {
             if (context == null)
             {
@@ -29,7 +31,19 @@ namespace Inventory.Api.Events
                 return;
             }
             TruckInventoryDto tid = _mapper.Map<TruckInventoryDto>(context.Message);
-            await _service.UpdateTruckInventory(tid);
+            if (await _service.UpdateTruckInventory(tid) == true)
+            {
+                TruckInventoryDto newDetails = await _service.GetTruckInventory(tid.TruckName);
+
+
+                // var eventMessage = new InventoryToUpdate();
+                // //   eventMessage.ProductId = item.ProductId;
+                // eventMessage.ProductName = item.ProductName;
+                // eventMessage.Quantity = item.Quantity;
+                // Console.WriteLine($"trying to update inventory for {eventMessage.ProductName }");
+                // await _publishEndpoint.Publish(eventMessage);
+
+            }
 
             // return Task.CompletedTask;
         }

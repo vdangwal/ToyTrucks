@@ -1,6 +1,6 @@
 namespace EventBus.Messages.Events
 {
-    public class UpdatedInventory
+    public class InventoryToUpdate
     {
         public int Quantity { get; set; }
 

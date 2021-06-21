@@ -245,7 +245,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/inventoryapiwork": "${workspaceRoot}/src/Services/Inventory/Inventory.Api/"
+                "/inventoryapiwork": "${workspaceRoot}/src/"
             }
         },
         {

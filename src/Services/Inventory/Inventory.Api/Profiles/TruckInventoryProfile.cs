@@ -15,7 +15,7 @@ namespace Inventory.Api.Profiles
             CreateMap<TruckInventory, Models.TruckInventoryDto>()
                     .ReverseMap();
 
-            CreateMap<UpdatedInventory, Models.TruckInventoryDto>()
+            CreateMap<InventoryToUpdate, Models.TruckInventoryDto>()
                                     .ForMember(d => d.Id, s => s.Ignore())//.MapFrom(i => i.ProductId))
                                     .ForMember(d => d.TruckName, s => s.MapFrom(i => i.ProductName))
                                     ;

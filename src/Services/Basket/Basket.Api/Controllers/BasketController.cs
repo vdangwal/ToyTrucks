@@ -206,38 +206,5 @@ namespace Basket.Api.Controllers
             return NoContent();
         }
 
-        [Route("[action]")] //we need to add method name to url ie
-        [HttpGet]
-        public async Task<ActionResult> Border([FromBody] SampleData eve)
-        {
-
-
-            //var eventMessage = new tempevent() { UserName = "tizzer" };
-
-
-            await _publishEndpoint.Publish(eve);
-
-
-            return Accepted();
-
-
-        }
-
-        [Route("[action]")] //we need to add method name to url ie
-        [HttpGet]
-        public async Task<ActionResult> orderfuck([FromBody] SampleData eve)
-        {
-
-
-            //var eventMessage = new tempevent() { UserName = "tizzer" };
-
-
-            await _publishEndpoint.Publish(eve);
-
-
-            return Accepted();
-
-
-        }
     }
 }

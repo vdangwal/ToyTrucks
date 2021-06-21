@@ -49,7 +49,7 @@ namespace Orders.Api.Entities
             foreach (var item in cart.Items)
             {
 
-                var eventMessage = new UpdatedInventory();
+                var eventMessage = new InventoryToUpdate();
                 //   eventMessage.ProductId = item.ProductId;
                 eventMessage.ProductName = item.ProductName;
                 eventMessage.Quantity = item.Quantity;
