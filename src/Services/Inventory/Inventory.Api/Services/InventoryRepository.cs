@@ -37,14 +37,22 @@ namespace Inventory.Api.Services
                 throw new ArgumentNullException(nameof(truckInventory));
 
             var truckInventoryToUpdate = await _context.TruckInventory
-                                                .SingleOrDefaultAsync(t => t.Id == truckInventory.Id);
+                                                .SingleOrDefaultAsync(t => t.TruckName == truckInventory.TruckName);
             if (truckInventoryToUpdate == null)
             {
                 _logger.LogError("Truck inventory to update doesnt exist in the db");
                 throw new ArgumentNullException(nameof(truckInventoryToUpdate));
             }
-            truckInventoryToUpdate.Quantity = truckInventory.Quantity;
-            return await SaveChanges();
+            if (truckInventoryToUpdate.Quantity - truckInventory.Quantity < 0)
+            {
+                throw new ArgumentException($"{truckInventory.TruckName} does not contain {truckInventory.Quantity} trucks");
+            }
+            else
+            {
+                truckInventoryToUpdate.Quantity -= truckInventory.Quantity;
+                return await SaveChanges();
+
+            }
         }
 
         public async Task<int> HasEnoughQuantity(string truckName, int quantityWanted)

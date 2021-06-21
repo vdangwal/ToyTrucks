@@ -50,7 +50,7 @@ namespace Orders.Api.Entities
             {
 
                 var eventMessage = new UpdatedInventory();
-                eventMessage.ProductId = item.ProductId;
+                //   eventMessage.ProductId = item.ProductId;
                 eventMessage.ProductName = item.ProductName;
                 eventMessage.Quantity = item.Quantity;
                 Console.WriteLine($"trying to update inventory for {eventMessage.ProductName }");
