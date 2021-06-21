@@ -16,6 +16,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Discount.Grpc.Protos;
 using Basket.Api.GrpcServices;
+using Basket.Api.Events;
 using MassTransit;
 
 namespace Basket.Api
@@ -99,10 +100,15 @@ namespace Basket.Api
 
             services.AddMassTransit(configuration =>
             {
+                configuration.AddConsumer<UpdatedInventoryConsumer>();
                 //create new service bus
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(config["EventBusAddress"]);
+                    cfg.ReceiveEndpoint(config["BasketUpdatedQueue"], c =>
+                   {
+                       c.ConfigureConsumer<UpdatedInventoryConsumer>(ctx);
+                   });
                 });
             });
             services.AddMassTransitHostedService();

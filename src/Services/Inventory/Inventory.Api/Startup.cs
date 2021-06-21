@@ -119,13 +119,13 @@ namespace Inventory.Api
         {
             services.AddMassTransit(configuration =>
             {
-                configuration.AddConsumer<InventoryUpdatedConsumer>();
+                configuration.AddConsumer<InventoryToUpdateConsumer>();
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(config["EventBusAddress"]);
                     cfg.ReceiveEndpoint(config["InventoryUpdatedQueue"], c =>
                     {
-                        c.ConfigureConsumer<InventoryUpdatedConsumer>(ctx);
+                        c.ConfigureConsumer<InventoryToUpdateConsumer>(ctx);
                     });
                 });
             });

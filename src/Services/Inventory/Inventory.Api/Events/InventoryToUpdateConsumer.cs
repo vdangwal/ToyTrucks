@@ -9,18 +9,18 @@ using AutoMapper;
 
 namespace Inventory.Api.Events
 {
-    public class InventoryUpdatedConsumer : IConsumer<InventoryToUpdate>
+    public class InventoryToUpdateConsumer : IConsumer<InventoryToUpdate>
     {
-        private readonly ILogger<InventoryUpdatedConsumer> _logger;
+        private readonly ILogger<InventoryToUpdateConsumer> _logger;
         private readonly IInventoryRepository _service;
         private readonly IMapper _mapper;
-        // private readonly IPublishEndpoint _publishEndpoint;
-        public InventoryUpdatedConsumer(ILogger<InventoryUpdatedConsumer> logger, IInventoryRepository service, IMapper mapper)
+        private readonly IPublishEndpoint _publishEndpoint;
+        public InventoryToUpdateConsumer(ILogger<InventoryToUpdateConsumer> logger, IInventoryRepository service, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            //    _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
         public async Task Consume(ConsumeContext<InventoryToUpdate> context)
@@ -35,13 +35,13 @@ namespace Inventory.Api.Events
             {
                 TruckInventoryDto newDetails = await _service.GetTruckInventory(tid.TruckName);
 
-
-                // var eventMessage = new InventoryToUpdate();
-                // //   eventMessage.ProductId = item.ProductId;
-                // eventMessage.ProductName = item.ProductName;
-                // eventMessage.Quantity = item.Quantity;
-                // Console.WriteLine($"trying to update inventory for {eventMessage.ProductName }");
-                // await _publishEndpoint.Publish(eventMessage);
+                //inform baskets of updated inventory
+                var eventMessage = new UpdatedInventory();
+                //  eventMessage.TruckId = item.ProductId;
+                eventMessage.TruckName = newDetails.TruckName;
+                eventMessage.NewQuantity = newDetails.Quantity;
+                Console.WriteLine($"trying to update inventory for {eventMessage.TruckName }");
+                await _publishEndpoint.Publish(eventMessage);
 
             }
 
