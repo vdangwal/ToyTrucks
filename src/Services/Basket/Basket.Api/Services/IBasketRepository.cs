@@ -9,6 +9,6 @@ namespace Basket.Api.Services
     {
         Task<ShoppingCartDto> GetBasket(string userName);
         Task<ShoppingCartDto> UpdateBasket(ShoppingCartDto basket);
-        Task DeleteBasket(string userName);
+        Task<bool> DeleteBasket(string userName);
     }
 }
