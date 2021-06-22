@@ -50,10 +50,10 @@ namespace Orders.Api.Entities
             {
 
                 var eventMessage = new InventoryToUpdate();
-                //   eventMessage.ProductId = item.ProductId;
+                eventMessage.TruckId = item.ProductId;
                 eventMessage.ProductName = item.ProductName;
                 eventMessage.Quantity = item.Quantity;
-                Console.WriteLine($"trying to update inventory for {eventMessage.ProductName }");
+                Console.WriteLine($"trying to update inventory for {eventMessage.ProductName } TruckId = {eventMessage.TruckId} ProductId = {item.ProductId}");
                 await _publishEndpoint.Publish(eventMessage);
                 _logger.LogInformation($"Update Inventory event published for Name {eventMessage.ProductName} with new quantity {eventMessage.Quantity}");
             }

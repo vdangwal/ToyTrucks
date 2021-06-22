@@ -37,7 +37,7 @@ namespace Inventory.Api.Events
 
                 //inform baskets of updated inventory
                 var eventMessage = new UpdatedInventory();
-                //  eventMessage.TruckId = item.ProductId;
+                eventMessage.TruckId = context.Message.TruckId;
                 eventMessage.TruckName = newDetails.TruckName;
                 eventMessage.NewQuantity = newDetails.Quantity;
                 Console.WriteLine($"trying to update inventory for {eventMessage.TruckName }");

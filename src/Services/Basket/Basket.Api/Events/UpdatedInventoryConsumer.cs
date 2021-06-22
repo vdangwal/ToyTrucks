@@ -30,7 +30,8 @@ namespace Basket.Api.Events
                 _logger.LogWarning("Failed to consume updated inventory as context is null");
                 return;
             }
-            System.Console.WriteLine("In Basket updated consumer !!!!!");
+            var updatedInventory = (UpdatedInventory)context.Message;
+            System.Console.WriteLine($"In Basket updated consumer !!!!! TruckId = {updatedInventory.TruckId}");
         }
     }
 }
