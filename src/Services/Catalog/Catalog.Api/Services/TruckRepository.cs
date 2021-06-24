@@ -42,7 +42,8 @@ namespace Catalog.Api.Services
                 _logger.LogError("Truckid to query is null");
                 throw new ArgumentException(nameof(truckId));
             }
-            return await _context.Trucks.Include(t => t.Categories)
+            return await _context.Trucks.Where(t => t.OutOfStock == false)
+                                        .Include(t => t.Categories)
                                         .Include(t => t.Photos)
                                         .AsSplitQuery()
                                         .FirstOrDefaultAsync(t => t.TruckId == truckId);
@@ -55,7 +56,8 @@ namespace Catalog.Api.Services
                 _logger.LogError("Truck name to query is null");
                 throw new ArgumentException(nameof(truckName));
             }
-            return await _context.Trucks.Include(t => t.Categories)
+            return await _context.Trucks.Where(t => t.OutOfStock == false)
+                                        .Include(t => t.Categories)
                                         .Include(t => t.Photos)
                                         .AsSplitQuery()
                                         .FirstOrDefaultAsync(t => t.Name == truckName);
@@ -63,7 +65,8 @@ namespace Catalog.Api.Services
 
         public async Task<IEnumerable<Truck>> GetTrucks()
         {
-            return await _context.Trucks.Include(t => t.Categories)
+            return await _context.Trucks.Where(t => t.OutOfStock == false)
+                                        .Include(t => t.Categories)
                                         .Include(t => t.Photos)
                                         .AsSplitQuery()
                                         .ToListAsync();
@@ -72,6 +75,7 @@ namespace Catalog.Api.Services
         public async Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId)
         {
             return await _context.Trucks.Where(t => t.Categories.Any(c => c.CategoryId == categoryId))
+                                        .Where(t => t.OutOfStock == false)
                                         .Include(t => t.Categories)
                                         .Include(t => t.Photos)
                                         .AsSplitQuery()
@@ -104,7 +108,7 @@ namespace Catalog.Api.Services
             truckToUpdate.Name = truck.Name;
             truckToUpdate.PreviousPrice = truck.PreviousPrice;
             truckToUpdate.Price = truck.Price;
-            truckToUpdate.Quantity = truck.Quantity;
+            // truckToUpdate.Quantity = truck.Quantity;
             truckToUpdate.Year = truck.Year;
 
             return await SaveChanges();
