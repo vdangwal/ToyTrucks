@@ -27,11 +27,11 @@ namespace Basket.Api.DBContexts
             //mongo
             //show dbs
             //show collections
-            //use OrderDb //creates anew db
+            //use Baskets //creates anew db
             //db.createCollection('Orders')
             //db.Orders.insertMany([{"name","value", "name2","value2"}])
             //db.Orders.remove({});
-            //db.Orders.find({}).pretty();
+            //db.Baskets.find({}).pretty();
         }
         public IMongoCollection<ShoppingCartDto> Baskets { get; }
     }

@@ -32,6 +32,8 @@ namespace Basket.Api.Events
             }
             var updatedInventory = (UpdatedInventory)context.Message;
             System.Console.WriteLine($"In Basket updated consumer !!!!! TruckId = {updatedInventory.TruckId}");
+            //now i need to get all baskets that have the updatedInventory.TruckId and set something... in
+            await _service.InformOfUpdatedInventory(updatedInventory);
         }
     }
 }

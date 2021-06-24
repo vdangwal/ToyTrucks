@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
@@ -7,6 +8,8 @@ using Basket.Api.Dtos;
 using Basket.Api.DBContexts;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using EventBus.Messages.Events;
+
 namespace Basket.Api.Services
 {
     public class BasketRepository : IBasketRepository
@@ -75,6 +78,29 @@ namespace Basket.Api.Services
                 return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
             }
             return false;
+        }
+
+        public async Task<IList<ShoppingCartDto>> InformOfUpdatedInventory(UpdatedInventory inventoryDetails)
+        {
+            if (inventoryDetails == null)
+                throw new ArgumentNullException(nameof(inventoryDetails));
+
+            //TODO need to return only subitems if I can instead of complete basket
+            var baskets = Builders<ShoppingCartDto>.Filter.Eq("Items.ProductId", inventoryDetails.TruckId);
+
+            var results = await _context.Baskets.Find(baskets).ToListAsync();
+            foreach (var cart in results)
+            {
+                foreach (var item in cart.Items)
+                {
+                    if (item.ProductId == inventoryDetails.TruckId)
+                        item.OutOfStock = true;
+                }
+            }
+            return results;
+            //TODO NEED TO UPDATE THE BASKET ITEM
+
+
         }
     }
 }

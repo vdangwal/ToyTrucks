@@ -9,5 +9,6 @@ namespace EventBus.Messages.Events
         public decimal Price { get; set; }
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }
+        public bool OutOfStock { get; set; }
     }
 }
