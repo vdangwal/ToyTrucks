@@ -1,5 +1,7 @@
+using EventBus.Messages.Events;
 using Inventory.Api.DbContexts;
 using Inventory.Api.Models;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,12 +13,14 @@ namespace Inventory.Api.Services
     {
         private readonly InventoryDbContext _context;
         private readonly ILogger<InventoryRepository> _logger;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public InventoryRepository(InventoryDbContext context, ILogger<InventoryRepository> logger)
+
+        public InventoryRepository(InventoryDbContext context, ILogger<InventoryRepository> logger, IPublishEndpoint publishEndpoint)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
+            _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
 
@@ -50,8 +54,15 @@ namespace Inventory.Api.Services
             else
             {
                 truckInventoryToUpdate.Quantity -= truckInventory.Quantity;
-                return await SaveChanges();
 
+                var result = await SaveChanges();
+                if (truckInventoryToUpdate.Quantity <= 0)
+                {
+                    var eventMessage = new InventorySoldOutEvent();// _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+                    eventMessage.TruckId = truckInventory.TruckId;
+                    await _publishEndpoint.Publish(eventMessage);
+                }
+                return result;
             }
         }
 

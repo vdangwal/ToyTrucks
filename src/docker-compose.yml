@@ -70,17 +70,20 @@ services:
   catalog_api:
     container_name: catalog_api
     build: 
-      context: ./Services/Catalog/Catalog.Api
+      context: .
+      dockerfile: Services/Catalog/Catalog.Api/Dockerfile
       target: debug
     environment: 
       POSTGRES_SERVER: "postgres_db"
       POSTGRES_DB: "catalogdb"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
+      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+      OutOfStockQueue: "outofstock-queue"
     ports: 
       - 3500:4400
     volumes:
-      - ./Services/Catalog/Catalog.Api/:/work/
+      - ./Services/Catalog/Catalog.Api/:/work/Services/Catalog/Catalog.Api/
     depends_on: 
       - postgres_db
    

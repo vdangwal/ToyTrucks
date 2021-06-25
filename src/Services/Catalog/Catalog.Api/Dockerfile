@@ -10,23 +10,26 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 WORKDIR /work
 
 # Copy necessary files and restore as distinct layer
-COPY *.csproj ./
-RUN dotnet restore
 
-# Copy everything else and build
+
+COPY ["Services/Catalog/Catalog.Api/Catalog.Api.csproj", "Services/Catalog/Catalog.Api/"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+# 
+# RUN dotnet publish --no-restore -o out -c Release
+RUN dotnet restore Services/Catalog/Catalog.Api/Catalog.Api.csproj
+
 COPY . ./
-RUN dotnet publish --no-restore -o out -c Release
+# Copy everything else and build
+RUN dotnet publish Services/Catalog/Catalog.Api/Catalog.Api.csproj --no-restore -o out -c Release
 #--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
+ENTRYPOINT ["dotnet", "run", "-p", "Services/Catalog/Catalog.Api/", "--no-launch-profile"] 
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 
 WORKDIR /app/
 #COPY --from=Debug /out/ /app/
-COPY --from=debug /out/ /app/
+COPY --from=debug /work/out /app/
 RUN chmod +x /app/ 
 CMD dotnet Catalog.Api.dll
 
-#COPY --from=Debug /app/out . 
-# ENTRYPOINT ["dotnet", "Catalog.Api.dll"]

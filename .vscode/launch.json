@@ -165,7 +165,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/work": "${workspaceRoot}/src/Services/Catalog/Catalog.Api/"
+                "/work": "${workspaceRoot}/src/"
             }
         },
         {
