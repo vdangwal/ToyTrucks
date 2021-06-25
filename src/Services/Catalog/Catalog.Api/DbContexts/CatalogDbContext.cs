@@ -10,7 +10,7 @@ namespace Catalog.Api.DbContexts
     public class CatalogDbContext : DbContext
     {
         public CatalogDbContext(DbContextOptions<CatalogDbContext> options)
-            :base(options)
+            : base(options)
         {
 
         }
@@ -38,10 +38,10 @@ namespace Catalog.Api.DbContexts
                 .Property(t => t.Hidden)
                 .HasDefaultValue(false)
                 .ValueGeneratedOnAdd();
-            modelBuilder.Entity<Truck>()
-                .Property(t => t.Quantity)
-                .HasDefaultValue(1)
-                .ValueGeneratedOnAdd();
+            // modelBuilder.Entity<Truck>()
+            //     .Property(t => t.Quantity)
+            //     .HasDefaultValue(1)
+            //     .ValueGeneratedOnAdd();
             modelBuilder.Entity<Truck>()
                 .Property(t => t.Price)
                 .HasPrecision(18, 2);

@@ -16,8 +16,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Discount.Grpc.Protos;
 using Basket.Api.GrpcServices;
+using Basket.Api.Events;
 using MassTransit;
-
+using Basket.Api.DBContexts;
 namespace Basket.Api
 {
     public class Startup
@@ -34,6 +35,8 @@ namespace Basket.Api
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IBasketContext, BasketContext>();
+
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
 
@@ -47,7 +50,7 @@ namespace Basket.Api
           });
 
             services.AddMyGrpcClient(Configuration);
-            services.AddMyRedisCache(Configuration);
+            //  services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
 
@@ -99,10 +102,15 @@ namespace Basket.Api
 
             services.AddMassTransit(configuration =>
             {
+                configuration.AddConsumer<UpdatedInventoryConsumer>();
                 //create new service bus
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(config["EventBusAddress"]);
+                    cfg.ReceiveEndpoint(config["BasketUpdatedQueue"], c =>
+                   {
+                       c.ConfigureConsumer<UpdatedInventoryConsumer>(ctx);
+                   });
                 });
             });
             services.AddMassTransitHostedService();
@@ -111,21 +119,21 @@ namespace Basket.Api
 
         }
 
-        public static IServiceCollection AddMyRedisCache(this IServiceCollection services, IConfiguration config)
-        {
-            //docker run -d -p 6379:6379 --name redis_basket redis
-            var redisServer = config["REDIS_SERVER"] ?? "localhost";
-            var redisConnection = $"{redisServer}:6379";
-            Console.WriteLine($"CONNECTION STRING Basket redis: {redisConnection}");
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = redisConnection;
-            });
-            return services;
+        // public static IServiceCollection AddMyRedisCache(this IServiceCollection services, IConfiguration config)
+        // {
+        //     //docker run -d -p 6379:6379 --name redis_basket redis
+        //     var redisServer = config["REDIS_SERVER"] ?? "localhost";
+        //     var redisConnection = $"{redisServer}:6379";
+        //     Console.WriteLine($"CONNECTION STRING Basket redis: {redisConnection}");
+        //     services.AddStackExchangeRedisCache(options =>
+        //     {
+        //         options.Configuration = redisConnection;
+        //     });
+        //     return services;
 
-            //once u attach a shell run redis-cli
-            //then keys *
-        }
+        //     //once u attach a shell run redis-cli
+        //     //then keys *
+        // }
 
     }
 }

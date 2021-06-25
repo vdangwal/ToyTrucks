@@ -106,6 +106,10 @@ namespace Catalog.Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
+                    b.Property<bool>("OutOfStock")
+                        .HasColumnType("boolean")
+                        .HasColumnName("out_of_stock");
+
                     b.Property<decimal?>("PreviousPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -115,12 +119,6 @@ namespace Catalog.Api.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("price");
-
-                    b.Property<int>("Quantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(1)
-                        .HasColumnName("quantity");
 
                     b.Property<int>("Year")
                         .HasColumnType("integer")

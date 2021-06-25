@@ -15,6 +15,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using MassTransit;
+using Catalog.Api.Events;
+
 namespace Catalog.Api
 {
     public class Startup
@@ -31,6 +34,7 @@ namespace Catalog.Api
         {
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddControllers();
+            services.AddClientMassTransit(Configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.Api", Version = "v1" });
@@ -106,7 +110,30 @@ namespace Catalog.Api
                 options.UseNpgsql(connectionString)
                        .UseSnakeCaseNamingConvention()
                     );
+
             return services;
+        }
+
+        public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
+        {
+
+
+            services.AddMassTransit(configuration =>
+            {
+                configuration.AddConsumer<InventorySoldOutConsumer>();
+                configuration.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(config["EventBusAddress"]);
+                    cfg.ReceiveEndpoint(config["OutOfStockQueue"], c =>
+                    {
+                        c.ConfigureConsumer<InventorySoldOutConsumer>(ctx);
+                    });
+                });
+            });
+            services.AddMassTransitHostedService();
+
+            return services;
+
         }
 
     }
