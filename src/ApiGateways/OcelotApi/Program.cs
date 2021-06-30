@@ -18,6 +18,11 @@ namespace OcelotApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostContext, config) =>
+                {
+                    config.AddJsonFile($"ocelot.{hostContext.HostingEnvironment.EnvironmentName}.json", true, true);
+                    System.Console.WriteLine($"host: {hostContext.HostingEnvironment.EnvironmentName}");
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
@@ -28,5 +33,6 @@ namespace OcelotApi
                     loggingBuilder.AddConsole();
                     loggingBuilder.AddDebug();
                 });
+
     }
 }

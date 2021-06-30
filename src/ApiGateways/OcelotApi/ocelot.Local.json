@@ -1,0 +1,207 @@
+{
+    "Routes": [
+        //Basket Api
+        {
+            "DownstreamPathTemplate": "/api/basket",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 3502
+                }
+            ],
+            "UpstreamPathTemplate": "/basket",
+            "UpstreamHttpMethod": [
+                "OPTIONS",
+                "PUT",
+                "POST"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/basket/{userName}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 3502
+                }
+            ],
+            "UpstreamPathTemplate": "/basket/{userName}",
+            "UpstreamHttpMethod": [
+                "GET",
+                "DELETE"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/basket/Checkout",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 3502
+                }
+            ],
+            "UpstreamPathTemplate": "/basket/Checkout",
+            "UpstreamHttpMethod": [
+                "POST"
+            ],
+            "RateLimitOptions": {
+                "ClientWhitelist": [],
+                "EnableRateLimiting": true,
+                "Period": "3s",
+                "PeriodTimespan": 1,
+                "Limit": 1
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/basket/CreateDiscount",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 3502
+                }
+            ],
+            "UpstreamPathTemplate": "/basket/CreateDiscount",
+            "UpstreamHttpMethod": [
+                "POST"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/basket/GetDiscount/{productId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 3502
+                }
+            ],
+            "UpstreamPathTemplate": "/basket/GetDiscount/{productId}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/basket/DeleteDiscount/{productId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 3502
+                }
+            ],
+            "UpstreamPathTemplate": "/basket/DeleteDiscount/{productId}",
+            "UpstreamHttpMethod": [
+                "DELETE"
+            ]
+        },
+        //Order API
+        {
+            "DownstreamPathTemplate": "/api/orders/{userName}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3508"
+                }
+            ],
+            "UpstreamPathTemplate": "/orders/{userName}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
+        //Category API
+        {
+            "DownstreamPathTemplate": "/api/categories",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3500"
+                }
+            ],
+            "UpstreamPathTemplate": "/categories",
+            "UpstreamHttpMethod": [
+                "GET"
+            ],
+            "FileCacheOptions": {
+                "TtlSeconds": 30
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/categories/{isMini}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3500"
+                }
+            ],
+            "UpstreamPathTemplate": "/categories/{isMini}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
+        //Truck API
+        {
+            "DownstreamPathTemplate": "/api/trucks",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3500"
+                }
+            ],
+            "UpstreamPathTemplate": "/trucks",
+            "UpstreamHttpMethod": [
+                "GET",
+                "PUT"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/trucks/{categoryId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3500"
+                }
+            ],
+            "UpstreamPathTemplate": "/trucks/{categoryId}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/trucks/{truckId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3500"
+                }
+            ],
+            "UpstreamPathTemplate": "/trucks/{truckId}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/trucks/TruckByName",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3500"
+                }
+            ],
+            "UpstreamPathTemplate": "/trucks/TruckByName",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http:/localhost:5010"
+    }
+}

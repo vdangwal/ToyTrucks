@@ -30,24 +30,24 @@ namespace Orders.Api.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        [HttpGet]
-        [Route("{orderId::length(24)}")]
-        [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<OrderDto>> OrderById(string orderId)
-        {
-            try
-            {
-                var orders = await _service.GetByOrderIdAsync(orderId);
-                return Ok(orders);
-            }
-            catch (System.Exception ex)
-            {
-                _logger.LogError(ex, $"Error getting order with id of {orderId} as it does not exist");
-                return NotFound();
-            }
+        // [HttpGet]
+        // [Route("{orderId::length(24)}")]
+        // [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
+        // [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        // public async Task<ActionResult<OrderDto>> OrderById(string orderId)
+        // {
+        //     try
+        //     {
+        //         var orders = await _service.GetByOrderIdAsync(orderId);
+        //         return Ok(orders);
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         _logger.LogError(ex, $"Error getting order with id of {orderId} as it does not exist");
+        //         return NotFound();
+        //     }
 
-        }
+        // }
 
         [HttpGet("{userName:alpha}", Name = "OrdersByUsername")]
         [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]

@@ -1,0 +1,27 @@
+ [HttpGet("{userName}", Name = "GetBasket")] 
+        public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
+  [HttpDelete("{userName}")] 
+        public async Task<ActionResult> DeleteBasket(string userName)
+
+
+ [HttpPost] 
+        public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody] ShoppingCart basket)
+  [HttpPut(Name = "UpdateDiscount")] 
+        public async Task<ActionResult> UpdateDiscount([FromBody] Coupon coupon)
+ [HttpOptions] 
+        public IActionResult GetBasketOptions()
+
+
+ [Route("[action]")] //we need to add method name to url ie
+        [HttpPost] 
+        public async Task<ActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+ 
+[HttpPost]
+        [Route("[action]")] 
+        public async Task<ActionResult> CreateDiscount([FromBody] Coupon coupon)
+ 
+[HttpGet("[action]/{productId}", Name = "GetDiscount")]
+         public async Task<ActionResult<Coupon>> GetDiscount(string productId)
+
+[HttpDelete("[action]/{productId}")]
+         public async Task<ActionResult> DeleteDiscount(string productId)
