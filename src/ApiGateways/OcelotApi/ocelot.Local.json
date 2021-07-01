@@ -125,7 +125,7 @@
                 "GET"
             ],
             "FileCacheOptions": {
-                "TtlSeconds": 30
+                "TtlSeconds": 10
             }
         },
         {

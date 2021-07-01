@@ -6,8 +6,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket",
@@ -22,8 +22,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/{userName}",
@@ -37,8 +37,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/Checkout",
@@ -58,8 +58,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/CreateDiscount",
@@ -72,8 +72,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/GetDiscount/{productId}",
@@ -86,8 +86,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/DeleteDiscount/{productId}",
@@ -101,8 +101,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "8002"
+                    "Host": "order_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/orders/{userName}",
@@ -116,22 +116,25 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/categories",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "FileCacheOptions": {
+                "TtlSeconds": 10
+            }
         },
         {
             "DownstreamPathTemplate": "/api/categories/{isMini}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/categories/{isMini}",
@@ -145,8 +148,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/trucks",
@@ -160,8 +163,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/trucks/{categoryId}",
@@ -174,8 +177,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/trucks/{truckId}",
@@ -188,8 +191,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/trucks/TruckByName",

@@ -82,7 +82,7 @@ services:
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       OutOfStockQueue: "outofstock-queue"
     ports: 
-      - 3500:4400
+      - 3500:80
     volumes:
       - ./Services/Catalog/Catalog.Api/:/work/Services/Catalog/Catalog.Api/
     depends_on: 
@@ -97,7 +97,7 @@ services:
     environment: 
       #REDIS_SERVER: "basket_redis_db"
       ASPNETCORE_ENVIRONMENT: Development
-      grpcServiceUrl: "http://discount_grpc:4404"
+      grpcServiceUrl: "http://discount_grpc:80"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       BasketUpdatedQueue: "basketinventoryupdated-queue"
       MONGO_SERVER: "basketdb"
@@ -105,7 +105,7 @@ services:
       MONGO_DB: "BasketDb"
       MONGO_COLLECTION: "Baskets"
     ports: 
-      - 3502:4402
+      - 3502:80
     volumes:
       - ./Services/Basket/Basket.Api/:/basketwork/Services/Basket/Basket.Api/
     depends_on: 
@@ -125,7 +125,7 @@ services:
       POSTGRES_PORT: "5432"
       POSTGRES_PASSWORD: "password"
     ports: 
-      - 3506:4404
+      - 3506:80
     volumes:
       - ./Services/Discount/Discount.Grpc/:/discountgrpcwork/
     depends_on: 
@@ -151,7 +151,7 @@ services:
       MONGO_DB: "OrderDb"
       MONGO_COLLECTION: "Orders"
     ports: 
-      - 3508:4406
+      - 3508:80
     volumes:
       - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
     depends_on: 
@@ -175,13 +175,28 @@ services:
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       InventoryUpdatedQueue: "inventoryupdated-queue"
     ports: 
-      - 3504:4408
+      - 3504:80
     volumes:
       - ./Services/Inventory/Inventory.Api/:/inventoryapiwork/Services/Inventory/Inventory.Api/
     depends_on: 
       - postgres_db 
       - rabbitmq
-
+  ocelot_api:
+    container_name: ocelot_api
+    build: 
+      context: .
+      dockerfile: ApiGateways/OcelotApi/Dockerfile
+      target: debug
+    environment: 
+      ASPNETCORE_ENVIRONMENT: Development
+    ports: 
+      - 5010:80
+    depends_on: 
+      - catalog_api
+      - discount_grpc
+      - inventory_api
+      - order_api
+      - basket_api
   
 
 
