@@ -173,7 +173,6 @@
             "name": "ShoppingAggregator No docker",
             "type": "coreclr",
             "request": "launch",
-            // "preLaunchTask": "build",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/bin/Debug/net5.0/Shopping.Aggregator.dll",
             "args": [],
@@ -296,7 +295,7 @@
             "request": "launch",
             "preLaunchTask": "docker-run: debug",
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Basket/Basket.Api/Basket.Api.csproj"
+                "appProject": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Shopping.Aggregator.csproj"
             }
         }
     ]
