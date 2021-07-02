@@ -21,12 +21,12 @@
             "dockerBuild": {
                 "tag": "productappmicroservices:dev",
                 "target": "base",
-                "dockerfile": "${workspaceFolder}/src/Services/Basket/Basket.Api/Dockerfile",
+                "dockerfile": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Dockerfile",
                 "context": "${workspaceFolder}",
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Basket/Basket.Api/Basket.Api.csproj"
+                "appProject": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Shopping.Aggregator.csproj"
             }
         },
         {
@@ -37,12 +37,12 @@
             ],
             "dockerBuild": {
                 "tag": "productappmicroservices:latest",
-                "dockerfile": "${workspaceFolder}/src/Services/Basket/Basket.Api/Dockerfile",
+                "dockerfile": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Dockerfile",
                 "context": "${workspaceFolder}",
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Basket/Basket.Api/Basket.Api.csproj"
+                "appProject": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Shopping.Aggregator.csproj"
             }
         },
         {
@@ -53,7 +53,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Basket/Basket.Api/Basket.Api.csproj",
+                "appProject": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Shopping.Aggregator.csproj",
                 "enableDebugging": true
             }
         },
@@ -65,7 +65,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Basket/Basket.Api/Basket.Api.csproj"
+                "appProject": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Shopping.Aggregator.csproj"
             }
         }
     ]
