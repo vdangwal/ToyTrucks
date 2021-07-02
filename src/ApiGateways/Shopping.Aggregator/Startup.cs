@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Shopping.Aggregator.Services;
 
 namespace Shopping.Aggregator
 {
@@ -27,6 +28,8 @@ namespace Shopping.Aggregator
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddHttpClient<ICatalogService, CatalogService>(config =>
+                            config.BaseAddress = new Uri(Configuration["ApiSettings:CatalogUrl"]));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
