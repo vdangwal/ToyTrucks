@@ -66,6 +66,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.App", "src\Frontends\Blazor.App\Blazor.App.csproj", "{49B92D8F-1564-43C2-92D8-8685A4738750}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Client", "src\Frontends\Blazor.Client\Blazor.Client.csproj", "{477DF835-747E-402E-B136-9434C08345F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Server", "src\Frontends\Blazor.Server\Blazor.Server.csproj", "{D1644C70-F738-4638-97A0-7C450711ABB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +106,18 @@ Global
 		{A3F1C55C-DB69-45D7-98CF-712BB47F6FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3F1C55C-DB69-45D7-98CF-712BB47F6FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3F1C55C-DB69-45D7-98CF-712BB47F6FA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B92D8F-1564-43C2-92D8-8685A4738750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B92D8F-1564-43C2-92D8-8685A4738750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B92D8F-1564-43C2-92D8-8685A4738750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B92D8F-1564-43C2-92D8-8685A4738750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{477DF835-747E-402E-B136-9434C08345F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{477DF835-747E-402E-B136-9434C08345F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{477DF835-747E-402E-B136-9434C08345F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{477DF835-747E-402E-B136-9434C08345F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1644C70-F738-4638-97A0-7C450711ABB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1644C70-F738-4638-97A0-7C450711ABB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1644C70-F738-4638-97A0-7C450711ABB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1644C70-F738-4638-97A0-7C450711ABB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +149,9 @@ Global
 		{40E7ABF4-8526-4341-BDED-B7CD45BA3F43} = {A83BD34C-1C19-4452-BE4E-EE9DD8979727}
 		{7147E44A-0188-45AE-9533-FB2761D0CDF1} = {FEBFF63B-67A4-4746-962B-D4E60EC4B956}
 		{A3F1C55C-DB69-45D7-98CF-712BB47F6FA0} = {7F419180-15DB-43F4-B7C1-4F5030840D5E}
+		{49B92D8F-1564-43C2-92D8-8685A4738750} = {A49F33EE-EA5A-46B9-8240-FAEEC3178D10}
+		{477DF835-747E-402E-B136-9434C08345F0} = {47909FCE-6773-41DA-80BB-A2B62DF54AE7}
+		{D1644C70-F738-4638-97A0-7C450711ABB6} = {E47F0B56-325A-4A6A-A7D2-24893AFEA447}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D88C228-B49F-4C86-92F1-0BB379A47771}
