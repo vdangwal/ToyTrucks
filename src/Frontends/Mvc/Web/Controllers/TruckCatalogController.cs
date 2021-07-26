@@ -36,9 +36,15 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SelectCategory(int selectedCategory)
+        public IActionResult SelectCategory(int? selectedCategory)
         {
             return RedirectToAction("Index", new { categoryId = selectedCategory });
+        }
+
+        public async Task<IActionResult> Detail(Guid truckId)
+        {
+            var truck = await _service.GetTruckById(truckId);
+            return View(truck);
         }
     }
 }
