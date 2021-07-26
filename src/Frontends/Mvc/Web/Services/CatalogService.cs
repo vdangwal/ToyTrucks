@@ -18,12 +18,12 @@ namespace Web.Services
 
         public async Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId)
         {
-            var response = await _client.GetAsync("api/trucks/?categoryId={categoryid}");
+            var response = await _client.GetAsync($"api/trucks/{categoryId}");
             return await response.ReadContentAs<List<Truck>>();
         }
         public async Task<Truck> GetTruckById(Guid truckId)
         {
-            var response = await _client.GetAsync("api/trucks/?truckId={truckId}");
+            var response = await _client.GetAsync($"api/trucks/{truckId}");
             return await response.ReadContentAs<Truck>();
         }
 
@@ -31,6 +31,12 @@ namespace Web.Services
         {
             var response = await _client.GetAsync("/api/categories");
             return await response.ReadContentAs<List<Category>>();
+        }
+
+        public async Task<IEnumerable<Truck>> GetTrucks()
+        {
+            var response = await _client.GetAsync("api/trucks");
+            return await response.ReadContentAs<List<Truck>>();
         }
     }
 }

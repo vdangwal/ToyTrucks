@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Models;
 using Web.Services;
@@ -16,13 +17,11 @@ namespace Web.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index(int categoryId)
+        public async Task<IActionResult> Index(int? categoryId)
         {
-
-
-            var getTrucks = _service.GetTrucksByCategoryId(1);
+            var getTrucks = (categoryId.HasValue) ? _service.GetTrucksByCategoryId(categoryId.Value) : _service.GetTrucks();
             var getCategories = _service.GetCategories();
-            var numberOfItems = 5;
+
             await Task.WhenAll(new Task[] { getTrucks, getCategories });
 
             return View(
@@ -30,10 +29,16 @@ namespace Web.Controllers
                             {
                                 Trucks = getTrucks.Result,
                                 Categories = getCategories.Result,
-                                NumberOfItems = numberOfItems,
-                                SelectedCategory = categoryId
+                                NumberOfItems = getTrucks.Result.Count(),
+                                SelectedCategory = categoryId.HasValue ? categoryId.Value : null
                             }
                         );
+        }
+
+        [HttpPost]
+        public IActionResult SelectCategory(int selectedCategory)
+        {
+            return RedirectToAction("Index", new { categoryId = selectedCategory });
         }
     }
 }
