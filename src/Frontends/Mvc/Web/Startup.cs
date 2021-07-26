@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web.Services;
 
-namespace NewWeb
+namespace Web
 {
     public class Startup
     {
@@ -63,7 +63,7 @@ namespace NewWeb
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=TruckCatalog}/{action=Index}/{id?}");
             });
         }
     }

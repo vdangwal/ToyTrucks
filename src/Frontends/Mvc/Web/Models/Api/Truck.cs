@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NewWeb.Models
+namespace Web.Models.Api
 {
     public class Truck
     {

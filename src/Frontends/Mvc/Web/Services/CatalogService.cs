@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Web.Models;
+using Web.Models.Api;
 using System.Net.Http;
 using Web.Extensions;
 
-namespace NewWeb.Services
+namespace Web.Services
 {
     public class CatalogService : ICatalogService
     {
@@ -25,6 +25,12 @@ namespace NewWeb.Services
         {
             var response = await _client.GetAsync("api/trucks/?truckId={truckId}");
             return await response.ReadContentAs<Truck>();
+        }
+
+        public async Task<IEnumerable<Category>> GetCategories()
+        {
+            var response = await _client.GetAsync("/api/categories");
+            return await response.ReadContentAs<List<Category>>();
         }
     }
 }

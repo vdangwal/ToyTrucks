@@ -1,5 +1,5 @@
 using System;
-namespace NewWeb.Models
+namespace Web.Models.Api
 {
     public class Photo
     {

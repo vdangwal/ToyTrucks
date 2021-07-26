@@ -2,6 +2,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Mvc Client No docker",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": false,
+            "program": "${workspaceFolder}/src/Frontends/Mvc/Web/bin/Debug/net5.0/Web.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Frontends/Mvc/Web",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\\\bNow listening and debugging on:\\\\s+(https?://\\\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "Discount No docker",
             "type": "coreclr",
             "request": "launch",
