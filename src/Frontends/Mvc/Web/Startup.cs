@@ -8,14 +8,18 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Web.Services;
 
-namespace Web
+namespace NewWeb
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _config;
+        private readonly IHostEnvironment _environment;
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
-            Configuration = configuration;
+            _config = configuration;
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -23,7 +27,16 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            var builder = services.AddControllersWithViews();
+
+            if (_environment.IsDevelopment())
+            {
+                builder.AddRazorRuntimeCompilation();
+            }
+            services.AddHttpClient<ICatalogService, CatalogService>(c =>
+            {
+                c.BaseAddress = new Uri(_config["TruckCatalogUri"]);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
