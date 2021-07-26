@@ -1,7 +1,9 @@
 @model Web.Models.Api.Truck
 <tr>
     <td>
-        <img src="@Model.DefaultPhotoPath" alt="Truck plc" />
+        <div class="container">
+            <img src="/img/@Model.DefaultPhotoPath" alt="Truck plc" />
+        </div>
     </td>
     <td>
         @Model.Name

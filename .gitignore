@@ -340,3 +340,8 @@ ASALocalRun/
 healthchecksdb
 /HessTrucks/SQLQuery1.sql
 /SQLQuery1.sql
+src/Frontends/Mvc/Web/wwwroot/img/*.*
+# src/Frontends/Mvc/Web/wwwroot/img/1988_1.jpg
+# src/Frontends/Mvc/Web/wwwroot/img/1989_1.jpg
+# src/Frontends/Mvc/Web/wwwroot/img/1992_1.jpg
+# src/Frontends/Mvc/Web/wwwroot/img/2006_1.jpg
