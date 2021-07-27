@@ -94,7 +94,7 @@ html {
 }
 
 .listImage {
-  width: 200px;
+  width: 130px;
 }
 
 .lineIcon {
@@ -102,7 +102,7 @@ html {
 }
 
 .detailImage {
-  width: 450px;
+  width: 350px;
 }
 
 header {
@@ -114,21 +114,4 @@ header {
   vertical-align: middle;
   padding-top: 20px;
   padding-bottom: 20px;
-}
-img {
-  display: block;
-  max-width:230px;
-  max-height:95px;
-  width: auto;
-  height: auto;
-}
-.container {
-  width: 200px;
-  height: 120px;
-}
-
-/* Resize images */
-.container img {
-  width: 100%;
-  height: auto;
 }
