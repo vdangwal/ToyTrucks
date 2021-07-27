@@ -9,14 +9,14 @@
     categoryListItems.Insert(0, new SelectListItem { Text = "All" });
 }
 
+<div class="row mt-5 mb-3">
+    <form asp-action="SelectCategory" method="post">
 
-<form asp-action="SelectCategory" method="post">
-
-    <select asp-for="SelectedCategory" asp-items="categoryListItems"></select>
-    <button type="submit" class="filterButton">FILTER</button>
-</form>
+        <select asp-for="SelectedCategory" asp-items="categoryListItems"></select>
+        <button type="submit" class="filterButton">FILTER</button>
+    </form>
 </div>
-<h1>Index</h1>
+
 
 <div class="row">
     @if (!Model.Trucks.Any())

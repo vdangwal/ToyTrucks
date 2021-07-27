@@ -93,8 +93,8 @@ html {
   border-top: none;
 }
 
-.artistPic {
-  width: 130px;
+.listImage {
+  width: 200px;
 }
 
 .lineIcon {
@@ -102,7 +102,7 @@ html {
 }
 
 .detailImage {
-  width: 350px;
+  width: 450px;
 }
 
 header {
