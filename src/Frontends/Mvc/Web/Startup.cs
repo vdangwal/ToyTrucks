@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Web.Models;
 using Web.Services;
 
 namespace Web
@@ -37,6 +38,12 @@ namespace Web
             {
                 c.BaseAddress = new Uri(_config["TruckCatalogUri"]);
             });
+            services.AddHttpClient<IBasketService, BasketService>(c =>
+            {
+                c.BaseAddress = new Uri(_config["BasketUri"]);
+            });
+            services.AddSingleton<Settings>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

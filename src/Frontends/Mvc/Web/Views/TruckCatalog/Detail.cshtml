@@ -5,7 +5,7 @@
         @* <div class="container"> *@
         <img src="/img/@Model.DefaultPhotoPath" class="detailImage" alt="Artist pic" />
         @* </div> *@
-    </div> 
+    </div>
     <div class="col-md-6 ml-1">
         <div class="row">
             <div class="columnHeader">@Model.Categories.FirstOrDefault().Name.ToUpper()</div>
@@ -33,7 +33,7 @@
         <form class="form">@* asp-action="AddLine" asp-controller="ShoppingBasket"> *@
             <div class="row">
                 <label class="columnHeader mt-2">QUANTITY:</label>
-                <select name="TicketAmount" class="ml-5 w-25">
+                <select name="Quantity" class="ml-5 w-25">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

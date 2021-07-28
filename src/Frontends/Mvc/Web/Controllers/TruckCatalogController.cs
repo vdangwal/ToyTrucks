@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Models;
+using Web.Extensions;
 using Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models.View;
@@ -10,26 +11,31 @@ namespace Web.Controllers
 {
     public class TruckCatalogController : Controller
     {
-        private readonly ICatalogService _service;
-
-        public TruckCatalogController(ICatalogService service)
+        private readonly ICatalogService _catalogService;
+        private readonly IBasketService _basketService;
+        private readonly Settings _settings;
+        public TruckCatalogController(ICatalogService service, IBasketService basketService, Settings settings)
         {
-            _service = service;
+            _catalogService = service;
+            _basketService = basketService;
+            _settings = settings;
         }
 
         public async Task<IActionResult> Index(int? categoryId)
         {
-            var getTrucks = (categoryId.HasValue) ? _service.GetTrucksByCategoryId(categoryId.Value) : _service.GetTrucks();
-            var getCategories = _service.GetCategories();
+            var currentBasketId = Request.Cookies.GetCurrentBasketId(_settings);
+            var getTrucks = (categoryId.HasValue) ? _catalogService.GetTrucksByCategoryId(categoryId.Value) : _catalogService.GetTrucks();
+            var getBasket = _basketService.GetBasket(currentBasketId);
+            var getCategories = _catalogService.GetCategories();
 
-            await Task.WhenAll(new Task[] { getTrucks, getCategories });
-
+            await Task.WhenAll(new Task[] { getTrucks, getCategories, getBasket });
+            var numberOfItems = getBasket.Result?.NumberOfItems ?? 0;
             return View(
                             new TruckListModel
                             {
                                 Trucks = getTrucks.Result,
                                 Categories = getCategories.Result,
-                                NumberOfItems = getTrucks.Result.Count(),
+                                NumberOfItems = numberOfItems,
                                 SelectedCategory = categoryId.HasValue ? categoryId.Value : null
                             }
                         );
@@ -43,7 +49,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Detail(Guid truckId)
         {
-            var truck = await _service.GetTruckById(truckId);
+            var truck = await _catalogService.GetTruckById(truckId);
             return View(truck);
         }
     }
