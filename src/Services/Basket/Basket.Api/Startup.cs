@@ -35,6 +35,8 @@ namespace Basket.Api
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<IBasketLinesService, BasketLinesService>();
             services.AddScoped<IBasketContext, BasketContext>();
 
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);

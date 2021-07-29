@@ -1,6 +1,8 @@
 using MongoDB.Driver;
 using Basket.Api.Dtos;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+
 namespace Basket.Api.DBContexts
 {
     public class BasketContext : IBasketContext
@@ -19,7 +21,8 @@ namespace Basket.Api.DBContexts
 
             var db = client.GetDatabase(database);
             Baskets = db.GetCollection<ShoppingCartDto>(collection);
-
+            Cart = db.GetCollection<Dtos.Basket>(collection);
+            CartLines = db.GetCollection<Dtos.BasketLine>(collection);
             // OrderSeedData.SeedData(Baskets);
 
             //docker run -d -p 27017:27017 --name order-mongo   mongo
@@ -34,5 +37,7 @@ namespace Basket.Api.DBContexts
             //db.Baskets.find({}).pretty();
         }
         public IMongoCollection<ShoppingCartDto> Baskets { get; }
+        public IMongoCollection<Dtos.Basket> Cart { get; }
+        public IMongoCollection<Dtos.BasketLine> CartLines { get; }
     }
 }

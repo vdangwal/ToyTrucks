@@ -87,7 +87,6 @@
             "name": "BasketApi No docker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/Services/Basket/Basket.Api/bin/Debug/net5.0/Basket.Api.dll",
             "args": [],

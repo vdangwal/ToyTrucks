@@ -28,6 +28,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             var builder = services.AddControllersWithViews();
 
             if (_environment.IsDevelopment())
@@ -41,6 +42,8 @@ namespace Web
             services.AddHttpClient<IBasketService, BasketService>(c =>
             {
                 c.BaseAddress = new Uri(_config["BasketUri"]);
+                c.DefaultRequestHeaders.Add("api-version", "2.0");
+
             });
             services.AddSingleton<Settings>();
 

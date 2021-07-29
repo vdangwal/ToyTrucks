@@ -42,7 +42,7 @@ namespace Basket.Api.Controllers
             return DateTime.Now.ToString();
         }
 
-        [HttpGet("{userName}", Name = "GetBasket")]
+        [HttpGet("{userName}", Name = "GetBasketV1")]
         [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status200OK)]
         public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
         {
