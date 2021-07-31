@@ -1,210 +1,102 @@
-using System;
-using System.Threading.Tasks;
-using AutoMapper;
+
 using Basket.Api.Dtos;
-using EventBus.Messages.Events;
-using Basket.Api.GrpcServices;
-
 using Basket.Api.Services;
-using Discount.Grpc.Protos;
-using Basket.Api.Events;
 using MassTransit;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
+using Microsoft.Extensions.Logging;
+using System;
+using System.Net;
+using System.Security.Claims;
+using System.Threading.Tasks;
 namespace Basket.Api.Controllers
 {
-
-    [ApiVersion("1.0")]
-    [Route("api/basket")]
+    [Route("api/v1/basket")]
+    [Authorize]
     [ApiController]
     public class BasketController : ControllerBase
     {
-        private readonly IBasketRepository _service;
-        private readonly IMapper _mapper;
-        private readonly DiscountGrpcService _discountService;
+        private readonly IBasketRepository _repository;
+        //private readonly IIdentityService _identityService;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<BasketController> _logger;
 
-        public BasketController(IBasketRepository service, IMapper mapper, DiscountGrpcService discountService, IPublishEndpoint publishEndpoint, ILogger<BasketController> logger)
+        public BasketController(
+            ILogger<BasketController> logger,
+            IBasketRepository repository,
+            //IIdentityService identityService,
+            IPublishEndpoint publishEndpoint)
         {
-            _service = service ?? throw new ArgumentNullException(nameof(service));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
-            _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _logger = logger;
+            _repository = repository;
+         //   _identityService = identityService;
+            _publishEndpoint = publishEndpoint;
         }
 
-        [HttpGet]
-        public string GetTime()
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<CustomerBasket>> GetBasketByIdAsync(string id)
         {
-            return DateTime.Now.ToString();
-        }
+            var basket = await _repository.GetBasketAsync(id);
 
-        [HttpGet("{userName}", Name = "GetBasketV1")]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
-        {
-            if (string.IsNullOrEmpty(userName))
-                throw new ArgumentNullException(nameof(userName));
-
-            var basketDto = await _service.GetBasket(userName);
-            var basket = _mapper.Map<ShoppingCart>(basketDto);
-
-            return Ok((basket != null) ? basket : new ShoppingCart(userName));
+            return Ok(basket ?? new CustomerBasket(id));
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody] ShoppingCart basket)
+        [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<CustomerBasket>> UpdateBasketAsync([FromBody] CustomerBasket value)
         {
-            if (basket == null)
-                throw new ArgumentNullException(nameof(basket));
-
-            foreach (var item in basket.Items)
-            {
-
-                var discount = await _discountService.GetDiscount(item.ProductName);
-                //   if (discount is not null)
-                if (discount.Coupon is not null)
-                {
-                    item.Price -= discount.Coupon.Amount;
-                    Console.WriteLine($"discount for {item.ProductName}. New price is {item.Price}");
-                }
-                else
-                    Console.WriteLine($"No discount for {item.ProductName}");
-
-            }
-
-            return Ok(await _service.UpdateBasket(_mapper.Map<Dtos.ShoppingCartDto>(basket)));
+            return Ok(await _repository.UpdateBasketAsync(value));
         }
 
+        // [Route("checkout")]
+        // [HttpPost]
+        // [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        // [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        // public async Task<ActionResult> CheckoutAsync([FromBody] BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
+        // {
+        //     var userId = _identityService.GetUserIdentity();
 
-        [HttpDelete("{userName}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> DeleteBasket(string userName)
+        //     basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
+        //         guid : basketCheckout.RequestId;
+
+        //     var basket = await _repository.GetBasketAsync(userId);
+
+        //     if (basket == null)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     var userName = this.HttpContext.User.FindFirst(x => x.Type == ClaimTypes.Name).Value;
+
+        //     var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
+        //         basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
+        //         basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer, basketCheckout.RequestId, basket);
+
+        //     // Once basket is checkout, sends an integration event to
+        //     // ordering.api to convert basket to order and proceeds with
+        //     // order creation process
+        //     try
+        //     {
+        //         _publishEndpoint.Publish(eventMessage);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         _logger.LogError(ex, "ERROR Publishing integration event: {IntegrationEventId} from {AppName}", eventMessage.Id, Program.AppName);
+
+        //         throw;
+        //     }
+
+        //     return Accepted();
+        // }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        public async Task DeleteBasketByIdAsync(string id)
         {
-            if (string.IsNullOrEmpty(userName))
-                throw new ArgumentNullException(nameof(userName));
-            await _service.DeleteBasket(userName);
-            return NoContent();
+            await _repository.DeleteBasketAsync(id);
         }
-
-        [HttpOptions]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetBasketOptions()
-        {
-            base.Response.Headers.Add("Allow", "GET, POST, OPTIONS, PATCH, DELETE");
-            return Ok();
-        }
-
-        [Route("[action]")] //we need to add method name to url ie
-        [HttpPost]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
-        {
-            if (basketCheckout == null)
-                throw new ArgumentNullException(nameof(basketCheckout));
-            //get existing basket with username
-            //crete basketcheckoutevent
-            //set total price on basketcheckout
-            //SEND CEHCKOUTevent to rabbit
-            //empty the basket
-
-
-
-
-            var basket = await _service.GetBasket(basketCheckout.UserName);
-            if (basket == null)
-                return BadRequest();
-
-            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
-            eventMessage.Basket = _mapper.Map<ShoppingCart>(basket);
-            eventMessage.TotalPrice = basket.TotalPrice;
-
-            await _publishEndpoint.Publish(eventMessage);
-
-            await _service.DeleteBasket(basketCheckout.UserName);
-            return Accepted();
-
-
-        }
-
-        [HttpPost]
-        [Route("[action]")]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> CreateDiscount([FromBody] Coupon coupon)
-        {
-            if (coupon == null)
-                throw new ArgumentNullException(nameof(coupon));
-
-            var discount = await _discountService.CreateDiscount(coupon);
-            if (discount == null)
-                return BadRequest();
-
-            return Accepted();
-        }
-
-        [HttpGet("[action]/{productId}", Name = "GetDiscount")]
-        [ProducesResponseType(typeof(Coupon), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Coupon>> GetDiscount(string productId)
-        {
-            if (string.IsNullOrEmpty(productId))
-                return BadRequest();
-
-            var discountResponse = await _discountService.GetDiscount(productId);
-            if (discountResponse?.Coupon == null)
-                return NotFound();
-            // var basket = _mapper.Map<ShoppingCart>(basketDto);
-
-            return Ok(discountResponse.Coupon);
-        }
-
-        [HttpDelete("[action]/{productId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> DeleteDiscount(string productId)
-        {
-            if (string.IsNullOrEmpty(productId))
-                return BadRequest();
-
-            var discountResponse = await _discountService.DeleteDiscount(productId);
-            if (discountResponse == null)
-                return NotFound();
-            // var basket = _mapper.Map<ShoppingCart>(basketDto);
-
-            return NoContent();
-        }
-
-        [HttpPut(Name = "UpdateDiscount")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> UpdateDiscount([FromBody] Coupon coupon)
-        {
-            if (coupon == null)
-                return BadRequest();
-
-
-            try
-            {
-                await _discountService.UpdateDiscount(coupon);
-            }
-            catch (System.Exception ex)
-            {
-                _logger.LogError(ex, $"Error updating discount with name of {coupon.ProductName}");
-                return NotFound();
-            }
-
-            //await _mediatr.Send(order);
-            return NoContent();
-        }
-
     }
 }

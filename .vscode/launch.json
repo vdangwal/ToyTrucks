@@ -107,7 +107,6 @@
             "name": "OrdersApi No docker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/Services/Orders/Orders.Api/bin/Debug/net5.0/Orders.Api.dll",
             "args": [],

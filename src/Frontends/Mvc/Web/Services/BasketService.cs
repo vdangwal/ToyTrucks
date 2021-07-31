@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace Web.Services
                 var basket = await basketResponse.ReadContentAs<Basket>();
                 basketId = basket.BasketId;
             }
-            var response = await _client.PostAsJson($"api/basket/{basketId}/basketlines", basketLine);
+            var response = await _client.PostAsJson($"api/baskets/v2/{basketId}/basketlines", basketLine);
             return await response.ReadContentAs<BasketLine>();
         }
 
@@ -41,6 +42,10 @@ namespace Web.Services
                 return await CreateBasket();
             }
             var response = await _client.GetAsync($"api/baskets/v2/{basketId}");
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return await CreateBasket();
+            }
             return await response.ReadContentAs<Basket>();
         }
 

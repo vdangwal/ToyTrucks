@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -18,7 +19,7 @@ using Discount.Grpc.Protos;
 using Basket.Api.GrpcServices;
 using Basket.Api.Events;
 using MassTransit;
-using Basket.Api.DBContexts;
+
 namespace Basket.Api
 {
     public class Startup
@@ -33,11 +34,13 @@ namespace Basket.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<IBasketRepository, BasketRepository>();
-            services.AddScoped<IBasketService, BasketService>();
-            services.AddScoped<IBasketLinesService, BasketLinesService>();
-            services.AddScoped<IBasketContext, BasketContext>();
+            services.AddScoped<IBasketRepository, RedisBasketRepository>();
+            services.AddTransient<IIdentityService, IdentityService>();
+            // services.AddScoped<IBasketLinesService, BasketLinesService>();
+            // // services.AddScoped<OLDIBasketContext, OLDBasketContext>();
+            // services.AddScoped<ITruckService, TruckService>();
 
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
@@ -55,6 +58,8 @@ namespace Basket.Api
             //  services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
+            //  services.AddHttpClient<ITruckCatalogApiService, TruckCatalogApiService>(c =>
+            //c.BaseAddress = new Uri(Configuration["TruckCatalogUri"]));
 
 
 
