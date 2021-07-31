@@ -4,10 +4,11 @@ namespace Web.Models.View
 {
     public class BasketLineViewModel
     {
-        public Guid LineId { get; set; }
+        public string LineId { get; set; }
         public Guid TruckId { get; set; }
         public string TruckName { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public int Year { get; set; }
     }
 }

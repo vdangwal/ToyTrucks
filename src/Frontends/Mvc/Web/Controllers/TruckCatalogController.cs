@@ -29,7 +29,7 @@ namespace Web.Controllers
             var getCategories = _catalogService.GetCategories();
 
             await Task.WhenAll(new Task[] { getTrucks, getCategories, getBasket });
-            var numberOfItems = getBasket.Result?.NumberOfItems ?? 0;
+            var numberOfItems = getBasket.Result?.Items.Count ?? 0;
             return View(
                             new TruckListModel
                             {

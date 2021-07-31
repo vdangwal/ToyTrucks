@@ -42,7 +42,7 @@ namespace Web
             services.AddHttpClient<IBasketService, BasketService>(c =>
             {
                 c.BaseAddress = new Uri(_config["BasketUri"]);
-                c.DefaultRequestHeaders.Add("api-version", "2.0");
+                //c.DefaultRequestHeaders.Add("api-version", "2.0");
 
             });
             services.AddSingleton<Settings>();

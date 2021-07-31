@@ -32,16 +32,17 @@ namespace Web.Controllers
         private async Task<BasketViewModel> CreateBasketViewModel()
         {
             var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-            Basket basket = await _basketService.GetBasket(basketId);
+            CustomerBasket basket = await _basketService.GetBasket(basketId);
 
-            var basketLines = await _basketService.GetLinesForBasket(basketId);
+            // var basketLines = await _basketService.GetLinesForBasket(basketId);
 
-            var lineViewModels = basketLines.Select(bl => new BasketLineViewModel
+            var lineViewModels = basket.Items.Select(bl => new BasketLineViewModel
             {
-                LineId = bl.BasketLineId,
+                LineId = bl.Id,
                 TruckId = bl.TruckId,
-                TruckName = bl.Truck.Name,
+                TruckName = bl.TruckName,
                 Price = bl.Price,
+                Year = bl.Year,
                 Quantity = bl.Quantity
             });
 
@@ -56,31 +57,31 @@ namespace Web.Controllers
             return basketViewModel;
         }
 
+        // [HttpPost]
+        // public async Task<IActionResult> AddLine(BasketLineForCreation basketLine)
+        // {
+        //     var basketId = Request.Cookies.GetCurrentBasketId(_settings);
+        //     var newLine = await _basketService.AddToBasket(basketId, basketLine);
+        //     Response.Cookies.Append(_settings.BasketIdCookieName, newLine.BasketId.ToString());
+
+        //     return RedirectToAction("Index");
+        // }
+
         [HttpPost]
-        public async Task<IActionResult> AddLine(BasketLineForCreation basketLine)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateBasket(CustomerBasket customerBasket)
         {
-            var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-            var newLine = await _basketService.AddToBasket(basketId, basketLine);
-            Response.Cookies.Append(_settings.BasketIdCookieName, newLine.BasketId.ToString());
-
+            //var basketId = Request.Cookies.GetCurrentBasketId(_settings);
+            await _basketService.UpdateBasket(customerBasket);
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateLine(BasketLineForUpdate basketLineUpdate)
-        {
-            var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-            await _basketService.UpdateLine(basketId, basketLineUpdate);
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> RemoveLine(Guid lineId)
-        {
-            var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-            await _basketService.RemoveLine(basketId, lineId);
-            return RedirectToAction("Index");
-        }
+        // public async Task<IActionResult> RemoveLine(Guid lineId)
+        // {
+        //     var basketId = Request.Cookies.GetCurrentBasketId(_settings);
+        //     await _basketService.RemoveLine(basketId, lineId);
+        //     return RedirectToAction("Index");
+        // }
 
         public IActionResult Checkout()
         {

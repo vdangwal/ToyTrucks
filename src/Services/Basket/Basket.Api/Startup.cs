@@ -61,7 +61,15 @@ namespace Basket.Api
             //  services.AddHttpClient<ITruckCatalogApiService, TruckCatalogApiService>(c =>
             //c.BaseAddress = new Uri(Configuration["TruckCatalogUri"]));
 
+            services.AddSingleton<ConnectionMultiplexer>(sp =>
+                       {
+                           //    /var settings = sp.GetRequiredService<IOptions<BasketSettings>>().Value;
+                           var configuration = ConfigurationOptions.Parse(Configuration["RedisServerUrl"], true);
 
+                           configuration.ResolveDns = true;
+
+                           return ConnectionMultiplexer.Connect(configuration);
+                       });
 
             services.AddControllers();
         }

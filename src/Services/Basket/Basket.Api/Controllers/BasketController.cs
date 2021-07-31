@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Basket.Api.Controllers
 {
     [Route("api/v1/basket")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class BasketController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace Basket.Api.Controllers
         {
             _logger = logger;
             _repository = repository;
-         //   _identityService = identityService;
+            //   _identityService = identityService;
             _publishEndpoint = publishEndpoint;
         }
 

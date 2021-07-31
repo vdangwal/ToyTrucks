@@ -23,30 +23,47 @@ namespace Web.Services
         }
 
 
-        public async Task<BasketLine> AddToBasket(Guid basketId, BasketLineForCreation basketLine)
+        // public async Task<BasketLine> AddToBasket(Guid basketId, BasketLineForCreation basketLine)
+        // {
+        //     if (basketId == Guid.Empty)
+        //     {
+        //         var basketResponse = await _client.PostAsJson("api/basket", new BasketForCreation { UserId = _settings.UserId });
+        //         var basket = await basketResponse.ReadContentAs<Basket>();
+        //         basketId = basket.BasketId;
+        //     }
+        //     var response = await _client.PostAsJson($"api/baskets/v2/{basketId}/basketlines", basketLine);
+        //     return await response.ReadContentAs<BasketLine>();
+        // }
+
+        public async Task<CustomerBasket> GetBasket(string id)
         {
-            if (basketId == Guid.Empty)
+            if (string.IsNullOrWhiteSpace(id))
             {
-                var basketResponse = await _client.PostAsJson("api/basket", new BasketForCreation { UserId = _settings.UserId });
-                var basket = await basketResponse.ReadContentAs<Basket>();
-                basketId = basket.BasketId;
+                throw new ArgumentNullException(nameof(id));
             }
-            var response = await _client.PostAsJson($"api/baskets/v2/{basketId}/basketlines", basketLine);
-            return await response.ReadContentAs<BasketLine>();
+            var response = await _client.GetAsync($"api/v1/basket/{id}");
+
+            return await response.ReadContentAs<CustomerBasket>();
         }
 
-        public async Task<Basket> GetBasket(Guid basketId)
+        public async Task<CustomerBasket> UpdateBasket(CustomerBasket basket)
         {
-            if (basketId == Guid.Empty)
+            if (basket == null)
             {
-                return await CreateBasket();
+                throw new ArgumentNullException(nameof(basket));
             }
-            var response = await _client.GetAsync($"api/baskets/v2/{basketId}");
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            var response = await _client.PostAsJson($"api/v1/basket", basket);
+
+            return await response.ReadContentAs<CustomerBasket>();
+        }
+
+        public async Task DeleteBasket(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
             {
-                return await CreateBasket();
+                throw new ArgumentNullException(nameof(userId));
             }
-            return await response.ReadContentAs<Basket>();
+            await _client.DeleteAsync($"api/v1/basket/{userId}");
         }
 
         public Task<BasketForCheckout> Checkout(Guid basketId, BasketForCheckout basketForCheckout)
@@ -55,33 +72,9 @@ namespace Web.Services
 
         }
 
-        public async Task<IEnumerable<BasketLine>> GetLinesForBasket(Guid basketId)
-        {
-            if (basketId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(basketId));
-            }
-            var response = await _client.GetAsync($"api/baskets/v2/{basketId}/basketlines");
-            return await response.ReadContentAs<BasketLine[]>();
-        }
 
-        public Task RemoveLine(Guid basketId, Guid lineId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task UpdateLine(Guid basketId, BasketLineForUpdate basketLineForUpdate)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<Basket> CreateBasket()
-        {
-            var basketResponse = await _client.PostAsJson("api/baskets/v2", new BasketForCreation { UserId = _settings.UserId });
-            var basket = await basketResponse.ReadContentAs<Basket>();
-            await CreateBasketCookie(basket.BasketId);
-            return basket;
-        }
 
         private Task CreateBasketCookie(Guid basketId)
         {
