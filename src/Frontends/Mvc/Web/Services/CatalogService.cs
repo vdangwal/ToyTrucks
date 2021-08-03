@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Web.Models.Api;
@@ -19,7 +20,9 @@ namespace Web.Services
         public async Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId)
         {
             var response = await _client.GetAsync($"api/trucks/{categoryId}");
-            return await response.ReadContentAs<List<Truck>>();
+            var trucks = await response.ReadContentAs<List<Truck>>();
+            var orderedTrucks = trucks.OrderBy(t => t.Year);
+            return orderedTrucks;
         }
         public async Task<Truck> GetTruckById(Guid truckId)
         {
@@ -36,7 +39,9 @@ namespace Web.Services
         public async Task<IEnumerable<Truck>> GetTrucks()
         {
             var response = await _client.GetAsync("api/trucks");
-            return await response.ReadContentAs<List<Truck>>();
+            var trucks = await response.ReadContentAs<List<Truck>>();
+            var orderedTrucks = trucks.OrderBy(t => t.Year);
+            return orderedTrucks;
         }
     }
 }

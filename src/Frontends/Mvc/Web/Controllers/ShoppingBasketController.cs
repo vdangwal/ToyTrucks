@@ -75,16 +75,16 @@ namespace Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> UpdateLine(string lineId, int quantity)
+        public async Task<IActionResult> UpdateLine(BasketLineForUpdate basketLineForUpdate)
         {
-            if (string.IsNullOrWhiteSpace(lineId))
+            if (string.IsNullOrWhiteSpace(basketLineForUpdate.LineId))
             {
-                HandleException(new ArgumentNullException(nameof(lineId)));
+                HandleException(new ArgumentNullException(nameof(basketLineForUpdate.LineId)));
             }
             else
             {
                 var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-                await _basketService.UpdateLine(basketId, lineId, quantity);
+                await _basketService.UpdateLine(basketId, basketLineForUpdate);
             }
             return RedirectToAction("Index");
         }

@@ -126,13 +126,13 @@ namespace Web.Services
             }
         }
 
-        public async Task UpdateLine(string basketId, string lineId, int quantity)
+        public async Task UpdateLine(string basketId, BasketLineForUpdate basketLineForUpdate)
         {
             CustomerBasket basket = await GetBasket(basketId);
-            var basketItem = basket?.Items?.FirstOrDefault(bi => bi.Id == lineId);
+            var basketItem = basket?.Items?.FirstOrDefault(bi => bi.Id == basketLineForUpdate.LineId);
             if (basketItem != null)
             {
-                basketItem.Quantity = quantity;
+                basketItem.Quantity = basketLineForUpdate.Quantity;
                 var response = await _client.PostAsJson($"api/v1/basket", basket);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -142,7 +142,7 @@ namespace Web.Services
             }
             else
             {
-                _logger.LogWarning($"No basket item found with id of {lineId}");
+                _logger.LogWarning($"No basket item found with id of {basketLineForUpdate.LineId}");
                 //              return basket;
             }
         }
