@@ -40,10 +40,11 @@ namespace Web.Controllers
             {
                 LineId = bl.Id,
                 TruckId = bl.TruckId,
-                TruckName = bl.TruckName,
+                Name = bl.Name,
                 Price = bl.Price,
                 Year = bl.Year,
-                Quantity = bl.Quantity
+                Quantity = bl.Quantity,
+                DefaultPhotoPath = bl.DefaultPhotoPath,
             });
 
 
@@ -67,12 +68,17 @@ namespace Web.Controllers
         //     return RedirectToAction("Index");
         // }
 
+
+
+
         [HttpPost]
         // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateBasket(CustomerBasket customerBasket)
+        public async Task<IActionResult> UpdateBasket(BasketItem basketItem)
         {
-            //var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-            await _basketService.UpdateBasket(customerBasket);
+            var basketId = Request.Cookies.GetCurrentBasketId(_settings);
+
+            await _basketService.UpdateBasket(basketId, basketItem);
+
             return RedirectToAction("Index");
         }
 

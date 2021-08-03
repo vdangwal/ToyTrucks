@@ -11,7 +11,7 @@ namespace Web.Services
         //Task<IEnumerable<BasketLine>> GetLinesForBasket(Guid basketId);
         // /Task<Basket> GetBasket(Guid basketId);
         Task<CustomerBasket> GetBasket(string userId);
-        Task<CustomerBasket> UpdateBasket(CustomerBasket basket);
+        Task<CustomerBasket> UpdateBasket(string basketId, BasketItem basketItem);
         Task DeleteBasket(string userId);
         //Task<Basket> CreateBasket();
         // Task UpdateLine(Guid basketId, BasketLineForUpdate basketLineForUpdate);

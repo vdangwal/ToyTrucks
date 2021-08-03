@@ -15,6 +15,7 @@ namespace Web.Services
         private readonly HttpClient _client;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Settings _settings;
+
         public BasketService(HttpClient client, Settings settings, IHttpContextAccessor httpContextAccessor)
         {
             _client = client;
@@ -46,13 +47,28 @@ namespace Web.Services
             return await response.ReadContentAs<CustomerBasket>();
         }
 
-        public async Task<CustomerBasket> UpdateBasket(CustomerBasket basket)
+        public async Task<CustomerBasket> UpdateBasket(string basketId, BasketItem basketItem)
         {
-            if (basket == null)
+            if (string.IsNullOrWhiteSpace(basketId))
             {
-                throw new ArgumentNullException(nameof(basket));
+                throw new ArgumentNullException(nameof(basketId));
             }
-            var response = await _client.PostAsJson($"api/v1/basket", basket);
+            if (basketItem == null)
+            {
+                throw new ArgumentNullException(nameof(basketItem));
+            }
+
+            var customerBasket = await GetBasket(basketId);
+            if (customerBasket == null)
+            {
+                throw new ArgumentNullException($"customer basket does not exist for basketid of{basketId}");
+            }
+            basketItem.Id = Guid.NewGuid().ToString();
+
+            customerBasket.Items.Add(basketItem);
+
+
+            var response = await _client.PostAsJson($"api/v1/basket", customerBasket);
 
             return await response.ReadContentAs<CustomerBasket>();
         }

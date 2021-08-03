@@ -30,15 +30,22 @@ namespace Web.Controllers
 
             await Task.WhenAll(new Task[] { getTrucks, getCategories, getBasket });
             var numberOfItems = getBasket.Result?.Items.Count ?? 0;
-            return View(
-                            new TruckListModel
+            var tm =   new TruckListModel
                             {
                                 Trucks = getTrucks.Result,
                                 Categories = getCategories.Result,
                                 NumberOfItems = numberOfItems,
                                 SelectedCategory = categoryId.HasValue ? categoryId.Value : null
-                            }
-                        );
+                            }; 
+            return View(tm);
+                            // new TruckListModel
+                            // {
+                            //     Trucks = getTrucks.Result,
+                            //     Categories = getCategories.Result,
+                            //     NumberOfItems = numberOfItems,
+                            //     SelectedCategory = categoryId.HasValue ? categoryId.Value : null
+                            // }
+                    //    / );
         }
 
         [HttpPost]

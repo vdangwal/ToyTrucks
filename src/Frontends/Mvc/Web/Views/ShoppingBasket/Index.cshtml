@@ -1,5 +1,7 @@
 @model Web.Models.View.BasketViewModel
+
 <h2>Your shopping cart</h2>
+
 <h4>Here are the trucks currently in your shopping cart.</h4>
 
 <table>
@@ -16,7 +18,7 @@
         @foreach (var line in Model.BasketLines)
         {
             <tr>
-                <td>@line.TruckName</td>
+                <td>@line.Name</td>
 
                 <td class="bold">@line.Price</td>
                 <td>
@@ -41,6 +43,20 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="text-right bold big">Discount:</td>
+            <td class="text-right bold big">
+                @Model.Discount.ToString("c")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right bold big">Total:</td>
+            <td class="text-right bold big">
+                @((Model.ShoppingCartTotal - Model.Discount).ToString("c"))
+            </td>
+        </tr>
+    </tfoot>
 </table>
 
 <div class="row">
@@ -54,7 +70,7 @@
 
 
 <div class="mt-2">
-    <a asp-controller="EventCatalog" asp-action="Index">
-        <img class="backIcon" src="~/img/arrow-down.svg" /> Back to event catalog
+    <a asp-controller="TruckCatalog" asp-action="Index">
+        <img class="backIcon" src="~/img/arrow-down.svg" /> Back to truck catalog
     </a>
 </div>

@@ -8,5 +8,6 @@ namespace Web.Models.View
         public Guid BasketId { get; set; }
         public List<BasketLineViewModel> BasketLines { get; set; }
         public decimal ShoppingCartTotal { get; set; }
+        public int Discount { get; set; }
     }
 }

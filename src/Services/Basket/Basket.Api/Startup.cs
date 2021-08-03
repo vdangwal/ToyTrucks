@@ -147,8 +147,16 @@ namespace Basket.Api
         //     return services;
 
         //     //once u attach a shell run redis-cli
-        //     //then keys *
-        // }
+        // /data # keys
+        // sh: keys: not found
+        // /data # redis
+        // sh: redis: not found
+        // /data # redis-cli
+        // 127.0.0.1:6379> keys *
+        // 1) "a3597eca-d535-40e9-bc8f-08d9542dcc7d"
+        // 127.0.0.1:6379> get a3597eca-d535-40e9-bc8f-08d9542dcc7d
+        // ...
+        // 127.0.0.1:6379> del a3597eca-d535-40e9-bc8f-08d9542dcc7d
 
     }
 }
