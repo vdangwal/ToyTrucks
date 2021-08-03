@@ -67,13 +67,16 @@ namespace Web.Services
             {
                 throw new ArgumentNullException($"customer basket does not exist for basketid of{basketId}");
             }
-            basketItem.Id = Guid.NewGuid().ToString();
-
-            customerBasket.Items.Add(basketItem);
-
-
+            if (customerBasket.Items.Any(bl => bl.TruckId == basketItem.TruckId))
+            {
+                customerBasket.Items.First(bl => bl.TruckId == basketItem.TruckId).Quantity += basketItem.Quantity;
+            }
+            else
+            {
+                basketItem.Id = Guid.NewGuid().ToString();
+                customerBasket.Items.Add(basketItem);
+            }
             var response = await _client.PostAsJson($"api/v1/basket", customerBasket);
-
             return await response.ReadContentAs<CustomerBasket>();
         }
 
