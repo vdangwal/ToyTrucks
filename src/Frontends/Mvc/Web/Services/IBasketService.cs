@@ -11,11 +11,11 @@ namespace Web.Services
         //Task<IEnumerable<BasketLine>> GetLinesForBasket(Guid basketId);
         // /Task<Basket> GetBasket(Guid basketId);
         Task<CustomerBasket> GetBasket(string userId);
-        Task<CustomerBasket> UpdateBasket(string basketId, BasketItem basketItem);
+        Task<CustomerBasket> AddLine(string basketId, BasketItem basketItem);
         Task DeleteBasket(string userId);
         //Task<Basket> CreateBasket();
-        // Task UpdateLine(Guid basketId, BasketLineForUpdate basketLineForUpdate);
-        // Task RemoveLine(Guid basketId, Guid lineId);
+        Task UpdateLine(string basketId, string lineId, int quantity);
+        Task<CustomerBasket> RemoveLine(string basketId, string lineId);
         Task<BasketForCheckout> Checkout(Guid basketId, BasketForCheckout basketForCheckout);
     }
 }

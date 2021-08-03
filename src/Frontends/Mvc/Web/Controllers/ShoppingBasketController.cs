@@ -58,40 +58,59 @@ namespace Web.Controllers
             return basketViewModel;
         }
 
-        // [HttpPost]
-        // public async Task<IActionResult> AddLine(BasketLineForCreation basketLine)
-        // {
-        //     var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-        //     var newLine = await _basketService.AddToBasket(basketId, basketLine);
-        //     Response.Cookies.Append(_settings.BasketIdCookieName, newLine.BasketId.ToString());
-
-        //     return RedirectToAction("Index");
-        // }
-
-
-
 
         [HttpPost]
         // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateBasket(BasketItem basketItem)
+        public async Task<IActionResult> AddLine(BasketItem basketItem)
         {
+            if (basketItem == null)
+            {
+                HandleException(new ArgumentNullException(nameof(basketItem)));
+                return RedirectToAction("Index");
+            }
             var basketId = Request.Cookies.GetCurrentBasketId(_settings);
 
-            await _basketService.UpdateBasket(basketId, basketItem);
+            await _basketService.AddLine(basketId, basketItem);
 
             return RedirectToAction("Index");
         }
 
-        // public async Task<IActionResult> RemoveLine(Guid lineId)
-        // {
-        //     var basketId = Request.Cookies.GetCurrentBasketId(_settings);
-        //     await _basketService.RemoveLine(basketId, lineId);
-        //     return RedirectToAction("Index");
-        // }
+        public async Task<IActionResult> UpdateLine(string lineId, int quantity)
+        {
+            if (string.IsNullOrWhiteSpace(lineId))
+            {
+                HandleException(new ArgumentNullException(nameof(lineId)));
+            }
+            else
+            {
+                var basketId = Request.Cookies.GetCurrentBasketId(_settings);
+                await _basketService.UpdateLine(basketId, lineId, quantity);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> RemoveLine(string lineId)
+        {
+            if (string.IsNullOrWhiteSpace(lineId))
+            {
+                HandleException(new ArgumentNullException(nameof(lineId)));
+            }
+            else
+            {
+                var basketId = Request.Cookies.GetCurrentBasketId(_settings);
+                await _basketService.RemoveLine(basketId, lineId);
+            }
+            return RedirectToAction("Index");
+        }
 
         public IActionResult Checkout()
         {
             return View();
+        }
+
+        private void HandleException(Exception ex)
+        {
+            ViewBag.BasketInoperativeMsg = $"Basket Service is inoperative {ex.GetType().Name} - {ex.Message}";
         }
     }
 }

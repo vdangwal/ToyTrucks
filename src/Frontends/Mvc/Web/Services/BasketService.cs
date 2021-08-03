@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Web.Extensions;
 using Web.Models;
 using Web.Models.Api;
@@ -15,12 +17,14 @@ namespace Web.Services
         private readonly HttpClient _client;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Settings _settings;
+        private readonly ILogger<BasketService> _logger;
 
-        public BasketService(HttpClient client, Settings settings, IHttpContextAccessor httpContextAccessor)
+        public BasketService(HttpClient client, Settings settings, IHttpContextAccessor httpContextAccessor, ILogger<BasketService> logger)
         {
             _client = client;
             _settings = settings;
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
 
 
@@ -47,7 +51,7 @@ namespace Web.Services
             return await response.ReadContentAs<CustomerBasket>();
         }
 
-        public async Task<CustomerBasket> UpdateBasket(string basketId, BasketItem basketItem)
+        public async Task<CustomerBasket> AddLine(string basketId, BasketItem basketItem)
         {
             if (string.IsNullOrWhiteSpace(basketId))
             {
@@ -88,10 +92,6 @@ namespace Web.Services
 
         }
 
-
-
-
-
         private Task CreateBasketCookie(Guid basketId)
         {
             if (basketId == Guid.Empty)
@@ -105,6 +105,43 @@ namespace Web.Services
             return Task.CompletedTask;
         }
 
+        public async Task<CustomerBasket> RemoveLine(string basketId, string lineId)
+        {
 
+            CustomerBasket basket = await GetBasket(basketId);
+            var basketItem = basket?.Items?.FirstOrDefault(bi => bi.Id == lineId);
+            if (basketItem != null)
+            {
+                basket.Items.Remove(basketItem);
+                var response = await _client.PostAsJson($"api/v1/basket", basket);
+                return await response.ReadContentAs<CustomerBasket>();
+            }
+            else
+            {
+                _logger.LogWarning($"No basket item found with id of {lineId}");
+                return basket;
+            }
+        }
+
+        public async Task UpdateLine(string basketId, string lineId, int quantity)
+        {
+            CustomerBasket basket = await GetBasket(basketId);
+            var basketItem = basket?.Items?.FirstOrDefault(bi => bi.Id == lineId);
+            if (basketItem != null)
+            {
+                basketItem.Quantity = quantity;
+                var response = await _client.PostAsJson($"api/v1/basket", basket);
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError($"{response.ReasonPhrase}");
+                }
+                //                return await response.ReadContentAs<CustomerBasket>();
+            }
+            else
+            {
+                _logger.LogWarning($"No basket item found with id of {lineId}");
+                //              return basket;
+            }
+        }
     }
 }
