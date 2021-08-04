@@ -5,7 +5,7 @@ namespace Web.Models.View
 {
     public class BasketCheckoutViewModel
     {
-        public Guid BasketId { get; set; }
+        public string BasketId { get; set; }
         public Guid UserId { get; set; }
 
         [Required]
@@ -23,16 +23,25 @@ namespace Web.Models.View
         [Required]
         [StringLength(200)]
         public string Address { get; set; }
+
+        [StringLength(200)]
+        public string Address2 { get; set; }
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "City")]
+        public string City { get; set; }
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "State")]
+        public string State { get; set; }
         [Required]
         [StringLength(10)]
         [Display(Name = "Zip code")]
         public string ZipCode { get; set; }
+
         [Required]
         [StringLength(100)]
-        [Display(Name = "First name")]
-        public string City { get; set; }
-        [Required]
-        [StringLength(100)]
+        [Display(Name = "Country")]
         public string Country { get; set; }
 
 

@@ -1,5 +1,6 @@
-
+using AutoMapper;
 using Basket.Api.Dtos;
+using Basket.Api.Events;
 using Basket.Api.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,17 +23,19 @@ namespace Basket.Api.Controllers
         //private readonly IIdentityService _identityService;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<BasketController> _logger;
+        private readonly IMapper _mapper;
 
         public BasketController(
             ILogger<BasketController> logger,
             IBasketRepository repository,
             //IIdentityService identityService,
-            IPublishEndpoint publishEndpoint)
+            IPublishEndpoint publishEndpoint, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
             //   _identityService = identityService;
             _publishEndpoint = publishEndpoint;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -50,46 +54,70 @@ namespace Basket.Api.Controllers
             return Ok(await _repository.UpdateBasketAsync(value));
         }
 
-        // [Route("checkout")]
-        // [HttpPost]
-        // [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        // [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        // public async Task<ActionResult> CheckoutAsync([FromBody] BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
-        // {
-        //     var userId = _identityService.GetUserIdentity();
+        [Route("checkout")]
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+        {
+            // var userId = _identityService.GetUserIdentity();
 
-        //     basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-        //         guid : basketCheckout.RequestId;
+            // basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
+            //     guid : basketCheckout.RequestId;
 
-        //     var basket = await _repository.GetBasketAsync(userId);
+            var basket = await _repository.GetBasketAsync(basketCheckout.BasketId);
 
-        //     if (basket == null)
-        //     {
-        //         return BadRequest();
-        //     }
+            if (basket == null)
+            {
+                return BadRequest();
+            }
 
-        //     var userName = this.HttpContext.User.FindFirst(x => x.Type == ClaimTypes.Name).Value;
+            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            eventMessage.Basket = new List<BasketItemEvent>();
+            decimal total = 0.0M;
+            foreach (var item in basket.Items)
+            {
+                var basketItemEvent = _mapper.Map<BasketItemEvent>(item);
+                total += item.Price * item.Quantity;
+                eventMessage.Basket.Add(basketItemEvent);
+            }
 
-        //     var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
-        //         basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
-        //         basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer, basketCheckout.RequestId, basket);
+            Coupon coupon = null;
 
-        //     // Once basket is checkout, sends an integration event to
-        //     // ordering.api to convert basket to order and proceeds with
-        //     // order creation process
-        //     try
-        //     {
-        //         _publishEndpoint.Publish(eventMessage);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         _logger.LogError(ex, "ERROR Publishing integration event: {IntegrationEventId} from {AppName}", eventMessage.Id, Program.AppName);
+            //     if (basket.CouponId.HasValue)
+            //         coupon = await discountService.GetCoupon(basket.CouponId.Value);
 
-        //         throw;
-        //     }
+            //     //if (basket.CouponId.HasValue)
+            //     //    coupon = await discountService.GetCouponWithError(basket.CouponId.Value);
 
-        //     return Accepted();
-        // }
+            if (coupon != null)
+            {
+                eventMessage.BasketTotal = total - coupon.Amount;
+            }
+            else
+            {
+                eventMessage.BasketTotal = total;
+            }
+
+
+            // Once basket is checkout, sends an integration event to
+            // ordering.api to convert basket to order and proceeds with
+            // order creation process
+            try
+            {
+                await _publishEndpoint.Publish(eventMessage);
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                throw;
+            }
+            await _repository.DeleteBasketAsync(basketCheckout.BasketId);
+            return Accepted(eventMessage);
+        }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]

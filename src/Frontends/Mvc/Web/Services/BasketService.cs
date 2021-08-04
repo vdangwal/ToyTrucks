@@ -89,9 +89,24 @@ namespace Web.Services
             await _client.DeleteAsync($"api/v1/basket/{userId}");
         }
 
-        public Task<BasketForCheckout> Checkout(Guid basketId, BasketForCheckout basketForCheckout)
+        public async Task<BasketForCheckout> Checkout(string basketId, BasketForCheckout basketForCheckout)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(basketId))
+            {
+                throw new ArgumentNullException(nameof(basketId));
+            }
+            if (basketForCheckout == null)
+            {
+                throw new ArgumentNullException(nameof(basketForCheckout));
+            }
+
+            var response = await _client.PostAsJson($"api/v1/basket/checkout", basketForCheckout);
+            if (response.IsSuccessStatusCode)
+                return await response.ReadContentAs<BasketForCheckout>();
+            else
+            {
+                throw new Exception("Something went wrong placing your order. Please try again.");
+            }
 
         }
 

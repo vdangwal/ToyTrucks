@@ -35,6 +35,7 @@ namespace Basket.Api.Events
             //now i need to get all baskets that have the updatedInventory.TruckId and set something... in
             //  await _service.InformOfUpdatedInventory(updatedInventory);
             Console.WriteLine("TODO ...  BASKET INVENTORY HAS BEEN UPDATED. NEED TO SHOW IN BASKET... TODO ");
+            return;
         }
     }
 }

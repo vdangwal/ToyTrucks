@@ -16,6 +16,6 @@ namespace Web.Services
         //Task<Basket> CreateBasket();
         Task UpdateLine(string basketId, BasketLineForUpdate basketLineForUpdate);
         Task<CustomerBasket> RemoveLine(string basketId, string lineId);
-        Task<BasketForCheckout> Checkout(Guid basketId, BasketForCheckout basketForCheckout);
+        Task<BasketForCheckout> Checkout(string basketId, BasketForCheckout basketForCheckout);
     }
 }

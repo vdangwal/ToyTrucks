@@ -1,5 +1,6 @@
 using AutoMapper;
-
+using Basket.Api.Events;
+using Basket.Api.Dtos;
 
 namespace Basket.Api.Profiles
 {
@@ -7,10 +8,10 @@ namespace Basket.Api.Profiles
     {
         public AllProfiles()
         {
-            //     CreateMap<BasketForCreation, Dtos.Basket>()
-            //         .ReverseMap();
-            //     CreateMap<BasketLine, BasketLineForCreation>()
-            //    .ReverseMap();
+            CreateMap<BasketCheckoutEvent, BasketCheckout>()
+                .ReverseMap();
+            CreateMap<BasketItemEvent, BasketItem>()
+           .ReverseMap();
         }
     }
 }

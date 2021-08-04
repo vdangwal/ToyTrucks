@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace Web.Models.Api
+using System;
+namespace Basket.Api.Dtos
 {
-    public class BasketForCheckout
+    public class BasketCheckout
     {
         public string BasketId { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
+        public decimal TotalPrice { get; set; }
 
-        //user info
+        // BillingAddress
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -15,13 +15,12 @@ namespace Web.Models.Api
         public string Address2 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public string ZipCode { get; set; }
         public string Country { get; set; }
+        public string ZipCode { get; set; }
 
-
-        //payment information
-        public string CardNumber { get; set; }
+        // Payment
         public string CardName { get; set; }
+        public string CardNumber { get; set; }
         public string CardExpiration { get; set; }
         public string CvvCode { get; set; }
         public int PaymentMethod { get; set; }
