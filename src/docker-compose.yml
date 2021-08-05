@@ -181,40 +181,40 @@ services:
     depends_on: 
       - postgres_db 
       - rabbitmq
-  ocelot_api:
-    container_name: ocelot_api
-    build: 
-      context: .
-      dockerfile: ApiGateways/OcelotApi/Dockerfile
-      target: debug
-    environment: 
-      ASPNETCORE_ENVIRONMENT: Development
+  #ocelot_api:
+  #  container_name: ocelot_api
+  #  build: 
+  #    context: .
+  #    dockerfile: ApiGateways/OcelotApi/Dockerfile
+  #    target: debug
+  #  environment: 
+  #    ASPNETCORE_ENVIRONMENT: Development
      
-    ports: 
-      - 5010:80
-    depends_on: 
-      - catalog_api
-      - discount_grpc
-      - inventory_api
-      - order_api
-      - basket_api
+  #  ports: 
+  #    - 5010:80
+  #  depends_on: 
+  #    - catalog_api
+  #    - discount_grpc
+  #    - inventory_api
+  #    - order_api
+  #    - basket_api
   
-  shopping_aggregator:
-    container_name: shopping_aggregator
-    build:
-      context: .
-      dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
-      target: debug
-    environment: 
-      ASPNETCORE_ENVIRONMENT: Development
-      "ApiSettings:CatalogUrl": "http://catalog_api"
-    ports:
-      - 5005:80
-    depends_on: 
-      - catalog_api
-      - inventory_api
-      - order_api
-      - basket_api
+  # shopping_aggregator:
+  #   container_name: shopping_aggregator
+  #   build:
+  #     context: .
+  #     dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
+  #     target: debug
+  #   environment: 
+  #     ASPNETCORE_ENVIRONMENT: Development
+  #     "ApiSettings:CatalogUrl": "http://catalog_api"
+  #   ports:
+  #     - 5005:80
+  #   depends_on: 
+  #     - catalog_api
+  #     - inventory_api
+  #     - order_api
+  #     - basket_api
   
 
 

@@ -1,17 +1,20 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Orders.Api.Entities
 {
     public class OrderItem
     {
+        public Guid OrderLineId { get; set; }
+        [Required]
+        public Guid OrderId { get; set; }
 
-        //private string _pictureUrl;
-        // private decimal _discount;
+        public string Message { get; set; }
+        public Order Order { get; set; }
         public int Quantity { get; set; }
-        public string Color { get; set; }
         public decimal Price { get; set; }
-        public string ProductId { get; set; }
-        public string ProductName { get; set; }
+        public Guid TruckId { get; set; }
+        public string TruckName { get; set; }
 
     }
 }

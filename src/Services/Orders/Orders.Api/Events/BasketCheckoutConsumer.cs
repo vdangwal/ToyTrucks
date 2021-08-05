@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-//using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
@@ -29,15 +28,33 @@ namespace Orders.Api.Entities
 
         public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
         {
-            System.Console.WriteLine($"IN ORDERS COnsumer with {context.Message.UserName}");
-            var order = _mapper.Map<OrderDto>(context.Message);
-            // foreach (var item in context.Message.Basket.Items)
-            // {
-            //     order.OrderItems.Add(_mapper.Map<OrderItem>(item));
-            // }
-            // //  order.OrderItems = _mapper.Map<List<OrderItem>>(context.Message.Basket);
+            System.Console.WriteLine($"IN ORDERS COnsumer with {context.Message.UserId}");
+            var basketCheckoutDetails = (BasketCheckoutEvent)context.Message;
+            var order = new Order
+            {
+                UserId = basketCheckoutDetails.UserId,
+                OrderPaid = false,
+                OrderPlaced = DateTime.Now,
+                TotalPrice = basketCheckoutDetails.BasketTotal
+            };
+            order.OrderId = Guid.NewGuid();
+            order.OrderItems = new List<OrderItem>();
+            foreach (var bLine in basketCheckoutDetails.Basket)
+            {
+                OrderItem item = new OrderItem
+                {
+                    OrderLineId = Guid.NewGuid(),
+                    OrderId = order.OrderId,
+                    Price = bLine.Price,
+                    Quantity = bLine.Quantity,
+                    TruckId = bLine.TruckId,
+                    TruckName = bLine.Name,
+
+                };
+                order.OrderItems.Add(item);
+            }
             var returnOrder = await _service.AddOrderAsync(order);
-            await UpdateInventory(context.Message.Basket);
+            // await UpdateInventory(context.Message.Basket);
             Console.WriteLine("Order added");
             _logger.LogInformation("Order added");
         }
