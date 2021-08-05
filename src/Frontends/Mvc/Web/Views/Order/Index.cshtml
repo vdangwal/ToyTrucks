@@ -26,8 +26,8 @@
                 {
                     <td class="boldRed">@order.Message</td>
                 }
-                <td class="bold">$@order.OrderTotal</td>
-                <td class="bold">@order.OrderPaid</td>
+                <td class="bold">@order.OrderTotal</td>
+                <td class="bold">$@order.TotalPrice</td>
                 <td>
                     <a class="btn-primary" type="button" asp-action="Detail" asp-route-orderId="@order.OrderId">DETAILS</a>
                 </td>
