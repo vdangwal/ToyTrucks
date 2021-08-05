@@ -44,7 +44,8 @@ namespace Web.Services
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                throw new ArgumentNullException(nameof(id));
+                //throw new ArgumentNullException(nameof(id));
+                return null;
             }
             var response = await _client.GetAsync($"api/v1/basket/{id}");
 
@@ -55,7 +56,11 @@ namespace Web.Services
         {
             if (string.IsNullOrWhiteSpace(basketId))
             {
-                throw new ArgumentNullException(nameof(basketId));
+                var newBasketId = Guid.NewGuid();
+                await CreateBasketCookie(newBasketId);
+                basketId = newBasketId.ToString();
+
+                //throw new ArgumentNullException(nameof(basketId));
             }
             if (basketItem == null)
             {
