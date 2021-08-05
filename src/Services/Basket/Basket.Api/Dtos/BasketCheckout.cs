@@ -4,7 +4,7 @@ namespace Basket.Api.Dtos
     public class BasketCheckout
     {
         public string BasketId { get; set; }
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public decimal TotalPrice { get; set; }
 
         // BillingAddress

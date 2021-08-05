@@ -45,6 +45,12 @@ namespace Web
                 //c.DefaultRequestHeaders.Add("api-version", "2.0");
 
             });
+            services.AddHttpClient<IOrderService, OrderService>(c =>
+            {
+                c.BaseAddress = new Uri(_config["OrdersUri"]);
+            });
+
+
             services.AddSingleton<Settings>();
 
         }

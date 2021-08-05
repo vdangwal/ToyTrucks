@@ -1,8 +1,8 @@
-
 using System.Collections.Generic;
+
 namespace Basket.Api.Events
 {
-    public class BasketCheckoutEvent
+    public class BasketCheckoutEventDEAD
     {
         public string UserId { get; set; }
         public decimal TotalPrice { get; set; }
@@ -25,7 +25,7 @@ namespace Basket.Api.Events
         public string CvvCode { get; set; }
         public int PaymentMethod { get; set; }
 
-        public List<BasketItemEvent> Basket { get; set; }
+        public List<BasketItemEventOld> Basket { get; set; }
         public decimal BasketTotal { get; set; }
     }
 }

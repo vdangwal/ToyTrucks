@@ -1,5 +1,5 @@
 using MongoDB.Driver;
-using Orders.Api.Models;
+using Orders.Api.Entities;
 using Microsoft.Extensions.Configuration;
 namespace Orders.Api.DBContexts
 {
@@ -18,9 +18,9 @@ namespace Orders.Api.DBContexts
             var client = new MongoClient($"mongodb://{server}:{port}");
 
             var db = client.GetDatabase(database);
-            Orders = db.GetCollection<OrderDto>(collection);
+            Orders = db.GetCollection<Order>(collection);
 
-            OrderSeedData.SeedData(Orders);
+            //   OrderSeedData.SeedData(Orders);
 
             //docker run -d -p 27017:27017 --name order-mongo   mongo
             //following are mongo cmds
@@ -33,6 +33,6 @@ namespace Orders.Api.DBContexts
             //db.Orders.remove({});
             //db.Orders.find({}).pretty();
         }
-        public IMongoCollection<OrderDto> Orders { get; }
+        public IMongoCollection<Order> Orders { get; }
     }
 }

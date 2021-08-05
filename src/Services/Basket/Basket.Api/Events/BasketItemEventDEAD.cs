@@ -1,7 +1,7 @@
 using System;
 namespace Basket.Api.Events
 {
-    public class BasketItemEvent
+    public class BasketItemEventOld
     {
         public string Id { get; set; }
         public Guid TruckId { get; set; }

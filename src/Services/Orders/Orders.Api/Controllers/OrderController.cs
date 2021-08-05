@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using Ordering.Application.Features.Orders.Queries.GetOrdersList;
+using Orders.Api.Entities;
 using System.Net;
 using AutoMapper;
 using Orders.Api.Services;
 using Orders.Api.Models;
-using Entities = Orders.Api.Entities;
+
 using Microsoft.Extensions.Logging;
 
 namespace Orders.Api.Controllers
@@ -30,34 +30,31 @@ namespace Orders.Api.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        // [HttpGet]
-        // [Route("{orderId::length(24)}")]
-        // [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
-        // [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        // public async Task<ActionResult<OrderDto>> OrderById(string orderId)
-        // {
-        //     try
-        //     {
-        //         var orders = await _service.GetByOrderIdAsync(orderId);
-        //         return Ok(orders);
-        //     }
-        //     catch (System.Exception ex)
-        //     {
-        //         _logger.LogError(ex, $"Error getting order with id of {orderId} as it does not exist");
-        //         return NotFound();
-        //     }
 
-        // }
 
-        [HttpGet("{userName:alpha}", Name = "OrdersByUsername")]
+        [HttpGet("user/{userId}")]
         [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> OrdersByUsername(string userName)
+        public async Task<ActionResult<IEnumerable<OrderDto>>> OrdersByUserId(Guid userId)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (userId == Guid.Empty)
                 return BadRequest();
-            var orders = await _service.GetOrdersByUserName(userName);
-            return Ok(orders);
+            var orders = await _service.GetOrdersByUserId(userId);
+            var ordersToReturn = _mapper.Map<IEnumerable<OrderDto>>(orders);
+            return Ok(ordersToReturn);
+        }
+
+        [HttpGet("{orderId}", Name = "OrderByOrderId")]
+        [ProducesResponseType(typeof(OrderDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<OrderDto>> OrderByOrderId(Guid orderId)
+        {
+            if (orderId == Guid.Empty)
+                return BadRequest();
+            var order = await _service.GetByOrderIdAsync(orderId);
+            var orderToReturn = _mapper.Map<OrderDto>(order);
+            orderToReturn.OrderLines = _mapper.Map<List<OrderLineDto>>(order.OrderItems);
+            return Ok(orderToReturn);
         }
 
         [HttpGet()]
@@ -67,38 +64,39 @@ namespace Orders.Api.Controllers
             // var query = new GetOrdersListQuery(userName);
             //var orders = await _mediatr.Send(query);
             var orders = await _service.GetOrdersAsync();
-            return Ok(orders);
+            var ordersToReturn = _mapper.Map<IEnumerable<OrderDto>>(orders);
+            return Ok(ordersToReturn);
         }
 
-        [HttpPost(Name = "CheckoutOrder")]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<int>> CheckoutOrder([FromBody] Entities.Order order)
-        {
-            if (order == null)
-                return BadRequest();
-            var orderDto = _mapper.Map<OrderDto>(order);
-            var returnOrder = await _service.AddOrderAsync(orderDto);
-            return Ok(returnOrder?.Id);
-        }
+        // [HttpPost(Name = "CheckoutOrder")]
+        // [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        // [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        // public async Task<ActionResult<int>> CheckoutOrder([FromBody] OrderDto order)
+        // {
+        //     if (order == null)
+        //         return BadRequest();
+        //     var orderDto = _mapper.Map<OrderDto>(order);
+        //     var returnOrder = await _service.AddOrderAsync(orderDto);
+        //     return Ok(returnOrder?.Id);
+        // }
 
         [HttpPut(Name = "UpdateOrder")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<int>> UpdateOrder([FromBody] Entities.Order order)
+        public async Task<ActionResult<int>> UpdateOrder([FromBody] OrderDto orderDto)
         {
-            if (order == null)
+            if (orderDto == null)
                 return BadRequest();
 
-            var orderDto = _mapper.Map<OrderDto>(order);
+            var order = _mapper.Map<Order>(orderDto);
             try
             {
-                await _service.UpdateOrderAsync(orderDto);
+                await _service.UpdateOrderAsync(order);
             }
             catch (System.Exception ex)
             {
-                _logger.LogError(ex, $"Error updating order with UserName of {order.UserName} as it does not exist");
+                _logger.LogError(ex, $"Error updating order with UserId of {order.UserId} as it does not exist");
                 return NotFound();
             }
 
@@ -109,8 +107,10 @@ namespace Orders.Api.Controllers
         [HttpDelete("{orderId:alpha}", Name = "DeleteOrder")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<int>> DeleteOrder(string orderId)
+        public async Task<ActionResult<int>> DeleteOrder(Guid orderId)
         {
+            if (orderId == Guid.Empty)
+                return BadRequest();
             try
             {
                 await _service.DeleteOrderAsync(orderId);
