@@ -1,7 +1,7 @@
 version: '3.4'
 
 services: 
-  postgres_db:
+  catalogdb:
     image: postgres:alpine
     environment: 
       POSTGRES_USER: "marcus"
@@ -20,20 +20,12 @@ services:
         - mongo_data:/data/orderdb
   
   basketdb:
-    image: mongo
+    image: redis:alpine
     restart: always
     ports:
-        - "27018:27017"
+        - "6379:6379"
     volumes:
-        - mongo_data:/data/basketdb
-        
-  # basket_redis_db:
-  #   image: redis:alpine
-  #   restart: always
-  #   #environment: 
-  #   ports:
-  #     - 6379:6379
-  
+        - basket_redis_data:/data/basketdb
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
@@ -75,7 +67,7 @@ services:
       target: debug
     environment: 
       ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_SERVER: "catalogdb"
       POSTGRES_DB: "catalogdb"
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
@@ -86,7 +78,7 @@ services:
     volumes:
       - ./Services/Catalog/Catalog.Api/:/work/Services/Catalog/Catalog.Api/
     depends_on: 
-      - postgres_db
+      - catalogdb
    
   basket_api:
     container_name: basket_api
@@ -95,15 +87,11 @@ services:
       dockerfile: Services/Basket/Basket.Api/Dockerfile
       target: debug
     environment: 
-      #REDIS_SERVER: "basket_redis_db"
       ASPNETCORE_ENVIRONMENT: Development
       grpcServiceUrl: "http://discount_grpc:80"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       BasketUpdatedQueue: "basketinventoryupdated-queue"
-      MONGO_SERVER: "basketdb"
-      MONGO_PORT: "27017"
-      MONGO_DB: "BasketDb"
-      MONGO_COLLECTION: "Baskets"
+      RedisServerUrl: "basketdb"
     ports: 
       - 3502:80
     volumes:
@@ -119,7 +107,7 @@ services:
       target: debug
     environment: 
       ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_SERVER: "catalogdb"
       POSTGRES_DB: "discountdb"
       POSTGRES_USER: "marcus"
       POSTGRES_PORT: "5432"
@@ -129,7 +117,7 @@ services:
     volumes:
       - ./Services/Discount/Discount.Grpc/:/discountgrpcwork/
     depends_on: 
-      - postgres_db
+      - catalogdb
 
   order_api:
     container_name: order_api
@@ -139,7 +127,7 @@ services:
       target: debug
     environment: 
       ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_SERVER: "catalogdb"
       POSTGRES_DB: "orderdb"
       POSTGRES_PORT: "5432"
       POSTGRES_USER: "marcus"
@@ -155,7 +143,7 @@ services:
     volumes:
       - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
     depends_on: 
-      - postgres_db 
+      - catalogdb 
       - rabbitmq
       - orderdb
 
@@ -167,7 +155,7 @@ services:
       target: debug
     environment: 
       ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "postgres_db"
+      POSTGRES_SERVER: "catalogdb"
       POSTGRES_DB: "inventorydb"
       POSTGRES_PORT: "5432"
       POSTGRES_USER: "marcus"
@@ -179,7 +167,7 @@ services:
     volumes:
       - ./Services/Inventory/Inventory.Api/:/inventoryapiwork/Services/Inventory/Inventory.Api/
     depends_on: 
-      - postgres_db 
+      - catalogdb 
       - rabbitmq
   #ocelot_api:
   #  container_name: ocelot_api
@@ -220,6 +208,7 @@ services:
 
 volumes: 
   mongo_data:
+  basket_redis_data:
 #   #truck-postgresdata:
 #   #catalogapi_data:
 #   #orderapi_data:
