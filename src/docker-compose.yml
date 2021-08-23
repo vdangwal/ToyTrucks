@@ -182,9 +182,15 @@ services:
       TruckCatalogUri: "http://catalog_api"
       BasketUri: "http://basket_api"
       OrdersUri: "http://order_api"
+      ASPNETCORE_URLS: "https://+;http://+"
+      ASPNETCORE_HTTPS_PORT: "8001"
+      ASPNETCORE_ENVIRONMENT: Development
     ports:
       - "8000:80"
       - "8001:443"
+    volumes:
+      - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+      - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/ 
     depends_on:
       - catalog_api
       - order_api
