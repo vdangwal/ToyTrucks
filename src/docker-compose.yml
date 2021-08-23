@@ -3,33 +3,35 @@ version: '3.4'
 services: 
   catalogdb:
     image: postgres:alpine
+    restart: "no"
     environment: 
       POSTGRES_USER: "marcus"
       POSTGRES_PASSWORD: "password"
     ports: 
       - 5432:5432
-    # volumes:
-    #   - truck-postgresdata:/var/lib/postgresql/data
+    volumes:
+      - catalog_postgres_data:/data/catalogdb
   
   orderdb:
     image: mongo
-    restart: always
+    restart: "no"
     ports:
         - "27017:27017"
     volumes:
-        - mongo_data:/data/orderdb
+        - order_mongo_data:/data/orderdb
   
   basketdb:
     image: redis:alpine
-    restart: always
+    restart: "no"
     ports:
         - "6379:6379"
     volumes:
         - basket_redis_data:/data/basketdb
+
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
-    restart: always
+    restart: "no"
     environment: 
       teds: ""
     ports:
@@ -169,6 +171,25 @@ services:
     depends_on: 
       - catalogdb 
       - rabbitmq
+  
+  mvc_frontend:
+    container_name: mvc_frontend
+    build:
+      context: .
+      dockerfile: Frontends/Mvc/Web/Dockerfile
+      target: debug
+    environment: 
+      TruckCatalogUri: "http://catalog_api"
+      BasketUri: "http://basket_api"
+      OrdersUri: "http://order_api"
+    ports:
+      - "8000:80"
+      - "8001:443"
+    depends_on:
+      - catalog_api
+      - order_api
+      - basket_api
+
   #ocelot_api:
   #  container_name: ocelot_api
   #  build: 
@@ -207,12 +228,7 @@ services:
 
 
 volumes: 
-  mongo_data:
+  order_mongo_data:
   basket_redis_data:
-#   #truck-postgresdata:
-#   #catalogapi_data:
-#   #orderapi_data:
-#   portainer_data:
-#   #pgadmin_data:
-
+  catalog_postgres_data:
 
