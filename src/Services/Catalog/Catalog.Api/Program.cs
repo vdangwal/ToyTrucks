@@ -19,7 +19,6 @@ namespace Catalog.Api
             CreateHostBuilder(args)
                 .Build()
                 .MigrateAndSeedDatabase<CatalogDbContext>(retries: 3)
-                .GetTruckInventory<TruckInventoryPublisher>()
                 .Run();
         }
 

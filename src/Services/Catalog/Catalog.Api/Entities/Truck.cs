@@ -21,6 +21,7 @@ namespace Catalog.Api.Entities
         public bool Hidden { get; set; }
         public bool Damaged { get; set; }
         public string DefaultPhotoPath { get; set; }
+        public int Quantity { get; set; }
         public bool OutOfStock { get; set; }
 
         public virtual ICollection<Photo> Photos { get; set; }

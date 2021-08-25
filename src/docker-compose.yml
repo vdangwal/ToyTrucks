@@ -75,8 +75,8 @@ services:
       POSTGRES_PASSWORD: "password"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       OutOfStockQueue: "outofstock-queue"
-      InventoryReturnedQueue: "inventoryreturned-queue"
-      InventoryUri: "http://inventory_api/",
+      # InventoryReturnedQueue: "inventoryreturned-queue"
+      # InventoryUri: "http://inventory_api/",
     ports: 
       - 3500:80
     volumes:
@@ -151,29 +151,29 @@ services:
       - rabbitmq
       - orderdb
 
-  inventory_api:
-    container_name: inventory_api
-    build: 
-      context: .
-      dockerfile: Services/Inventory/Inventory.Api/Dockerfile
-      target: debug
-    environment: 
-      ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "catalogdb"
-      POSTGRES_DB: "inventorydb"
-      POSTGRES_PORT: "5432"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      InventoryUpdatedQueue: "inventoryupdated-queue"
-      InventoryWantedQueue: "inventorywanted-queue"
-    ports: 
-      - 3504:80
-    volumes:
-      - ./Services/Inventory/Inventory.Api/:/inventoryapiwork/Services/Inventory/Inventory.Api/
-    depends_on: 
-      - catalogdb 
-      - rabbitmq
+  # inventory_api:
+  #   container_name: inventory_api
+  #   build: 
+  #     context: .
+  #     dockerfile: Services/Inventory/Inventory.Api/Dockerfile
+  #     target: debug
+  #   environment: 
+  #     ASPNETCORE_ENVIRONMENT: Development
+  #     POSTGRES_SERVER: "catalogdb"
+  #     POSTGRES_DB: "inventorydb"
+  #     POSTGRES_PORT: "5432"
+  #     POSTGRES_USER: "marcus"
+  #     POSTGRES_PASSWORD: "password"
+  #     EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+  #     InventoryUpdatedQueue: "inventoryupdated-queue"
+  #     InventoryWantedQueue: "inventorywanted-queue"
+  #   ports: 
+  #     - 3504:80
+  #   volumes:
+  #     - ./Services/Inventory/Inventory.Api/:/inventoryapiwork/Services/Inventory/Inventory.Api/
+  #   depends_on: 
+  #     - catalogdb 
+  #     - rabbitmq
   
   mvc_frontend:
     container_name: mvc_frontend
