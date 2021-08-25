@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Polly;
 using System;
+using Catalog.Api.Events;
 
 namespace Catalog.Api.Extensions
 {
@@ -21,6 +22,21 @@ namespace Catalog.Api.Extensions
                     context.Database.EnsureCreated();
                     SeedData.Initialize(scope.ServiceProvider)
                             .Wait();
+                });
+            }
+            return host;
+        }
+
+        public static IHost GetTruckInventory<T>(this IHost host, int retries = 3) where T : TruckInventoryPublisher
+        {
+            var policy = Policy.Handle<System.Exception>().WaitAndRetry(retries, times => TimeSpan.FromMilliseconds(times * 100));
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var publisher = scope.ServiceProvider.GetRequiredService<T>();
+                policy.Execute(() =>
+                {
+                    publisher.GetTruckInventory();
                 });
             }
             return host;

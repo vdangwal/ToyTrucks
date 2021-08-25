@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-
+using Catalog.Api.Events;
 namespace Catalog.Api
 {
     public class Program
@@ -19,6 +19,7 @@ namespace Catalog.Api
             CreateHostBuilder(args)
                 .Build()
                 .MigrateAndSeedDatabase<CatalogDbContext>(retries: 3)
+                .GetTruckInventory<TruckInventoryPublisher>()
                 .Run();
         }
 

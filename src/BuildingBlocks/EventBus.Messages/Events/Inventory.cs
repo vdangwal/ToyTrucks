@@ -1,11 +1,11 @@
 using System;
+
 namespace EventBus.Messages.Events
 {
-    public class InventoryToUpdate
+    public class Inventory
     {
-        public int Quantity { get; set; }
-
         public Guid TruckId { get; set; }
         public string TruckName { get; set; }
+        public int Quantity { get; set; }
     }
 }

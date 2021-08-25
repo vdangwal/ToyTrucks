@@ -54,25 +54,25 @@ namespace Orders.Api.Entities
                 order.OrderItems.Add(item);
             }
             var returnOrder = await _service.AddOrderAsync(order);
-            // await UpdateInventory(context.Message.Basket);
+            await UpdateInventory(context.Message.Basket);
             Console.WriteLine("Order added");
             _logger.LogInformation("Order added");
         }
 
-        private async Task UpdateInventory(ShoppingCart cart)
+        private async Task UpdateInventory(List<BasketItemEvent> cart)
         {
-            if (cart == null || cart.Items.Any() == false)
+            if (cart == null || cart.Any() == false)
                 return;
-            foreach (var item in cart.Items)
+            foreach (var item in cart)
             {
 
                 var eventMessage = new InventoryToUpdate();
-                eventMessage.TruckId = item.ProductId;
-                eventMessage.ProductName = item.ProductName;
+                eventMessage.TruckId = item.TruckId;
+                eventMessage.TruckName = item.Name;
                 eventMessage.Quantity = item.Quantity;
-                Console.WriteLine($"trying to update inventory for {eventMessage.ProductName } TruckId = {eventMessage.TruckId} ProductId = {item.ProductId}");
+                Console.WriteLine($"trying to update inventory for {eventMessage.TruckName } TruckId = {eventMessage.TruckId} ProductId = {item.Id}");
                 await _publishEndpoint.Publish(eventMessage);
-                _logger.LogInformation($"Update Inventory event published for Name {eventMessage.ProductName} with new quantity {eventMessage.Quantity}");
+                _logger.LogInformation($"Update Inventory event published for Name {eventMessage.TruckName} with new quantity {eventMessage.Quantity}");
             }
 
         }

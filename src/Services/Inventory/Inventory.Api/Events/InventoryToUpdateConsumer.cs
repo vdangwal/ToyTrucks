@@ -33,7 +33,7 @@ namespace Inventory.Api.Events
             TruckInventoryDto tid = _mapper.Map<TruckInventoryDto>(context.Message);
             if (await _service.UpdateTruckInventory(tid) == true)
             {
-                TruckInventoryDto newDetails = await _service.GetTruckInventory(tid.TruckName);
+                TruckInventoryDto newDetails = await _service.GetTruckInventory(tid.TruckId);
 
                 //inform baskets of updated inventory
                 var eventMessage = new UpdatedInventory();

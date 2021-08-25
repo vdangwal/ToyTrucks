@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Inventory.Api.Migrations
 {
-    public partial class init : Migration
+    public partial class readded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,14 +11,13 @@ namespace Inventory.Api.Migrations
                 name: "truck_inventory",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    truck_id = table.Column<Guid>(type: "uuid", nullable: false),
                     truck_name = table.Column<string>(type: "text", nullable: true),
                     quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_truck_inventory", x => x.id);
+                    table.PrimaryKey("pk_truck_inventory", x => x.truck_id);
                 });
         }
 

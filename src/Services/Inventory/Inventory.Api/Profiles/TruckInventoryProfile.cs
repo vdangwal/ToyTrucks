@@ -15,10 +15,11 @@ namespace Inventory.Api.Profiles
             CreateMap<TruckInventory, Models.TruckInventoryDto>()
                     .ReverseMap();
 
+            CreateMap<EventBus.Messages.Events.Inventory, Models.TruckInventoryDto>()
+                               .ReverseMap();
             CreateMap<InventoryToUpdate, Models.TruckInventoryDto>()
-                                    .ForMember(d => d.Id, s => s.Ignore())//.MapFrom(i => i.ProductId))
-                                    .ForMember(d => d.TruckName, s => s.MapFrom(i => i.ProductName))
-                                    ;
+                                .ForMember(d => d.TruckName, s => s.MapFrom(i => i.TruckName))
+                                ;
 
         }
     }

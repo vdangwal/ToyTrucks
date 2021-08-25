@@ -21,9 +21,9 @@ namespace Catalog.Api.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Truck>()
-               .Property(t => t.TruckId)
-               .HasDefaultValueSql("gen_random_uuid()");
+            // modelBuilder.Entity<Truck>()
+            //    .Property(t => t.TruckId)
+            // .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder.Entity<Truck>()
                 .Property(t => t.Name)
                 .IsRequired();
