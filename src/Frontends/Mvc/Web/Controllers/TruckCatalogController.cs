@@ -30,22 +30,15 @@ namespace Web.Controllers
 
             await Task.WhenAll(new Task[] { getTrucks, getCategories, getBasket });
             var numberOfItems = getBasket.Result?.Items.Count ?? 0;
-            var tm =   new TruckListModel
-                            {
-                                Trucks = getTrucks.Result,
-                                Categories = getCategories.Result,
-                                NumberOfItems = numberOfItems,
-                                SelectedCategory = categoryId.HasValue ? categoryId.Value : null
-                            }; 
+            var tm = new TruckListModel
+            {
+                Trucks = getTrucks.Result,
+                Categories = getCategories.Result,
+                NumberOfItems = numberOfItems,
+                SelectedCategory = categoryId.HasValue ? categoryId.Value : null
+            };
             return View(tm);
-                            // new TruckListModel
-                            // {
-                            //     Trucks = getTrucks.Result,
-                            //     Categories = getCategories.Result,
-                            //     NumberOfItems = numberOfItems,
-                            //     SelectedCategory = categoryId.HasValue ? categoryId.Value : null
-                            // }
-                    //    / );
+
         }
 
         [HttpPost]
@@ -57,7 +50,7 @@ namespace Web.Controllers
         public async Task<IActionResult> Detail(Guid truckId)
         {
             var truck = await _catalogService.GetTruckById(truckId);
-            return View(truck);
+            return View(new TruckDetailViewModel { Truck = truck });
         }
     }
 }

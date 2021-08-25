@@ -1,0 +1,8 @@
+need to make sure catalog Inventory and Inventory api are in sync on startup
+so need to also put inventoryapi quantity into each truck in catalogapi. This needs to happen at startup. 
+It will then be used by webpage quantity combobox
+when inventory updated, need to publish inventory updated event to be consumed by catalogapi
+need to update teh truck inventory quantity with new quantity and also set outofstock to true if true
+
+THen need to update basket.
+Add OutOfStock to basket. If quantity is now 0 then set OutOfStock to true. Total is for all baskets whose OutOfStock = false

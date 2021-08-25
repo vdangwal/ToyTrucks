@@ -1,26 +1,26 @@
-@model Web.Models.Api.Truck//.View.TruckViewModel
+@model Web.Models.View.TruckDetailViewModel
 
 <div class="row mt-5">
     <div class="col-md-4">
         @* <div class="container"> *@
-        <img src="/img/@Model.DefaultPhotoPath" class="detailImage" alt="Artist pic" />
+        <img src="/img/@Model.Truck.DefaultPhotoPath" class="detailImage" alt="Artist pic" />
         @* </div> *@
     </div>
     <div class="col-md-6 ml-1">
         <div class="row">
-            <div class="columnHeader">@Model.Categories.FirstOrDefault().Name.ToUpper()</div>
+            <div class="columnHeader">@Model.Truck.Categories.FirstOrDefault().Name.ToUpper()</div>
         </div>
         <div class="row mt-2 bold">
-            <h1>@Model.Name</h1>
+            <h1>@Model.Truck.Name</h1>
         </div>
         <div class="row mt-3">
-            @Model.Year
+            @Model.Truck.Year
         </div>
         <div class="row mt-4">
-            @Model.Description
+            @Model.Truck.Description
         </div>
         <div class="row mt-5">
-            <h3><span class="bold">$@Model.Price</span></h3><span class="mt-1">&nbsp;&nbsp;&nbsp; PER
+            <h3><span class="bold">$@Model.Truck.Price</span></h3><span class="mt-1">&nbsp;&nbsp;&nbsp; PER
                 TRUCK</span>
         </div>
     </div>
@@ -36,17 +36,16 @@
             <div class="row">
                 <label class="columnHeader mt-2">QUANTITY:</label>
                 <select name="Quantity" class="ml-5 w-25">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    @for (int i = 1; i <= @Model.Quantity; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
                 </select>
-                <input asp-for="TruckId" type="hidden" />
-                <input asp-for="Price" type="hidden" />
-                <input asp-for="Name" type="hidden" />
-                <input asp-for="Year" type="hidden" />
-                <input asp-for="DefaultPhotoPath" type="hidden" />
+                <input asp-for="Truck.TruckId" type="hidden" />
+                <input asp-for="Truck.Price" type="hidden" />
+                <input asp-for="Truck.Name" type="hidden" />
+                <input asp-for="Truck.Year" type="hidden" />
+                <input asp-for="Truck.DefaultPhotoPath" type="hidden" />
                 <button type="submit" class="btn btn-primary ml-4">ADD TO BASKET</button>
 
             </div>

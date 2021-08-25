@@ -15,6 +15,7 @@ namespace Web.Models.Api
         public bool Damaged { get; set; }
         public string DefaultPhotoPath { get; set; }
         public bool OutOfStock { get; set; }
+        public int Quantity { get; set; }
 
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
