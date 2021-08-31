@@ -75,6 +75,7 @@ services:
       POSTGRES_PASSWORD: "password"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       OutOfStockQueue: "outofstock-queue"
+      InventoryUpdatedQueue: "inventoryupdated-queue"
       # InventoryReturnedQueue: "inventoryreturned-queue"
       # InventoryUri: "http://inventory_api/",
     ports: 

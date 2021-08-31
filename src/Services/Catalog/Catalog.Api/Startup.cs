@@ -122,7 +122,7 @@ namespace Catalog.Api
             services.AddMassTransit(configuration =>
             {
                 configuration.AddConsumer<InventorySoldOutConsumer>();
-
+                configuration.AddConsumer<InventoryToUpdateConsumer>();
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(config["EventBusAddress"]);
@@ -130,7 +130,10 @@ namespace Catalog.Api
                     {
                         c.ConfigureConsumer<InventorySoldOutConsumer>(ctx);
                     });
-
+                    cfg.ReceiveEndpoint(config["InventoryUpdatedQueue"], c =>
+                    {
+                        c.ConfigureConsumer<InventoryToUpdateConsumer>(ctx);
+                    });
                 });
             });
             services.AddMassTransitHostedService();

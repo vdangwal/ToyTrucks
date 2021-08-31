@@ -113,5 +113,37 @@ namespace Catalog.Api.Services
 
             return await SaveChanges();
         }
+
+        public async Task<bool> UpdateTruckInventory(TruckInventory truckInventory)
+        {
+            if (truckInventory == null)
+            {
+                _logger.LogError("Truck to update is null");
+                throw new ArgumentNullException(nameof(truckInventory));
+            }
+
+            var truckToUpdate = await _context.Trucks.SingleOrDefaultAsync(t => t.TruckId == truckInventory.TruckId);
+            if (truckToUpdate == null)
+            {
+                _logger.LogError("Truck to update doesnt exist in the db");
+                throw new ArgumentNullException(nameof(truckInventory));
+            }
+
+            if (truckToUpdate.Quantity - truckInventory.Quantity < 0)
+            {
+                truckToUpdate.Quantity = 0;
+                // throw new exception should not be less than zero but ill ignore for now.
+            }
+            else
+            {
+                truckToUpdate.Quantity -= truckInventory.Quantity;
+            }
+            truckToUpdate.OutOfStock = truckToUpdate.Quantity == 0;
+            return await SaveChanges();
+
+
+
+
+        }
     }
 }

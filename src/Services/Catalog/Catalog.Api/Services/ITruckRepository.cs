@@ -14,6 +14,7 @@ namespace Catalog.Api.Services
         Task<Truck> GetTruckByName(string truckName);
         Task AddTruck(Truck truck);
         Task<bool> UpdateTruck(Truck truck);
+        Task<bool> UpdateTruckInventory(TruckInventory truckInventory);
         Task<bool> SaveChanges();
     }
 }
