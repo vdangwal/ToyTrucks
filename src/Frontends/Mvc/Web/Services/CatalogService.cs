@@ -43,5 +43,11 @@ namespace Web.Services
             var orderedTrucks = trucks.OrderBy(t => t.Year);
             return orderedTrucks;
         }
+
+        public async Task<TruckInventory> GetTruckInventory(Guid truckId)
+        {
+            var response = await _client.GetAsync($"api/trucks/inventory/{truckId}");
+            return await response.ReadContentAs<TruckInventory>();
+        }
     }
 }

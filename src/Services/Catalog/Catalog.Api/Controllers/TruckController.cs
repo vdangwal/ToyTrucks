@@ -91,6 +91,23 @@ namespace Catalog.Api.Controllers
             return Ok(truck);
         }
 
+        [HttpGet]
+        [Route("Inventory/{truckId:Guid}")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(TruckInventoryDto), (int)HttpStatusCode.OK)]
+
+        public async Task<ActionResult<TruckInventoryDto>> TruckInventoryById(Guid truckId)
+        {
+            if (truckId == Guid.Empty)
+                return BadRequest();
+
+            var truckInventory = await _service.GetTruckInventory(truckId);
+            if (truckInventory == null)
+                return NotFound();
+            return Ok(truckInventory);
+        }
+
         [HttpPut]
         [TruckFilter]
         public async Task<ActionResult<TruckDto>> UpdateTruck([FromBody] TruckDto truckDto)

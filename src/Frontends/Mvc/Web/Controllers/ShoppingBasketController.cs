@@ -7,19 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using Web.Models.View;
 using Web.Extensions;
 using Web.Models.Api;
+using System.Collections.Generic;
 
 namespace Web.Controllers
 {
     public class ShoppingBasketController : Controller
     {
         private readonly IBasketService _basketService;
+        private readonly ICatalogService _catalogService;
         private readonly Settings _settings;
 
         public ShoppingBasketController(IBasketService basketService,
-            Settings settings)
+            Settings settings, ICatalogService catalogService)
         {
             _basketService = basketService;
             _settings = settings;
+            _catalogService = catalogService;
         }
 
         public async Task<IActionResult> Index()
@@ -34,25 +37,28 @@ namespace Web.Controllers
             var basketId = Request.Cookies.GetCurrentBasketId(_settings);
             CustomerBasket basket = await _basketService.GetBasket(basketId);
 
-            // var basketLines = await _basketService.GetLinesForBasket(basketId);
-
-            var lineViewModels = basket.Items.Select(bl => new BasketLineViewModel
+            List<BasketLineViewModel> lineViewModels = new List<BasketLineViewModel>();
+            foreach (var bl in basket.Items)
             {
-                LineId = bl.Id,
-                TruckId = bl.TruckId,
-                Name = bl.Name,
-                Price = bl.Price,
-                Year = bl.Year,
-                Quantity = bl.Quantity,
-                DefaultPhotoPath = bl.DefaultPhotoPath,
-            });
+                var truckInventory = await _catalogService.GetTruckInventory(bl.TruckId);
 
+                lineViewModels.Add(new BasketLineViewModel
+                {
+                    LineId = bl.Id,
+                    TruckId = bl.TruckId,
+                    Name = bl.Name,
+                    Price = bl.Price,
+                    Year = bl.Year,
+                    Quantity = bl.Quantity,
+                    DefaultPhotoPath = bl.DefaultPhotoPath,
+                    TruckQuantity = truckInventory.Quantity
+                });
+            }
 
             var basketViewModel = new BasketViewModel
             {
-                BasketLines = lineViewModels.ToList()
+                BasketLines = lineViewModels
             };
-
             basketViewModel.ShoppingCartTotal = basketViewModel.BasketLines.Sum(bl => bl.Price * bl.Quantity);
 
             return basketViewModel;

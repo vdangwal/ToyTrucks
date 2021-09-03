@@ -17,31 +17,30 @@
     <tbody>
         @foreach (var line in Model.BasketLines)
         {
-            <tr>
-                <td>@line.Name</td>
+                <tr>
+                    <td>@line.Name</td>
 
-                <td class="bold">@line.Price</td>
-                <td>
-                    <form asp-action="UpdateLine">
-                        <input type="hidden" name="LineId" value="@line.LineId" />
-                        <select name="Quantity" class="w-25" asp-for="@line.Quantity">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+                    <td class="bold">@line.Price</td>
+                    <td>
+                        <form asp-action="UpdateLine">
+                            <input type="hidden" name="LineId" value="@line.LineId" />
+                            <select name="Quantity" class="w-25" asp-for="@line.Quantity">
+                            @for (int i = 1; i <= @line.TruckQuantity; i++)
+                            {
+                                        <option value="@i">@i</option>
+                            }
+                            </select>
 
-                        <button type="submit" class="filterButton">Update</button>
-                    </form>
-                </td>
-                <td class="bold big">$@(line.Price * line.Quantity) </td>
-                <td>
-                    <a asp-action="RemoveLine" asp-route-lineId="@line.LineId">
-                        <img class="cancelIcon" src="~/img/times.svg" />
-                    </a>
-                </td>
-            </tr>
+                            <button type="submit" class="filterButton">Update</button>
+                        </form>
+                    </td>
+                    <td class="bold big">$@(line.Price * line.Quantity) </td>
+                    <td>
+                        <a asp-action="RemoveLine" asp-route-lineId="@line.LineId">
+                            <img class="cancelIcon" src="~/img/times.svg" />
+                        </a>
+                    </td>
+                </tr>
         }
     </tbody>
     <tfoot>
