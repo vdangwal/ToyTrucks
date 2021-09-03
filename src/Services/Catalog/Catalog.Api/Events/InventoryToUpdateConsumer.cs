@@ -32,21 +32,16 @@ namespace Catalog.Api.Events
                 return;
             }
             TruckInventory tid = _mapper.Map<TruckInventory>(context.Message);
-            if (await _service.UpdateTruckInventory(tid) == true)
+            if (await _service.UpdateTruckInventory(tid))
             {
-                //  TruckInventoryDto newDetails = await _service.GetTruckInventory(tid.TruckId);
+                TruckInventory newDetails = await _service.GetTruckInventory(tid.TruckId);
 
-                //     //inform baskets of updated inventory
-                //     var eventMessage = new UpdatedInventory();
-                //     eventMessage.TruckId = context.Message.TruckId;
-                //     eventMessage.TruckName = newDetails.TruckName;
-                //     eventMessage.NewQuantity = newDetails.Quantity;
-                //     Console.WriteLine($"trying to update inventory for {eventMessage.TruckName }");
-                //     await _publishEndpoint.Publish(eventMessage);
-
+                var eventMessage = new UpdatedInventory();
+                eventMessage.TruckId = newDetails.TruckId;
+                // eventMessage.TruckName = newDetails.TruckName;
+                eventMessage.NewQuantity = newDetails.Quantity;
+                await _publishEndpoint.Publish(eventMessage);
             }
-
-            //  return Task.CompletedTask;
         }
     }
 }

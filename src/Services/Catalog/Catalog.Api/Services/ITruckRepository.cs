@@ -12,6 +12,7 @@ namespace Catalog.Api.Services
         Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId);
         Task<Truck> GetTruckById(Guid truckId);
         Task<Truck> GetTruckByName(string truckName);
+        Task<TruckInventory> GetTruckInventory(Guid truckId);
         Task AddTruck(Truck truck);
         Task<bool> UpdateTruck(Truck truck);
         Task<bool> UpdateTruckInventory(TruckInventory truckInventory);

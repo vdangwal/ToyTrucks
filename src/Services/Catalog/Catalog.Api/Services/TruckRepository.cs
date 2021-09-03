@@ -140,10 +140,23 @@ namespace Catalog.Api.Services
             }
             truckToUpdate.OutOfStock = truckToUpdate.Quantity == 0;
             return await SaveChanges();
+        }
 
+        public async Task<TruckInventory> GetTruckInventory(Guid truckId)
+        {
+            if (truckId == Guid.Empty)
+            {
+                _logger.LogError("Truckid to query is null");
+                throw new ArgumentException(nameof(truckId));
+            }
 
-
-
+            var truck = await _context.Trucks.FirstOrDefaultAsync(t => t.TruckId == truckId);
+   
+            return new TruckInventory
+            {
+                TruckId = truck.TruckId,
+                Quantity = truck.Quantity
+            };
         }
     }
 }

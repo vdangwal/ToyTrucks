@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,7 +6,6 @@ using Basket.Api.Dtos;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-
 namespace Basket.Api.Services
 {
     public class RedisBasketRepository : IBasketRepository
@@ -41,7 +41,7 @@ namespace Basket.Api.Services
         public IEnumerable<string> GetUsers()
         {
             var server = GetServer();
-            var data = server.Keys();
+            var data = server.Keys(pattern: "*").ToArray();
 
             return data?.Select(k => k.ToString());
         }
@@ -65,6 +65,19 @@ namespace Basket.Api.Services
         {
             var endpoint = _redis.GetEndPoints();
             return _redis.GetServer(endpoint.First());
+        }
+
+        public async Task<IEnumerable<CustomerBasket>> GetBasketsWithTruck(Guid truckId)
+        {
+            var userIds = GetUsers();
+            var basketsWithTruckId = new List<CustomerBasket>();
+            foreach (var userId in userIds)
+            {
+                var basket = await GetBasketAsync(userId);
+                if (basket.Items.Any(item => item.TruckId == truckId))
+                    basketsWithTruckId.Add(basket);
+            }
+            return basketsWithTruckId;
         }
     }
 }
