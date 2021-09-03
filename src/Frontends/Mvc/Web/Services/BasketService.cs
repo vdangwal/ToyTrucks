@@ -40,14 +40,13 @@ namespace Web.Services
         //     return await response.ReadContentAs<BasketLine>();
         // }
 
-        public async Task<CustomerBasket> GetBasket(string id)
+        public async Task<CustomerBasket> GetBasket(string basketId)
         {
-            if (string.IsNullOrWhiteSpace(id))
+            if (string.IsNullOrWhiteSpace(basketId))
             {
-                //throw new ArgumentNullException(nameof(id));
-                return null;
+                basketId = CreateBasketCookie();
             }
-            var response = await _client.GetAsync($"api/v1/basket/{id}");
+            var response = await _client.GetAsync($"api/v1/basket/{basketId}");
 
             return await response.ReadContentAs<CustomerBasket>();
         }
@@ -56,11 +55,7 @@ namespace Web.Services
         {
             if (string.IsNullOrWhiteSpace(basketId))
             {
-                var newBasketId = Guid.NewGuid();
-                await CreateBasketCookie(newBasketId);
-                basketId = newBasketId.ToString();
-
-                //throw new ArgumentNullException(nameof(basketId));
+                basketId = CreateBasketCookie();
             }
             if (basketItem == null)
             {
@@ -115,17 +110,14 @@ namespace Web.Services
 
         }
 
-        private Task CreateBasketCookie(Guid basketId)
+        private string CreateBasketCookie()
         {
-            if (basketId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(basketId));
-            }
+            var basketId = Guid.NewGuid();
             var cookieOptions = new CookieOptions();
             cookieOptions.Expires = DateTime.Now.AddDays(21);
             _httpContextAccessor.HttpContext.Response.Cookies.Append(
                 _settings.BasketIdCookieName, basketId.ToString(), cookieOptions);
-            return Task.CompletedTask;
+            return basketId.ToString();
         }
 
         public async Task<CustomerBasket> RemoveLine(string basketId, string lineId)
