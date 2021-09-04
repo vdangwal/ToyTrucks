@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Polly;
 using System;
+using Catalog.Api.Events;
 
 namespace Catalog.Api.Extensions
 {
@@ -25,5 +26,6 @@ namespace Catalog.Api.Extensions
             }
             return host;
         }
+
     }
 }

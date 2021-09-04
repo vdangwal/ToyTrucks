@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -31,11 +32,26 @@ namespace Basket.Api.Events
                 return;
             }
             var updatedInventory = (UpdatedInventory)context.Message;
-            System.Console.WriteLine($"In Basket updated consumer !!!!! TruckId = {updatedInventory.TruckId}");
-            //now i need to get all baskets that have the updatedInventory.TruckId and set something... in
-            //  await _service.InformOfUpdatedInventory(updatedInventory);
-            Console.WriteLine("TODO ...  BASKET INVENTORY HAS BEEN UPDATED. NEED TO SHOW IN BASKET... TODO ");
-            return;
+
+            var baskets = await _service.GetBasketsWithTruck(updatedInventory.TruckId);
+            foreach (var basket in baskets)
+            {
+                var item = basket.Items.First(truck => truck.TruckId == updatedInventory.TruckId);
+                if (item != null)
+                {
+                    if (updatedInventory.NewQuantity == 0)
+                    {
+                        item.OutOfStock = true;
+                        await _service.UpdateBasketAsync(basket);
+                    }
+                    else if (item.Quantity > updatedInventory.NewQuantity)
+                    {
+                        item.Quantity = updatedInventory.NewQuantity;
+                        item.StockDecreased = true;
+                        await _service.UpdateBasketAsync(basket);
+                    }
+                }
+            }
         }
     }
 }

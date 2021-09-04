@@ -41,6 +41,7 @@ namespace Catalog.Api
             });
             services.AddPostgresDbContext(Configuration);
             services.AddScoped<ITruckRepository, TruckRepository>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddApiVersioning(options =>
           {
@@ -121,12 +122,17 @@ namespace Catalog.Api
             services.AddMassTransit(configuration =>
             {
                 configuration.AddConsumer<InventorySoldOutConsumer>();
+                configuration.AddConsumer<InventoryToUpdateConsumer>();
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(config["EventBusAddress"]);
                     cfg.ReceiveEndpoint(config["OutOfStockQueue"], c =>
                     {
                         c.ConfigureConsumer<InventorySoldOutConsumer>(ctx);
+                    });
+                    cfg.ReceiveEndpoint(config["InventoryUpdatedQueue"], c =>
+                    {
+                        c.ConfigureConsumer<InventoryToUpdateConsumer>(ctx);
                     });
                 });
             });

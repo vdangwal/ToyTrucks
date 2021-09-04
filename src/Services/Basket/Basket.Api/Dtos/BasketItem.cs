@@ -12,5 +12,7 @@ namespace Basket.Api.Dtos
         public int Year { get; set; }
         public int Quantity { get; set; }
         public string DefaultPhotoPath { get; set; }
+        public bool OutOfStock { get; set; }
+        public bool StockDecreased { get; set; }
     }
 }

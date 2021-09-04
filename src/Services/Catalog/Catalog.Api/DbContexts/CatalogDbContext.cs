@@ -23,7 +23,7 @@ namespace Catalog.Api.DbContexts
         {
             modelBuilder.Entity<Truck>()
                .Property(t => t.TruckId)
-               .HasDefaultValueSql("gen_random_uuid()");
+            .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder.Entity<Truck>()
                 .Property(t => t.Name)
                 .IsRequired();

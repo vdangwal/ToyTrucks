@@ -5,6 +5,8 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Inventory.Api.Services
@@ -24,16 +26,17 @@ namespace Inventory.Api.Services
         }
 
 
-        public async Task<TruckInventoryDto> GetTruckInventory(string truckName)
+        public async Task<TruckInventoryDto> GetTruckInventory(Guid truckId)
         {
-            if (string.IsNullOrEmpty(truckName))
-            {
-                _logger.LogError("truckName to query is null");
-                throw new ArgumentException(nameof(truckName));
-            }
             return await _context.TruckInventory
-                                        .FirstOrDefaultAsync(t => t.TruckName == truckName);
+                               .FirstOrDefaultAsync(t => t.TruckId == truckId);
         }
+
+        public async Task<IEnumerable<TruckInventoryDto>> GetAllTruckInventory()
+        {
+            return await _context.TruckInventory.ToListAsync();
+        }
+
         //Task AddTruckInventory(TruckInventoryDto truckInventory);
         public async Task<bool> UpdateTruckInventory(TruckInventoryDto truckInventory)
         {
@@ -66,16 +69,16 @@ namespace Inventory.Api.Services
             }
         }
 
-        public async Task<int> HasEnoughQuantity(string truckName, int quantityWanted)
+        public async Task<int> HasEnoughQuantity(Guid truckId, int quantityWanted)
         {
-            if (string.IsNullOrEmpty(truckName))
+            if (truckId == Guid.Empty)
             {
-                _logger.LogError("truckName to query is null");
-                throw new ArgumentException(nameof(truckName));
+                _logger.LogError("truckId to query is null");
+                throw new ArgumentException(nameof(truckId));
             }
 
             var truckInventory = await _context.TruckInventory
-                                                .SingleOrDefaultAsync(t => t.TruckName == truckName);
+                                                .SingleOrDefaultAsync(t => t.TruckId == truckId);
             if (truckInventory == null)
             {
                 _logger.LogError("Truck inventory to check quantity doesnt exist in the db");

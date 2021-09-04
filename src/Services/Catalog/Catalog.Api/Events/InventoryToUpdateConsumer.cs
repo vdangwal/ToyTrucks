@@ -3,19 +3,20 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using EventBus.Messages.Events;
-using Inventory.Api.Services;
-using Inventory.Api.Models;
+using Catalog.Api.Services;
+using Catalog.Api.Models;
+using Catalog.Api.Entities;
 using AutoMapper;
 
-namespace Inventory.Api.Events
+namespace Catalog.Api.Events
 {
     public class InventoryToUpdateConsumer : IConsumer<InventoryToUpdate>
     {
         private readonly ILogger<InventoryToUpdateConsumer> _logger;
-        private readonly IInventoryRepository _service;
+        private readonly ITruckRepository _service;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEndpoint;
-        public InventoryToUpdateConsumer(ILogger<InventoryToUpdateConsumer> logger, IInventoryRepository service, IMapper mapper, IPublishEndpoint publishEndpoint)
+        public InventoryToUpdateConsumer(ILogger<InventoryToUpdateConsumer> logger, IMapper mapper, IPublishEndpoint publishEndpoint, ITruckRepository service)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _service = service ?? throw new ArgumentNullException(nameof(service));
@@ -30,22 +31,17 @@ namespace Inventory.Api.Events
                 _logger.LogWarning("Failed to consume Inventory update as context is null");
                 return;
             }
-            TruckInventoryDto tid = _mapper.Map<TruckInventoryDto>(context.Message);
-            if (await _service.UpdateTruckInventory(tid) == true)
+            TruckInventory tid = _mapper.Map<TruckInventory>(context.Message);
+            if (await _service.UpdateTruckInventory(tid))
             {
-                TruckInventoryDto newDetails = await _service.GetTruckInventory(tid.TruckId);
+                TruckInventory newDetails = await _service.GetTruckInventory(tid.TruckId);
 
-                //inform baskets of updated inventory
                 var eventMessage = new UpdatedInventory();
-                eventMessage.TruckId = context.Message.TruckId;
-                eventMessage.TruckName = newDetails.TruckName;
+                eventMessage.TruckId = newDetails.TruckId;
+                // eventMessage.TruckName = newDetails.TruckName;
                 eventMessage.NewQuantity = newDetails.Quantity;
-                Console.WriteLine($"trying to update inventory for {eventMessage.TruckName }");
                 await _publishEndpoint.Publish(eventMessage);
-
             }
-
-            // return Task.CompletedTask;
         }
     }
 }

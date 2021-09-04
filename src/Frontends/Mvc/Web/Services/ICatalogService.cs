@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Web.Models.Api;
+
 namespace Web.Services
 {
     public interface ICatalogService
@@ -10,6 +11,7 @@ namespace Web.Services
         Task<IEnumerable<Truck>> GetTrucks();
         Task<Truck> GetTruckById(Guid truckId);
         Task<IEnumerable<Category>> GetCategories();
+        Task<TruckInventory> GetTruckInventory(Guid truckId);
 
     }
 }
