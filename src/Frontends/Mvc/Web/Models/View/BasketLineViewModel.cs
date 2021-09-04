@@ -12,6 +12,8 @@ namespace Web.Models.View
         public int Quantity { get; set; }
         public int Year { get; set; }
         public string DefaultPhotoPath { get; set; }
+        public bool OutOfStock { get; set; }
+        public bool StockDecreased { get; set; }
         public int TruckQuantity
         {
             get { return quantity; }

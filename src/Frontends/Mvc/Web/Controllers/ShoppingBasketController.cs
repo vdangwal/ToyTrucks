@@ -51,7 +51,10 @@ namespace Web.Controllers
                     Year = bl.Year,
                     Quantity = bl.Quantity,
                     DefaultPhotoPath = bl.DefaultPhotoPath,
-                    TruckQuantity = truckInventory.Quantity
+                    TruckQuantity = truckInventory.Quantity,
+                    OutOfStock = bl.OutOfStock,
+                    StockDecreased = bl.StockDecreased
+
                 });
             }
 
@@ -59,7 +62,7 @@ namespace Web.Controllers
             {
                 BasketLines = lineViewModels
             };
-            basketViewModel.ShoppingCartTotal = basketViewModel.BasketLines.Sum(bl => bl.Price * bl.Quantity);
+            basketViewModel.ShoppingCartTotal = basketViewModel.BasketLines.Where(bl => bl.OutOfStock == false).Sum(bl => bl.Price * bl.Quantity);
 
             return basketViewModel;
         }

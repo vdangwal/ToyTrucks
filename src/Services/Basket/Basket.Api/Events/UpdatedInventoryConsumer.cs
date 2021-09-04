@@ -32,24 +32,25 @@ namespace Basket.Api.Events
                 return;
             }
             var updatedInventory = (UpdatedInventory)context.Message;
-            System.Console.WriteLine($"In Basket updated consumer !!!!! TruckId = {updatedInventory.TruckId}");
-            //now i need to get all baskets that have the updatedInventory.TruckId and set something... in
+
             var baskets = await _service.GetBasketsWithTruck(updatedInventory.TruckId);
             foreach (var basket in baskets)
             {
-                if (basket.Items.First(truck => truck.TruckId == updatedInventory.TruckId) != null)
+                var item = basket.Items.First(truck => truck.TruckId == updatedInventory.TruckId);
+                if (item != null)
                 {
-                    var item = basket.Items.First(truck => truck.TruckId == updatedInventory.TruckId);
                     if (updatedInventory.NewQuantity == 0)
                     {
                         item.OutOfStock = true;
+                        await _service.UpdateBasketAsync(basket);
                     }
                     else if (item.Quantity > updatedInventory.NewQuantity)
                     {
                         item.Quantity = updatedInventory.NewQuantity;
                         item.StockDecreased = true;
+                        await _service.UpdateBasketAsync(basket);
                     }
-                }  //TODO update basket
+                }
             }
         }
     }
