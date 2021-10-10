@@ -3,7 +3,7 @@
 <div class="row mt-5">
     <div class="col-md-4">
         @* <div class="container"> *@
-        <img src="/img/@Model.Truck.DefaultPhotoPath" class="detailImage" alt="Artist pic" />
+        <img src="/img/trucks/@Model.Truck.DefaultPhotoPath" class="detailImage" alt="Artist pic" />
         @* </div> *@
     </div>
     <div class="col-md-6 ml-1">
@@ -38,7 +38,7 @@
                 <select name="Quantity" class="ml-5 w-25">
                     @for (int i = 1; i <= @Model.Quantity; i++)
                     {
-                      <option value="@i">@i</option>
+                        <option value="@i">@i</option>
                     }
                 </select>
 
@@ -52,9 +52,9 @@
 
             </div>
         </form>
-    </div>  
-</div> 
-<div  class="mt-2">
+    </div>
+</div>
+<div class="mt-2">
     <a asp-controller="TruckCatalog" asp-action="Index">
         <img class="backIcon" src="~/img/arrow-down.svg" /> Back to truck catalog
     </a>
