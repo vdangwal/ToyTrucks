@@ -86,7 +86,7 @@ html {
 
 .columnHeader {
   font-size: 0.9em;
-  color: grey;
+  /* color: grey; */
 }
 
 .columnHeader th {
@@ -126,7 +126,7 @@ header {
   z-index:999;
 }
 
-   img:hover {
+.truck_detail img:hover {
   transform: scale(1.5);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 } 
