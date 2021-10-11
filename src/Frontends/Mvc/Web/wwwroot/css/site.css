@@ -115,3 +115,18 @@ header {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+ 
+.thumbnail_basket:hover {
+  position:relative;
+  top:-25px;
+  left:-35px;
+  width:200px;
+  height:auto;
+  display:block;
+  z-index:999;
+}
+
+   img:hover {
+  transform: scale(1.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} 
