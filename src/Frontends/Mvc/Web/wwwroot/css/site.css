@@ -105,6 +105,8 @@ html {
   width: 350px;
 }
 
+
+
 header {
   background-color: #000000;
   color: #fff;
@@ -125,8 +127,12 @@ header {
   display:block;
   z-index:999;
 }
-
-.truck_detail img:hover {
+.truck_detail  {
+  transform: scale(2.0) translate(58%, 30%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} 
+.truck_list img:hover {
   transform: scale(1.5);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 } 
+
