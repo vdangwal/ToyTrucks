@@ -49,6 +49,7 @@ namespace Orders.Api.Entities
                     Quantity = bLine.Quantity,
                     TruckId = bLine.TruckId,
                     TruckName = bLine.Name,
+                    PhotoPath = bLine.DefaultPhotoPath,
 
                 };
                 order.OrderItems.Add(item);

@@ -15,6 +15,7 @@ namespace Orders.Api.Entities
         public decimal Price { get; set; }
         public Guid TruckId { get; set; }
         public string TruckName { get; set; }
+        public string PhotoPath { get; set; }
 
     }
 }

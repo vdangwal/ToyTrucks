@@ -26,7 +26,8 @@
 <br />
 <table class="table">
     <thead>
-        <tr class="columnHeader text-center">
+        <tr class="columnHeader">
+            <th></th>
             <th>TRUCK NAME</th>
 
             @if (Model.Message != null)
@@ -41,7 +42,8 @@
     <tbody>
         @foreach (var line in Model.OrderLines)
         {
-            <tr class="text-center">
+            <tr>
+                <td><img class="listImage" src="/img/trucks/@line.PhotoPath" /></td>
                 <td>@line.TruckName</td>
 
                 @if (Model.Message != null)
