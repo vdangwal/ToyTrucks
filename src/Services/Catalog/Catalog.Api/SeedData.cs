@@ -124,11 +124,11 @@ namespace Catalog.Api
             {
                 for (var i = 1; i <= 2; i++)
                 {
-                    sb.Append($"('{truck.Year}_{i}_lg.jpg','{truck.TruckId}'),");
+                    // sb.Append($"('{truck.Year}_{i}_lg.jpg','{truck.TruckId}'),");
                     sb.Append($"('{truck.Year}_{i}.jpg','{truck.TruckId}'),");
-                    sb.Append($"('{truck.Year}_{i}_tn.jpg','{truck.TruckId}'),");
+                    //  sb.Append($"('{truck.Year}_{i}_tn.jpg','{truck.TruckId}'),");
                 }
-                //  sb.Append($"('/images{truck.Year}_1.jpg','{truck.TruckId}'),('/images{truck.Year}_2.jpg','{truck.TruckId}'),");
+
             }
             if (sb.Length > 0)
             {
