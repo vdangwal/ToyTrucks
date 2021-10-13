@@ -27,19 +27,6 @@ namespace Web.Services
             _logger = logger;
         }
 
-
-        // public async Task<BasketLine> AddToBasket(Guid basketId, BasketLineForCreation basketLine)
-        // {
-        //     if (basketId == Guid.Empty)
-        //     {
-        //         var basketResponse = await _client.PostAsJson("api/basket", new BasketForCreation { UserId = _settings.UserId });
-        //         var basket = await basketResponse.ReadContentAs<Basket>();
-        //         basketId = basket.BasketId;
-        //     }
-        //     var response = await _client.PostAsJson($"api/baskets/v2/{basketId}/basketlines", basketLine);
-        //     return await response.ReadContentAs<BasketLine>();
-        // }
-
         public async Task<CustomerBasket> GetBasket(string basketId)
         {
             if (string.IsNullOrWhiteSpace(basketId))
