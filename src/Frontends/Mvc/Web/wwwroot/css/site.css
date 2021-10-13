@@ -1,4 +1,4 @@
-﻿@font-face {
+﻿/* @font-face {
   font-family: 'opensans-regular';
   src: url('../fonts/opensans-regular.ttf') format('truetype');
 }
@@ -6,7 +6,7 @@
 @font-face {
   font-family: 'opensans-bold';
   src: url('../fonts/opensans-bold.ttf') format('truetype');
-}
+} */
 
 a {
 color: #0366d6;
@@ -17,7 +17,7 @@ color: #0366d6;
   background-color: #51b5b1;
   padding: 10px 25px 10px 25px;
   font-size: 0.9em;
-  font-family: opensans-bold;
+  /* font-family: opensans-bold; */
 }
 
 .filterButton {
@@ -41,15 +41,15 @@ a {
 
 select {
   height: 40px;
-  font-family: opensans-bold;
+  /* font-family: opensans-bold; */
   padding-left: 14px;
   padding-right: 4px;
   margin-right: 20px;
 }
 
-body {
-  font-family: opensans-regular;
-}
+/* body {
+    font-family: opensans-regular; 
+} */
 
 html {
   font-size: 14px;
@@ -75,7 +75,7 @@ html {
 }
 
 .bold {
-  font-family: opensans-bold;
+   font-weight: bold;
 }
 
 .trucks {
@@ -86,7 +86,7 @@ html {
 
 .columnHeader {
   font-size: 0.9em;
-  color: grey;
+  /* color: grey; */
 }
 
 .columnHeader th {
@@ -105,6 +105,8 @@ html {
   width: 350px;
 }
 
+
+
 header {
   background-color: #000000;
   color: #fff;
@@ -115,3 +117,22 @@ header {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+ 
+.thumbnail_basket:hover {
+  position:relative;
+  top:-25px;
+  left:-35px;
+  width:200px;
+  height:auto;
+  display:block;
+  z-index:999;
+}
+.truck_detail  {
+  transform: scale(2.0) translate(58%, 30%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} 
+.truck_list img:hover {
+  transform: scale(1.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} 
+

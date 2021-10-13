@@ -17,7 +17,7 @@ namespace Web.Models.Api
         public bool OutOfStock { get; set; }
         public int Quantity { get; set; }
 
-        public virtual ICollection<Photo> Photos { get; set; }
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual IList<Photo> Photos { get; set; }
+        public virtual IList<Category> Categories { get; set; }
     }
 }

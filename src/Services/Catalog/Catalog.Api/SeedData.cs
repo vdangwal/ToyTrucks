@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Catalog.Api.DbContexts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,17 +119,23 @@ namespace Catalog.Api
 
         private static async Task PopulatePhotos(CatalogDbContext dbContext)
         {
-
             StringBuilder sb = new StringBuilder();
+            List<int> trucksWith3Photos = new List<int> { 1986, 1989 };
             foreach (var truck in dbContext.Trucks)
             {
-                sb.Append($"('/images{truck.Year}_1.jpg','{truck.TruckId}'),('/images{truck.Year}_2.jpg','{truck.TruckId}'),");
+                for (var i = 1; i <= 3; i++)
+                {
+                    if (i == 3 && !trucksWith3Photos.Contains(truck.Year))
+                    {
+                        continue;
+                    }
+                    sb.Append($"('{truck.Year}_{i}.jpg','{truck.TruckId}'),");
+                }
             }
             if (sb.Length > 0)
             {
                 sb.Insert(0, "insert into photos(photo_path, truck_id) values ");
                 sb.Replace(",", ";", sb.Length - 1, 1);
-
                 await dbContext.Database.ExecuteSqlRawAsync(sb.ToString());
             }
         }

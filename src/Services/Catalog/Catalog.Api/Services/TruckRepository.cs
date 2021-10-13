@@ -125,7 +125,7 @@ namespace Catalog.Api.Services
             var truckToUpdate = await _context.Trucks.SingleOrDefaultAsync(t => t.TruckId == truckInventory.TruckId);
             if (truckToUpdate == null)
             {
-                _logger.LogError("Truck to update doesnt exist in the db");
+                _logger.LogError("Truck to update doesn't exist in the db");
                 throw new ArgumentNullException(nameof(truckInventory));
             }
 
@@ -151,7 +151,11 @@ namespace Catalog.Api.Services
             }
 
             var truck = await _context.Trucks.FirstOrDefaultAsync(t => t.TruckId == truckId);
-   
+            if (truck == null)
+            {
+                _logger.LogError("Truck in basket doesn't exist");
+                throw new ArgumentNullException(nameof(truckId));
+            }
             return new TruckInventory
             {
                 TruckId = truck.TruckId,

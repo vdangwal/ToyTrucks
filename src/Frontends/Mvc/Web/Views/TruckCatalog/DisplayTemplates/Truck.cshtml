@@ -1,8 +1,10 @@
 @model Web.Models.Api.Truck
 <tr>
     <td>
-        <div class="container">
-            <img class="listImage" src="/img/@Model.DefaultPhotoPath" alt="Truck plc" />
+        <div class="truck_list">
+            <a asp-action="Detail" asp-route-truckId="@Model.TruckId">
+                <img class="listImage" src="/img/trucks/@Model.DefaultPhotoPath" alt="Truck plc" />
+            </a>
         </div>
     </td>
     <td>
