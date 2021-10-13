@@ -35,6 +35,12 @@ namespace Web
             {
                 builder.AddRazorRuntimeCompilation();
             }
+            services.AddSession(config =>
+            {
+                config.IdleTimeout = TimeSpan.FromSeconds(20);
+                //config.Cookie.HttpOnly=true;
+                config.Cookie.IsEssential = true;
+            });
             services.AddHttpClient<ICatalogService, CatalogService>(c =>
             {
                 c.BaseAddress = new Uri(_config["TruckCatalogUri"]);
@@ -72,6 +78,7 @@ namespace Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 
