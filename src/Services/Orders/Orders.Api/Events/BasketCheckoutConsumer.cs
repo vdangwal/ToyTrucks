@@ -35,7 +35,8 @@ namespace Orders.Api.Entities
                 UserId = basketCheckoutDetails.UserId,
                 OrderPaid = false,
                 OrderPlaced = DateTime.Now,
-                TotalPrice = basketCheckoutDetails.BasketTotal
+                TotalPrice = basketCheckoutDetails.BasketTotal,
+                OrderTotal = basketCheckoutDetails.Basket?.Count,
             };
             order.OrderId = Guid.NewGuid();
             order.OrderItems = new List<OrderItem>();

@@ -12,9 +12,6 @@ namespace Orders.Api.Entities
         public Guid UserId { get; set; }
         public decimal TotalPrice { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-
-
-
         public int OrderTotal { get; set; }
         public DateTime OrderPlaced { get; set; }
         public bool OrderPaid { get; set; }

@@ -15,10 +15,13 @@
             <h5>Order Date: <span class="bold">@Model.OrderPlaced.ToShortDateString()</span></h5>
         </div>
         <div class="col-md">
-            <h5>Order Total: <span class="bold">@Model.OrderTotal</span></h5>
+            <h5>Order Total items: <span class="bold">@Model.OrderTotal</span></h5>
         </div>
         <div class="col-md">
-            <h5>Order Paid: <span class="bold">$@Model.TotalPrice</span></h5>
+            <h5>Order Amount: <span class="bold">$@Model.TotalPrice</span></h5>
+        </div>
+        <div class="col-md">
+            <h5>Order Paid: <span><input type="checkbox" disabled="true"  value = "$Model.OrderPaid"/></span></h5>
         </div>
 
     </div>
