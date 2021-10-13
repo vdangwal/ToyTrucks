@@ -19,51 +19,51 @@
     <tbody>
         @foreach (var line in Model.BasketLines)
         {
-                        <tr>
-                            <td><img  src="img/trucks/@line.DefaultPhotoPath" width=155px height=100px/></td>
-                            <td>@line.Name</td>
-                            <td class="bold">@line.Price</td>
+            <tr>
+                <td><img src="img/trucks/@line.DefaultPhotoPath" width=155px height=100px /></td>
+                <td>@line.Name</td>
+                <td class="bold">@line.Price</td>
                 @if (!line.OutOfStock)
                 {
-                                            <td>
-                                                <form asp-action="UpdateLine">
-                                                    <input type="hidden" name="LineId" value="@line.LineId" />
-                                                    <select name="Quantity" class="w-25" asp-for="@line.Quantity">
+                    <td>
+                        <form asp-action="UpdateLine">
+                            <input type="hidden" name="LineId" value="@line.LineId" />
+                            <select name="Quantity" class="w-25" asp-for="@line.Quantity">
                                 @for (int i = 1; i <= @line.TruckQuantity; i++)
                                 {
-                                                                        <option value="@i">@i</option>
+                                    <option value="@i">@i</option>
                                 }
-                                                    </select>
-                                                    <button type="submit" class="filterButton">Update</button>
-                                                </form>
-                                            </td>
-                                            <td class="bold big">$@(line.Price * line.Quantity) </td>
-                                            <td>
-                                                <a asp-action="RemoveLine" asp-route-lineId="@line.LineId">
-                                                    <img class="cancelIcon" src="~/img/times.svg" />
-                                                </a>
-                                            </td>
+                            </select>
+                            <button type="submit" class="filterButton">Update</button>
+                        </form>
+                    </td>
+                    <td class="bold big">$@(line.Price * line.Quantity) </td>
+                    <td>
+                        <a asp-action="RemoveLine" asp-route-lineId="@line.LineId">
+                            <img class="cancelIcon" src="~/img/times.svg" />
+                        </a>
+                    </td>
                     @if (line.StockDecreased)
                     {
-                                                            <td class="bold big">Stock decreased </td>
+                        <td class="bold big">Stock decreased </td>
                     }
                     else
                     {
-                                                            <td></td>
+                        <td></td>
                     }
                 }
                 else
                 {
-                                            <td class="bold big">0</td>
-                                            <td class="bold big">0 </td>
-                                            <td>
-                                                <a asp-action="RemoveLine" asp-route-lineId="@line.LineId">
-                                                    <img class="cancelIcon" src="~/img/times.svg" />
-                                                </a>
-                                            </td>
-                                            <td class="bold big">Out of Stock </td>
+                    <td class="bold big">0</td>
+                    <td class="bold big">0 </td>
+                    <td>
+                        <a asp-action="RemoveLine" asp-route-lineId="@line.LineId">
+                            <img class="cancelIcon" src="~/img/times.svg" />
+                        </a>
+                    </td>
+                    <td class="bold big">Out of Stock </td>
                 }
-                        </tr>
+            </tr>
         }
 
     </tbody>
@@ -71,13 +71,13 @@
         <tr>
             <td colspan="5" class="text-right bold big">Discount:</td>
             <td class="text-right bold big">
-                @Model.Discount.ToString("c")
+                $@Model.Discount
             </td>
         </tr>
-            <tr>
+        <tr>
             <td colspan="5" class="text-right bold big">Total:</td>
             <td class="text-right bold big">
-                @((Model.ShoppingCartTotal - Model.Discount).ToString("c"))
+                $@((Model.ShoppingCartTotal - Model.Discount))
             </td>
         </tr>
     </tfoot>
