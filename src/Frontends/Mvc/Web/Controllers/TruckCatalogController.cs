@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Web.Models;
 using Web.Extensions;
@@ -17,6 +16,7 @@ namespace Web.Controllers
         private readonly ICatalogService _catalogService;
         private readonly IBasketService _basketService;
         private readonly Settings _settings;
+
         public TruckCatalogController(ICatalogService service, IBasketService basketService, Settings settings)
         {
             _catalogService = service;
@@ -26,18 +26,17 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index(int? categoryId)
         {
-
             var currentBasketId = Request.Cookies.GetCurrentBasketId(_settings);
-            var getTrucks = (categoryId.HasValue) ? _catalogService.GetTrucksByCategoryId(categoryId.Value) : _catalogService.GetTrucks();
-            var getBasket = _basketService.GetBasket(currentBasketId);
-            var getCategories = _catalogService.GetCategories();
-
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionCategoryName)))
+            if (!categoryId.HasValue && !string.IsNullOrEmpty(HttpContext.Session.GetString(SessionCategoryName)))
             {
                 var result = int.MinValue;
                 if (int.TryParse(HttpContext.Session.GetString(SessionCategoryName), out result))
                     categoryId = result;
             }
+
+            var getTrucks = (categoryId.HasValue) ? _catalogService.GetTrucksByCategoryId(categoryId.Value) : _catalogService.GetTrucks();
+            var getBasket = _basketService.GetBasket(currentBasketId);
+            var getCategories = _catalogService.GetCategories();
 
             await Task.WhenAll(new Task[] { getTrucks, getCategories, getBasket });
             var numberOfItems = getBasket.Result?.Items.Count ?? 0;
@@ -49,7 +48,6 @@ namespace Web.Controllers
                 SelectedCategory = categoryId.HasValue ? categoryId.Value : null
             };
             return View(tm);
-
         }
 
         [HttpPost]
