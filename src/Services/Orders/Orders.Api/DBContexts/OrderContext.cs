@@ -32,6 +32,8 @@ namespace Orders.Api.DBContexts
             //db.Orders.insertMany([{"name","value", "name2","value2"}])
             //db.Orders.remove({});
             //db.Orders.find({}).pretty();
+
+            //DONT go into collections
         }
         public IMongoCollection<Order> Orders { get; }
     }

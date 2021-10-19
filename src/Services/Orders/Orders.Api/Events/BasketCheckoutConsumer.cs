@@ -28,14 +28,14 @@ namespace Orders.Api.Entities
 
         public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
         {
-            System.Console.WriteLine($"IN ORDERS COnsumer with {context.Message.UserId}");
             var basketCheckoutDetails = (BasketCheckoutEvent)context.Message;
             var order = new Order
             {
                 UserId = basketCheckoutDetails.UserId,
                 OrderPaid = false,
                 OrderPlaced = DateTime.Now,
-                TotalPrice = basketCheckoutDetails.BasketTotal
+                TotalPrice = basketCheckoutDetails.BasketTotal,
+                OrderTotal = (basketCheckoutDetails.Basket != null) ? basketCheckoutDetails.Basket.Count : -1,
             };
             order.OrderId = Guid.NewGuid();
             order.OrderItems = new List<OrderItem>();
@@ -56,8 +56,7 @@ namespace Orders.Api.Entities
             }
             var returnOrder = await _service.AddOrderAsync(order);
             await UpdateInventory(context.Message.Basket);
-            Console.WriteLine("Order added");
-            _logger.LogInformation("Order added");
+            _logger.LogInformation("Order added ", returnOrder.OrderId);
         }
 
         private async Task UpdateInventory(List<BasketItemEvent> cart)
@@ -71,12 +70,11 @@ namespace Orders.Api.Entities
                 eventMessage.TruckId = item.TruckId;
                 eventMessage.TruckName = item.Name;
                 eventMessage.Quantity = item.Quantity;
-                Console.WriteLine($"trying to update inventory for {eventMessage.TruckName } TruckId = {eventMessage.TruckId} ProductId = {item.Id}");
+                _logger.LogInformation($"trying to update inventory for {eventMessage.TruckName } TruckId = {eventMessage.TruckId} ProductId = {item.Id}");
                 await _publishEndpoint.Publish(eventMessage);
                 _logger.LogInformation($"Update Inventory event published for Name {eventMessage.TruckName} with new quantity {eventMessage.Quantity}");
             }
 
         }
     }
-
 }

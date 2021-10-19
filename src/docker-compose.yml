@@ -39,27 +39,7 @@ services:
       - "15672:15672"
 
 
-  # pgadmin:
-  #   container_name: pgadmin
-  #   image: dpage/pgadmin4
-  #   environment: 
-  #     #POSTGRES_DB: ""
-  #     PGADMIN_DEFAULT_EMAIL: "admin@turkish.com"
-  #     PGADMIN_DEFAULT_PASSWORD: "password"
-  #   ports: 
-  #     - 5050:80
-  #   volumes:
-  #     - pgadmin_data:/root/.pgadmin
-
-  # portainer:
-  #   image: portainer/portainer-ce
-  #   container_name: portainer
-  #   ports:
-  #     - 8080:8000
-  #     - 8090:9000
-  #   volumes: 
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - portainer_data:/data
+ 
 
   catalog_api:
     container_name: catalog_api
@@ -131,11 +111,6 @@ services:
       target: debug
     environment: 
       ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "catalogdb"
-      POSTGRES_DB: "orderdb"
-      POSTGRES_PORT: "5432"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       BasketCheckoutQueue: "basketcheckout-queue"
       MONGO_SERVER: "orderdb"
@@ -147,7 +122,7 @@ services:
     volumes:
       - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
     depends_on: 
-      - catalogdb 
+      #- catalogdb 
       - rabbitmq
       - orderdb
    
@@ -175,45 +150,64 @@ services:
       - order_api
       - basket_api
 
-  #ocelot_api:
-  #  container_name: ocelot_api
-  #  build: 
-  #    context: .
-  #    dockerfile: ApiGateways/OcelotApi/Dockerfile
-  #    target: debug
-  #  environment: 
-  #    ASPNETCORE_ENVIRONMENT: Development
-     
-  #  ports: 
-  #    - 5010:80
-  #  depends_on: 
-  #    - catalog_api
-  #    - discount_grpc
-  #    - inventory_api
-  #    - order_api
-  #    - basket_api
-  
-  # shopping_aggregator:
-  #   container_name: shopping_aggregator
-  #   build:
-  #     context: .
-  #     dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
-  #     target: debug
-  #   environment: 
-  #     ASPNETCORE_ENVIRONMENT: Development
-  #     "ApiSettings:CatalogUrl": "http://catalog_api"
-  #   ports:
-  #     - 5005:80
-  #   depends_on: 
-  #     - catalog_api
-  #     - inventory_api
-  #     - order_api
-  #     - basket_api
-  
-
-
 volumes: 
   order_mongo_data:
   basket_redis_data:
   catalog_postgres_data:
 
+#ocelot_api:
+#  container_name: ocelot_api
+#  build: 
+#    context: .
+#    dockerfile: ApiGateways/OcelotApi/Dockerfile
+#    target: debug
+#  environment: 
+#    ASPNETCORE_ENVIRONMENT: Development
+    
+#  ports: 
+#    - 5010:80
+#  depends_on: 
+#    - catalog_api
+#    - discount_grpc
+#    - inventory_api
+#    - order_api
+#    - basket_api
+
+# shopping_aggregator:
+#   container_name: shopping_aggregator
+#   build:
+#     context: .
+#     dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
+#     target: debug
+#   environment: 
+#     ASPNETCORE_ENVIRONMENT: Development
+#     "ApiSettings:CatalogUrl": "http://catalog_api"
+#   ports:
+#     - 5005:80
+#   depends_on: 
+#     - catalog_api
+#     - inventory_api
+#     - order_api
+#     - basket_api
+
+# pgadmin:
+#   container_name: pgadmin
+#   image: dpage/pgadmin4
+#   environment: 
+#     #POSTGRES_DB: ""
+#     PGADMIN_DEFAULT_EMAIL: "admin@turkish.com"
+#     PGADMIN_DEFAULT_PASSWORD: "password"
+#   ports: 
+#     - 5050:80
+#   volumes:
+#     - pgadmin_data:/root/.pgadmin
+
+# portainer:
+#   image: portainer/portainer-ce
+#   container_name: portainer
+#   ports:
+#     - 8080:8000
+#     - 8090:9000
+#   volumes: 
+#     - /var/run/docker.sock:/var/run/docker.sock
+#     - portainer_data:/data
