@@ -19,21 +19,32 @@ namespace Identity
         public static IEnumerable<ApiResource> ApiResources =>
             new ApiResource[]
             {
-
+                new ApiResource("hesstoytrucks","Hess Toys Apis")
+                {
+                    Scopes = {"hesstoytrucks.fullaccess"}
+                }
             };
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
+                new ApiScope("hesstoytrucks.fullaccess"),
             };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
+                new Client
+                {
+                    ClientId = "hesstoytrucksm2m",
+                    ClientName = "Hess Toys Machine 2 Machine Client",
+                    ClientSecrets = { new Secret("4f3765a1-052b-498a-bcb1-ac3997b37c4c".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = { "hesstoytrucks.fullaccess" }
+                },
 
 
 
 
-                
                 // // m2m client credentials flow client
                 // new Client
                 // {
