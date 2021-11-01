@@ -15,6 +15,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using MassTransit;
 using Catalog.Api.Events;
 
@@ -33,7 +36,7 @@ namespace Catalog.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddControllers();
+
             services.AddClientMassTransit(Configuration);
             services.AddSwaggerGen(c =>
             {
@@ -44,12 +47,27 @@ namespace Catalog.Api
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddApiVersioning(options =>
-          {
-              options.AssumeDefaultVersionWhenUnspecified = true;
-              options.DefaultApiVersion = new ApiVersion(1, 0);
-              options.ReportApiVersions = true;
-              options.ApiVersionReader = new HeaderApiVersionReader("api-version");
-          });
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
+
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+            {
+                options.Authority = "https://localhost:3520";
+                options.Audience = "hesstoytrucks";
+            });
 
             services.AddCors(options =>
             {
@@ -71,7 +89,9 @@ namespace Catalog.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
