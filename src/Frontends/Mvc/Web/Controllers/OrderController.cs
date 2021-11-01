@@ -14,17 +14,20 @@ namespace Web.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly Settings _settings;
+        //private readonly Settings _settings;
 
         public OrderController(Settings settings, IOrderService orderService)
         {
-            _settings = settings;
+            //_settings = settings;
             _orderService = orderService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var orders = await _orderService.GetOrdersForUser(_settings.UserId);
+            var orders = await _orderService.GetOrdersForUser(
+                Guid.Parse(
+                    User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value
+                ));
             var numberOfMessages = (from order in orders
                                     where order.Message != null
                                     select order).Count();

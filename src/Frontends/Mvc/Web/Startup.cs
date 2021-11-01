@@ -2,9 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,7 +33,14 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            var builder = services.AddControllersWithViews();
+            var requireAuthenticatedUser = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+            var builder = services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUser));
+            });
 
             if (_environment.IsDevelopment())
             {
@@ -59,6 +70,22 @@ namespace Web
 
             services.AddSingleton<Settings>();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+            {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.Authority = "https://localhost:3520/";
+                options.ClientId = "hesstoytrucksinteractive";
+                options.ClientSecret = "c35569bc-1666-4f11-93c1-5793dc5491a6";
+                options.ResponseType = "code";
+                options.SaveTokens = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +106,7 @@ namespace Web
 
             app.UseRouting();
             app.UseSession();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

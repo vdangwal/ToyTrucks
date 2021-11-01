@@ -41,7 +41,18 @@ namespace Identity
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "hesstoytrucks.fullaccess" }
                 },
-
+                new Client
+                {
+                    ClientId = "hesstoytrucksinteractive",
+                    ClientName = "Hess Toys Interactive Client",
+                    ClientSecrets = { new Secret("c35569bc-1666-4f11-93c1-5793dc5491a6".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    //RedirectUris = { "https://localhost:5000/signin-oidc" },
+                   // PostLogoutRedirectUris = { "https://localhost:5000/signout-callback-oidc" },
+                    RedirectUris={"https://localhost:6501/signin-oidc"},  //6501?
+                    PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
+                    AllowedScopes = {"openid","profile" }
+                },
 
 
 

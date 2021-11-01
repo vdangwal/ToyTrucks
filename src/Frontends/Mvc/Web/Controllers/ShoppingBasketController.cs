@@ -140,7 +140,9 @@ namespace Web.Controllers
                         CardExpiration = basketCheckoutViewModel.CardExpiration,
                         CvvCode = basketCheckoutViewModel.CvvCode,
                         BasketId = basketId,
-                        UserId = _settings.UserId
+                        UserId = Guid.Parse(
+                                 User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value
+                             )
                     };
 
                     await _basketService.Checkout(basketId, basketForCheckout);
