@@ -19,6 +19,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Bson" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Driver.Core" Version="2.12.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3"/>
   </ItemGroup>
   <ItemGroup>
     <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client"/>

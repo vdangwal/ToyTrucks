@@ -51,7 +51,7 @@ namespace Identity
                    // PostLogoutRedirectUris = { "https://localhost:5000/signout-callback-oidc" },
                     RedirectUris={"https://localhost:6501/signin-oidc"},  //6501?
                     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
-                    AllowedScopes = {"openid","profile" }
+                    AllowedScopes = {"openid","profile" , "hesstoytrucks.fullaccess"}
                 },
 
 

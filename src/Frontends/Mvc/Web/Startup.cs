@@ -84,6 +84,7 @@ namespace Web
                 options.ResponseType = "code";
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
+                options.Scope.Add("hesstoytrucks.fullaccess");
             });
 
         }

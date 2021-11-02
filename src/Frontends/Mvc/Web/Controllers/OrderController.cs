@@ -24,10 +24,11 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var username = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            System.Console.WriteLine($"user: {username}");
             var orders = await _orderService.GetOrdersForUser(
-                Guid.Parse(
-                    User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value
-                ));
+                Guid.Parse(username)
+                );
             var numberOfMessages = (from order in orders
                                     where order.Message != null
                                     select order).Count();
