@@ -66,7 +66,7 @@ namespace Catalog.Api
                 .AddJwtBearer(options =>
             {
                 options.Authority = "https://localhost:3520";
-                options.Audience = "hesstoytrucks";
+                options.Audience = "catalog";
             });
 
             services.AddCors(options =>

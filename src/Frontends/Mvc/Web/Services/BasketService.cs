@@ -35,9 +35,9 @@ namespace Web.Services
             {
                 basketId = CreateBasketCookie();
             }
-            // var tok = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-            // System.Console.WriteLine($"access token: {tok}");
-            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            var tok = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            System.Console.WriteLine($"access token: {tok}");
+            _client.SetBearerToken(tok);//await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             var response = await _client.GetAsync($"api/v1/basket/{basketId}");
 
             return await response.ReadContentAs<CustomerBasket>();

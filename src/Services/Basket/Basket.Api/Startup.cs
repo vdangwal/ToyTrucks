@@ -87,7 +87,7 @@ namespace Basket.Api
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:3520";
-                    options.Audience = "hesstoytrucks";
+                    options.Audience = "basket";
                 });
         }
 

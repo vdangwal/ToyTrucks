@@ -19,15 +19,25 @@ namespace Identity
         public static IEnumerable<ApiResource> ApiResources =>
             new ApiResource[]
             {
-                new ApiResource("hesstoytrucks","Hess Toys Apis")
+                // new ApiResource("hesstoytrucks","Hess Toys Apis")
+                // {
+                //     Scopes = {"hesstoytrucks.fullaccess"}
+                // }
+                 new ApiResource("catalog","Hess Toys catalog Apis")
                 {
-                    Scopes = {"hesstoytrucks.fullaccess"}
+                    Scopes = {"catalog.fullaccess"}
+                },
+                 new ApiResource("basket","Hess Toys basket Apis")
+                {
+                    Scopes = {"basket.fullaccess"}
                 }
             };
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("hesstoytrucks.fullaccess"),
+                // new ApiScope("hesstoytrucks.fullaccess"),
+                  new ApiScope("catalog.fullaccess"),
+                  new ApiScope("basket.fullaccess"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -39,7 +49,7 @@ namespace Identity
                     ClientName = "Hess Toys Machine 2 Machine Client",
                     ClientSecrets = { new Secret("4f3765a1-052b-498a-bcb1-ac3997b37c4c".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "hesstoytrucks.fullaccess" }
+                    AllowedScopes = { "catalog.fullaccess" }
                 },
                 new Client
                 {
@@ -47,42 +57,25 @@ namespace Identity
                     ClientName = "Hess Toys Interactive Client",
                     ClientSecrets = { new Secret("c35569bc-1666-4f11-93c1-5793dc5491a6".Sha256()) },
                     AllowedGrantTypes = GrantTypes.Code,
-                    //RedirectUris = { "https://localhost:5000/signin-oidc" },
-                   // PostLogoutRedirectUris = { "https://localhost:5000/signout-callback-oidc" },
-                    RedirectUris={"https://localhost:6501/signin-oidc"},  //6501?
+
+                    RedirectUris={"https://localhost:6501/signin-oidc"},
                     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
-                    AllowedScopes = {"openid","profile" , "hesstoytrucks.fullaccess"}
+                    AllowedScopes = {"openid","profile" , "basket.fullaccess"}
                 },
 
 
-
-                // // m2m client credentials flow client
                 // new Client
                 // {
-                //     ClientId = "m2m.client",
-                //     ClientName = "Client Credentials Client",
-
-                //     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                //     ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                //     AllowedScopes = { "scope1" }
+                //     ClientId = "hesstoytrucks",
+                //     ClientName = "Hess Toys Client",
+                //     ClientSecrets = { new Secret("3322cccf-b6ff-4558-aefb-6c159cd566a0".Sha256()) },
+                //     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                //     RedirectUris={"https://localhost:6501/signin-oidc"},
+                //     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
+                //     AllowedScopes = {"openid","profile" , "basket.fullaccess", "catalog.fullaccess"}
                 // },
 
-                // // interactive client using code flow + pkce
-                // new Client
-                // {
-                //     ClientId = "interactive",
-                //     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
 
-                //     AllowedGrantTypes = GrantTypes.Code,
-
-                //     RedirectUris = { "https://localhost:44300/signin-oidc" },
-                //     FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                //     PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
-
-                //     AllowOfflineAccess = true,
-                //     AllowedScopes = { "openid", "profile", "scope2" }
-                // },
-            };
+                    };
     }
 }
