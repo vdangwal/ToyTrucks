@@ -68,6 +68,11 @@ namespace Catalog.Api
                 options.Authority = "https://localhost:3520";
                 options.Audience = "catalog";
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanRead",
+                                  policy => policy.RequireClaim("scope", "catalog.read"));
+            });
 
             services.AddCors(options =>
             {

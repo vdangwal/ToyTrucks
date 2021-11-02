@@ -23,9 +23,13 @@ namespace Identity
                 // {
                 //     Scopes = {"hesstoytrucks.fullaccess"}
                 // }
-                 new ApiResource("catalog","Hess Toys catalog Apis")
+                //  new ApiResource("catalog","Hess Toys catalog Apis")
+                // {
+                //     Scopes = {"catalog.fullaccess"}
+                // },
+                new ApiResource("catalog","Hess Toys catalog Apis")
                 {
-                    Scopes = {"catalog.fullaccess"}
+                    Scopes = {"catalog.read", "catalog.write"}
                 },
                  new ApiResource("basket","Hess Toys basket Apis")
                 {
@@ -36,8 +40,10 @@ namespace Identity
             new ApiScope[]
             {
                 // new ApiScope("hesstoytrucks.fullaccess"),
-                  new ApiScope("catalog.fullaccess"),
+                  //new ApiScope("catalog.fullaccess"),
                   new ApiScope("basket.fullaccess"),
+                  new ApiScope("catalog.read"),
+                  new ApiScope("catalog.write"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -71,7 +77,7 @@ namespace Identity
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     RedirectUris={"https://localhost:6501/signin-oidc"},
                     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
-                    AllowedScopes = {"openid","profile" , "basket.fullaccess", "catalog.fullaccess"}
+                    AllowedScopes = {"openid","profile" , "basket.fullaccess", "catalog.read", "catalog.write"}
                 },
             };
     }

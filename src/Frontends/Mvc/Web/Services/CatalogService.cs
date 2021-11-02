@@ -28,9 +28,9 @@ namespace Web.Services
         {
             if (!string.IsNullOrWhiteSpace(_accessToken))
             {
+                System.Console.WriteLine($"catalog token: {_accessToken}");
                 return _accessToken;
             }
-
             var discoveryResponse = await _client.GetDiscoveryDocumentAsync(_config["IdentityUri"]);
             if (discoveryResponse.IsError)
             {
@@ -43,7 +43,7 @@ namespace Web.Services
                     Address = discoveryResponse.TokenEndpoint,
                     ClientId = "hesstoytrucks",
                     ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0",
-                    Scope = "catalog.fullaccess"
+                    Scope = "catalog.read"
                 });
             if (tokenResponse.IsError)
             {
@@ -51,12 +51,12 @@ namespace Web.Services
             }
             _accessToken = tokenResponse.AccessToken;
             return _accessToken;
-
         }
 
         public async Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId)
         {
             _client.SetBearerToken(await GetToken());
+            System.Console.WriteLine($"catalog token: {_accessToken}");
             var response = await _client.GetAsync($"api/trucks/{categoryId}");
             var trucks = await response.ReadContentAs<List<Truck>>();
             var orderedTrucks = trucks.OrderBy(t => t.Year);
