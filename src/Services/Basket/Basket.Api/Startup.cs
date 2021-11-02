@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StackExchange.Redis;
 
 using AutoMapper;
@@ -57,9 +57,9 @@ namespace Basket.Api
               options.ApiVersionReader = new HeaderApiVersionReader("api-version");
           });
 
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-                  .RequireAuthenticatedUser()
-                  .Build();
+            // var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+            //       .RequireAuthenticatedUser()
+            //       .Build();
 
             services.AddMyGrpcClient(Configuration);
             //  services.AddMyRedisCache(Configuration);
@@ -80,15 +80,15 @@ namespace Basket.Api
 
             services.AddControllers(config =>
             {
-                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                //   config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "https://localhost:3520";
-                    options.Audience = "basket";
-                });
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.Authority = "https://localhost:3520";
+            //         options.Audience = "basket";
+            //     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,10 +100,10 @@ namespace Basket.Api
 
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
