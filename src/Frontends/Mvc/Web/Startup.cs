@@ -79,8 +79,8 @@ namespace Web
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.Authority = "https://localhost:3520/";
-                options.ClientId = "hesstoytrucksinteractive";
-                options.ClientSecret = "c35569bc-1666-4f11-93c1-5793dc5491a6";
+                options.ClientId = "hesstoytrucks";
+                options.ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0";
                 options.ResponseType = "code";
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;

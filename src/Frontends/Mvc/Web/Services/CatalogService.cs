@@ -41,8 +41,8 @@ namespace Web.Services
                 new ClientCredentialsTokenRequest
                 {
                     Address = discoveryResponse.TokenEndpoint,
-                    ClientId = "hesstoytrucksm2m",
-                    ClientSecret = "4f3765a1-052b-498a-bcb1-ac3997b37c4c",
+                    ClientId = "hesstoytrucks",
+                    ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0",
                     Scope = "catalog.fullaccess"
                 });
             if (tokenResponse.IsError)
