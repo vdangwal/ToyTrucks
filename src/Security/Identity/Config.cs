@@ -34,6 +34,10 @@ namespace Identity
                  new ApiResource("basket","Hess Toys basket Apis")
                 {
                     Scopes = {"basket.fullaccess"}
+                },
+                 new ApiResource("discount","Hess Toys discount Apis")
+                {
+                    Scopes = {"discount.fullaccess"}
                 }
             };
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -44,6 +48,7 @@ namespace Identity
                   new ApiScope("basket.fullaccess"),
                   new ApiScope("catalog.read"),
                   new ApiScope("catalog.write"),
+                  new ApiScope("discount.fullaccess")
             };
 
         public static IEnumerable<Client> Clients =>
@@ -78,6 +83,15 @@ namespace Identity
                     RedirectUris={"https://localhost:6501/signin-oidc"},
                     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
                     AllowedScopes = {"openid","profile" , "basket.fullaccess", "catalog.read", "catalog.write"}
+                },
+                 new Client
+                {
+                    ClientId = "hesstoytrucks_baskets_to_discount_tokenexchange",
+                    ClientName = "Hess Toys Discount",
+                    ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
+                    AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
+
+                    AllowedScopes = {"openid","profile" ,"discount.fullaccess"}
                 },
             };
     }

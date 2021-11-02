@@ -25,7 +25,6 @@
             "name": "Discount No docker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/Services/Discount/Discount.Api/bin/Debug/net5.0/Discount.Api.dll",
             "args": [],

@@ -12,6 +12,13 @@ namespace Basket.Api.GrpcServices
             _discountProtoService = discountProtoService ?? throw new ArgumentNullException(nameof(discountProtoService));
         }
 
+        private async Task<string> GetToken()
+        {
+            //TODO need to implement for token exchange to discount service
+            //see catalog service in web app
+            throw new Exception();
+        }
+
         public async Task<GetDiscountResponse> GetDiscount(string productName)
         {
             var discountRequest = new GetDiscountRequest { ProductName = productName };
