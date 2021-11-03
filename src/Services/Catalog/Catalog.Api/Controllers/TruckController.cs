@@ -17,7 +17,7 @@ namespace Catalog.Api.Controllers
     [Route("api/trucks")]
     [ApiVersion("1.0")]
     [ApiController]
-    [Authorize(Policy = "CanRead")]
+    //[Authorize(Policy = "CanRead")]
     public class TruckController : ControllerBase
     {
         private readonly ITruckRepository _service;

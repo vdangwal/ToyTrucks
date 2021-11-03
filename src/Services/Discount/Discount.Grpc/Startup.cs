@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,20 +24,20 @@ namespace Discount.Grpc
             services.AddScoped<IDiscountRepository, DiscountRepository>();
             //services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddGrpc();
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
+            // var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+            //     .RequireAuthenticatedUser()
+            //     .Build();
             services.AddControllers(config =>
             {
-                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                //  config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-            {
-                options.Authority = "https://localhost:3520";
-                options.Audience = "discount";
-            });
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            // {
+            //     options.Authority = "https://localhost:3520";
+            //     options.Audience = "discount";
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
