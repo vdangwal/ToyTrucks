@@ -8,6 +8,8 @@ using Web.Extensions;
 
 using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Web.Services
 {
@@ -15,13 +17,15 @@ namespace Web.Services
     {
         private readonly HttpClient _client;
         // private string _accessToken;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private IConfiguration _config;
 
 
-        public CatalogService(HttpClient client, IConfiguration config)
+        public CatalogService(HttpClient client, IConfiguration config, IHttpContextAccessor httpContextAccessor)
         {
             _client = client;
             _config = config;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // private async Task<string> GetToken()
@@ -55,7 +59,7 @@ namespace Web.Services
 
         public async Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId)
         {
-            // _client.SetBearerToken(await GetToken());
+            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             // System.Console.WriteLine($"catalog token: {_accessToken}");
             var response = await _client.GetAsync($"api/trucks/{categoryId}");
             var trucks = await response.ReadContentAs<List<Truck>>();
@@ -72,6 +76,9 @@ namespace Web.Services
         public async Task<IEnumerable<Category>> GetCategories()
         {
             //   _client.SetBearerToken(await GetToken());
+            var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            System.Console.WriteLine($"catalog token: {token}");
+            _client.SetBearerToken(token);
             var response = await _client.GetAsync("api/categories");
             return await response.ReadContentAs<List<Category>>();
         }
@@ -79,6 +86,7 @@ namespace Web.Services
         public async Task<IEnumerable<Truck>> GetTrucks()
         {
             //   _client.SetBearerToken(await GetToken());
+            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             var response = await _client.GetAsync("api/trucks");
             var trucks = await response.ReadContentAs<List<Truck>>();
             var orderedTrucks = trucks.OrderBy(t => t.Year);
