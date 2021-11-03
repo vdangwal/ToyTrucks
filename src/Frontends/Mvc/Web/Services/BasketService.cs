@@ -35,12 +35,20 @@ namespace Web.Services
             {
                 basketId = CreateBasketCookie();
             }
-            // var tok = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-            // System.Console.WriteLine($"basket token: {tok}");
-            // _client.SetBearerToken(tok);//await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
-            var response = await _client.GetAsync($"api/v1/basket/{basketId}");
+            try
+            {
+                var tok = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+                System.Console.WriteLine($"basket token: {tok}");
+                _client.SetBearerToken(tok);//await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+                var response = await _client.GetAsync($"api/v1/basket/{basketId}");
 
-            return await response.ReadContentAs<CustomerBasket>();
+                return await response.ReadContentAs<CustomerBasket>();
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+            return null;
         }
 
         public async Task<CustomerBasket> AddLine(string basketId, BasketItem basketItem)
@@ -94,7 +102,7 @@ namespace Web.Services
             {
                 throw new ArgumentNullException(nameof(basketForCheckout));
             }
-            // _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             var response = await _client.PostAsJson($"api/v1/basket/checkout", basketForCheckout);
             if (response.IsSuccessStatusCode)
                 return await response.ReadContentAs<BasketForCheckout>();

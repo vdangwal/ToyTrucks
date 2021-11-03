@@ -85,6 +85,8 @@ namespace Web
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.Scope.Add("basket.fullaccess");
+                options.Scope.Add("hesstoytrucks.fullaccess");
+
             });
 
         }

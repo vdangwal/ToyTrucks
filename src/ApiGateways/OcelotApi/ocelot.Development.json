@@ -15,7 +15,10 @@
                 "OPTIONS",
                 "PUT",
                 "POST"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/basket/{all}",
@@ -30,7 +33,10 @@
             "UpstreamHttpMethod": [
                 "GET",
                 "DELETE"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/basket/Checkout",
@@ -44,7 +50,10 @@
             "UpstreamPathTemplate": "/basket/api/v1/basket/Checkout",
             "UpstreamHttpMethod": [
                 "POST"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            }
             // ,
             // "RateLimitOptions": {
             //     "ClientWhitelist": [],
@@ -54,48 +63,6 @@
             //     "Limit": 1
             // }
         },
-        // {
-        //     "DownstreamPathTemplate": "/api/basket/CreateDiscount",
-        //     "DownstreamScheme": "http",
-        //     "DownstreamHostAndPorts": [
-        //         {
-        //             "Host": "localhost",
-        //             "Port": 3502
-        //         }
-        //     ],
-        //     "UpstreamPathTemplate": "/basket/CreateDiscount",
-        //     "UpstreamHttpMethod": [
-        //         "POST"
-        //     ]
-        // },
-        // {
-        //     "DownstreamPathTemplate": "/api/basket/GetDiscount/{productId}",
-        //     "DownstreamScheme": "http",
-        //     "DownstreamHostAndPorts": [
-        //         {
-        //             "Host": "localhost",
-        //             "Port": 3502
-        //         }
-        //     ],
-        //     "UpstreamPathTemplate": "/basket/GetDiscount/{productId}",
-        //     "UpstreamHttpMethod": [
-        //         "GET"
-        //     ]
-        // },
-        // {
-        //     "DownstreamPathTemplate": "/api/basket/DeleteDiscount/{productId}",
-        //     "DownstreamScheme": "http",
-        //     "DownstreamHostAndPorts": [
-        //         {
-        //             "Host": "localhost",
-        //             "Port": 3502
-        //         }
-        //     ],
-        //     "UpstreamPathTemplate": "/basket/DeleteDiscount/{productId}",
-        //     "UpstreamHttpMethod": [
-        //         "DELETE"
-        //     ]
-        // },
         //Order API
         {
             "DownstreamPathTemplate": "/api/orders/{all}",
