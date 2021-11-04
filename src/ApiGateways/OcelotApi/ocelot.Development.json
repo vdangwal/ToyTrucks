@@ -17,7 +17,10 @@
                 "POST"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+                "AllowedScopes": [
+                    "basket.fullaccess"
+                ]
             }
         },
         {
@@ -35,7 +38,10 @@
                 "DELETE"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+                "AllowedScopes": [
+                    "basket.fullaccess"
+                ]
             }
         },
         {
@@ -50,10 +56,14 @@
             "UpstreamPathTemplate": "/basket/api/v1/basket/Checkout",
             "UpstreamHttpMethod": [
                 "POST"
-            ],
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
-            }
+            ]
+            // ,
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+            //     "AllowedScopes": [
+            //         "basket.fullaccess"
+            //     ]
+            // }
             // ,
             // "RateLimitOptions": {
             //     "ClientWhitelist": [],
@@ -91,7 +101,13 @@
             "UpstreamPathTemplate": "/trucks/api/categories",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+                "AllowedScopes": [
+                    "catalog.read"
+                ]
+            }
             // ,
             // "FileCacheOptions": {
             //     "TtlSeconds": 10
@@ -109,7 +125,13 @@
             "UpstreamPathTemplate": "/trucks/api/categories/{isMini}",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+                "AllowedScopes": [
+                    "catalog.read"
+                ]
+            }
         },
         //Truck API
         {
@@ -125,22 +147,14 @@
             "UpstreamHttpMethod": [
                 "GET",
                 "PUT"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+                "AllowedScopes": [
+                    "catalog.read"
+                ]
+            }
         },
-        // {
-        //     "DownstreamPathTemplate": "/api/trucks/{categoryId}",
-        //     "DownstreamScheme": "http",
-        //     "DownstreamHostAndPorts": [
-        //         {
-        //             "Host": "localhost",
-        //             "Port": "3500"
-        //         }
-        //     ],
-        //     "UpstreamPathTemplate": "/trucks/{categoryId}",
-        //     "UpstreamHttpMethod": [
-        //         "GET"
-        //     ]
-        // },
         {
             "DownstreamPathTemplate": "/api/trucks/{all}",
             "DownstreamScheme": "https",
@@ -153,22 +167,35 @@
             "UpstreamPathTemplate": "/trucks/api/trucks/{all}",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/trucks/TruckByName",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": "3500"
-                }
             ],
-            "UpstreamPathTemplate": "/trucks/api/trucks/TruckByName",
-            "UpstreamHttpMethod": [
-                "GET"
-            ]
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+                "AllowedScopes": [
+                    "catalog.read"
+                ]
+            }
         }
+        //,
+        // {
+        //     "DownstreamPathTemplate": "/api/trucks/TruckByName",
+        //     "DownstreamScheme": "https",
+        //     "DownstreamHostAndPorts": [
+        //         {
+        //             "Host": "localhost",
+        //             "Port": "3500"
+        //         }
+        //     ],
+        //     "UpstreamPathTemplate": "/trucks/api/trucks/TruckByName",
+        //     "UpstreamHttpMethod": [
+        //         "GET"
+        //     ],
+        //     "AuthenticationOptions": {
+        //         "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+        //         "AllowedScopes": [
+        //             "catalog.read"
+        //         ]
+        //     }
+        // }
     ],
     "GlobalConfiguration": {
         "BaseUrl": "https://localhost:4444"

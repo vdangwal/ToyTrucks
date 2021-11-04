@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.Authorization;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using MassTransit;
 using Catalog.Api.Events;
@@ -55,17 +55,20 @@ namespace Catalog.Api
             });
 
 
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
             services.AddControllers(config =>
             {
-                //  config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
-            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //     .AddJwtBearer(options =>
-            // {
-            //     options.Authority = "https://localhost:3520";
-            //     options.Audience = "catalog";
-            // });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+            {
+                options.Authority = "https://localhost:3520";
+                options.Audience = "catalog";
+            });
             // services.AddAuthorization(options =>
             // {
             //     options.AddPolicy("CanRead",
@@ -92,7 +95,7 @@ namespace Catalog.Api
 
             app.UseRouting();
 
-            // app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

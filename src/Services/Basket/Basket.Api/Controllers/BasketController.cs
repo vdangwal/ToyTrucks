@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using EventBus.Messages.Events;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
@@ -66,7 +67,7 @@ namespace Basket.Api.Controllers
             //     guid : basketCheckout.RequestId;
 
             var basket = await _repository.GetBasketAsync(basketCheckout.BasketId);
-
+            var subClaim = User.Claims.FirstOrDefault(a => a.Type == "sub");
             if (basket == null)
             {
                 return BadRequest();
