@@ -87,6 +87,7 @@ namespace Web
                 options.Scope.Add("basket.fullaccess");
                 options.Scope.Add("hesstoytrucks.fullaccess");
                 options.Scope.Add("catalog.read");
+                options.Scope.Add("orders.fullaccess");
                 // options.Scope.Add("catalog.write");
             });
 

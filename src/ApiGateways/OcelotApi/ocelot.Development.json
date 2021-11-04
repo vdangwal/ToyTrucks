@@ -83,7 +83,7 @@
                     "Port": "3508"
                 }
             ],
-            "UpstreamPathTemplate": "/orders/{all}",
+            "UpstreamPathTemplate": "/orders/api/orders/{all}",
             "UpstreamHttpMethod": [
                 "GET"
             ]

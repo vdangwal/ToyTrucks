@@ -42,7 +42,11 @@ namespace Identity
                  new ApiResource("hesstoytrucks","Hess Toys  Apis")
                 {
                     Scopes = {"hesstoytrucks.fullaccess"}
-                }
+                },
+                  new ApiResource("orders","Hess Toys orders Apis")
+                {
+                    Scopes = {"orders.fullaccess"}
+                },
             };
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
@@ -53,6 +57,7 @@ namespace Identity
                   new ApiScope("catalog.read"),
                   new ApiScope("catalog.write"),
                   new ApiScope("discount.fullaccess"),
+                  new ApiScope("orders.fullaccess"),
                   new ApiScope("hesstoytrucks.fullaccess")
             };
 
@@ -87,7 +92,9 @@ namespace Identity
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     RedirectUris={"https://localhost:6501/signin-oidc"},
                     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
-                    AllowedScopes = {"openid","profile" , "basket.fullaccess", "catalog.read", "catalog.write", "hesstoytrucks.fullaccess"}
+                    AllowedScopes = {"openid","profile" , "basket.fullaccess",
+                        "catalog.read", "catalog.write", "hesstoytrucks.fullaccess",
+                        "orders.fullaccess"}
                 },
                  new Client
                 {

@@ -14,7 +14,10 @@ using Microsoft.OpenApi.Models;
 using Orders.Api.DBContexts;
 using Orders.Api.Services;
 using MassTransit;
-
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Orders.Api.Entities;
 using MongoDB;
 namespace Orders.Api
@@ -31,8 +34,20 @@ namespace Orders.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                                   .RequireAuthenticatedUser()
+                                   .Build();
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+            });
 
-            services.AddControllers();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+            {
+                options.Authority = "https://localhost:3520";
+                options.Audience = "orders";
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders", Version = "v1" });
@@ -74,7 +89,7 @@ namespace Orders.Api
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -96,7 +111,6 @@ namespace Orders.Api
 
         public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
         {
-          
 
             services.AddMassTransit(configuration =>
             {
