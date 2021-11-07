@@ -19,14 +19,7 @@ namespace Identity
         public static IEnumerable<ApiResource> ApiResources =>
             new ApiResource[]
             {
-                // new ApiResource("hesstoytrucks","Hess Toys Apis")
-                // {
-                //     Scopes = {"hesstoytrucks.fullaccess"}
-                // }
-                //  new ApiResource("catalog","Hess Toys catalog Apis")
-                // {
-                //     Scopes = {"catalog.fullaccess"}
-                // },
+
                 new ApiResource("catalog","Hess Toys catalog Apis")
                 {
                     Scopes = {"catalog.read", "catalog.write"}
@@ -39,9 +32,9 @@ namespace Identity
                 {
                     Scopes = {"discount.fullaccess"}
                 },
-                 new ApiResource("hesstoytrucks","Hess Toys  Apis")
+                 new ApiResource("hesstoysgateway","Hess Toys  Apis")
                 {
-                    Scopes = {"hesstoytrucks.fullaccess"}
+                    Scopes = {"hesstoysgateway.fullaccess"}
                 },
                   new ApiResource("orders","Hess Toys orders Apis")
                 {
@@ -51,20 +44,43 @@ namespace Identity
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                // new ApiScope("hesstoytrucks.fullaccess"),
-                  //new ApiScope("catalog.fullaccess"),
+
                   new ApiScope("basket.fullaccess"),
                   new ApiScope("catalog.read"),
                   new ApiScope("catalog.write"),
                   new ApiScope("discount.fullaccess"),
                   new ApiScope("orders.fullaccess"),
-                  new ApiScope("hesstoytrucks.fullaccess")
+                  new ApiScope("hesstoysgateway.fullaccess")
             };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                // new Client
+              new Client
+                {
+                    ClientId = "hesstoytrucks",
+                    ClientName = "Hess Toys Client",
+                    ClientSecrets = { new Secret("3322cccf-b6ff-4558-aefb-6c159cd566a0".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    RedirectUris={"https://localhost:6501/signin-oidc"},
+                    PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
+                    AllowedScopes = {"openid","profile" ,
+                        "basket.fullaccess",
+                        "catalog.read", "catalog.write",
+                        "hesstoysgateway.fullaccess",
+                        "orders.fullaccess"
+                        }
+                },
+                 new Client
+                {
+                    ClientId = "hesstoytrucks_baskets_to_discount_tokenexchange",
+                    ClientName = "Hess Toys Discount",
+                    ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
+                    AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
+
+                    AllowedScopes = {"openid","profile" ,"discount.fullaccess"}
+                },
+                   // new Client
                 // {
                 //     ClientId = "hesstoytrucksm2m",
                 //     ClientName = "Hess Toys Machine 2 Machine Client",
@@ -83,28 +99,6 @@ namespace Identity
                 //     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
                 //     AllowedScopes = {"openid","profile" , "basket.fullaccess"}
                 // },
-
-                new Client
-                {
-                    ClientId = "hesstoytrucks",
-                    ClientName = "Hess Toys Client",
-                    ClientSecrets = { new Secret("3322cccf-b6ff-4558-aefb-6c159cd566a0".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
-                    RedirectUris={"https://localhost:6501/signin-oidc"},
-                    PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
-                    AllowedScopes = {"openid","profile" , "basket.fullaccess",
-                        "catalog.read", "catalog.write", "hesstoytrucks.fullaccess",
-                        "orders.fullaccess"}
-                },
-                 new Client
-                {
-                    ClientId = "hesstoytrucks_baskets_to_discount_tokenexchange",
-                    ClientName = "Hess Toys Discount",
-                    ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
-                    AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
-
-                    AllowedScopes = {"openid","profile" ,"discount.fullaccess"}
-                },
             };
     }
 }

@@ -39,15 +39,15 @@ namespace Orders.Api
                                    .Build();
             services.AddControllers(config =>
             {
-                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                //    config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-            {
-                options.Authority = "https://localhost:3520";
-                options.Audience = "orders";
-            });
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            // {
+            //     options.Authority = "https://localhost:3520";
+            //     options.Audience = "orders";
+            // });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders", Version = "v1" });
@@ -89,7 +89,7 @@ namespace Orders.Api
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
+            //    app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

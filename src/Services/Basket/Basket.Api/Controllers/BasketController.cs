@@ -84,6 +84,8 @@ namespace Basket.Api.Controllers
             }
 
             Coupon coupon = null;
+            // var userId = Guid.Parse(HttpContext.Request.Headers["CurrentUser"][0]);
+            // System.Console.WriteLine($"Checking out with loser {userId}");
 
             //     if (basket.CouponId.HasValue)
             //         coupon = await discountService.GetCoupon(basket.CouponId.Value);

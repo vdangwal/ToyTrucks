@@ -46,14 +46,14 @@ namespace Web.Services
             }
             catch (System.Exception ex)
             {
-
+                _logger.LogError(ex, $"Error getting basket with basketid pf {basketId}");
             }
             return null;
         }
 
         public async Task<CustomerBasket> AddLine(string basketId, BasketItem basketItem)
         {
-            // var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             if (string.IsNullOrWhiteSpace(basketId))
             {
                 basketId = CreateBasketCookie();
@@ -77,7 +77,7 @@ namespace Web.Services
                 basketItem.Id = Guid.NewGuid().ToString();
                 customerBasket.Items.Add(basketItem);
             }
-            //   _client.SetBearerToken(token);
+            _client.SetBearerToken(token);
             var response = await _client.PostAsJson($"api/v1/basket", customerBasket);
             return await response.ReadContentAs<CustomerBasket>();
         }
@@ -88,7 +88,7 @@ namespace Web.Services
             {
                 throw new ArgumentNullException(nameof(userId));
             }
-            //  _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             await _client.DeleteAsync($"api/v1/basket/{userId}");
         }
 
@@ -125,7 +125,7 @@ namespace Web.Services
 
         public async Task<CustomerBasket> RemoveLine(string basketId, string lineId)
         {
-            //  _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             CustomerBasket basket = await GetBasket(basketId);
             var basketItem = basket?.Items?.FirstOrDefault(bi => bi.Id == lineId);
             if (basketItem != null)
@@ -143,7 +143,7 @@ namespace Web.Services
 
         public async Task UpdateLine(string basketId, BasketLineForUpdate basketLineForUpdate)
         {
-            //  _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             CustomerBasket basket = await GetBasket(basketId);
             var basketItem = basket?.Items?.FirstOrDefault(bi => bi.Id == basketLineForUpdate.LineId);
             if (basketItem != null)

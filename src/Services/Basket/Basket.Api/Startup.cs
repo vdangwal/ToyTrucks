@@ -65,8 +65,7 @@ namespace Basket.Api
             //  services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
-            //  services.AddHttpClient<ITruckCatalogApiService, TruckCatalogApiService>(c =>
-            //c.BaseAddress = new Uri(Configuration["TruckCatalogUri"]));
+
 
             services.AddSingleton<ConnectionMultiplexer>(sp =>
                        {
@@ -80,17 +79,17 @@ namespace Basket.Api
 
             services.AddControllers(config =>
             {
-                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                //  config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "https://localhost:3520";
-                    options.Audience = "basket";
-                });
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.Authority = "https://localhost:3520";
+            //         options.Audience = "basket";
+            //     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,7 +104,7 @@ namespace Basket.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
+            //  app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

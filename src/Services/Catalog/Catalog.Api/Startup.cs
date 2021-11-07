@@ -60,15 +60,15 @@ namespace Catalog.Api
                         .Build();
             services.AddControllers(config =>
             {
-                config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                // config.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-            {
-                options.Authority = "https://localhost:3520";
-                options.Audience = "catalog";
-            });
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            // {
+            //     options.Authority = "https://localhost:3520";
+            //     options.Audience = "catalog";
+            // });
             // services.AddAuthorization(options =>
             // {
             //     options.AddPolicy("CanRead",
@@ -95,7 +95,7 @@ namespace Catalog.Api
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            // app.UseAuthentication();
             app.UseAuthorization();
 
 
