@@ -45,7 +45,6 @@
             "name": "DiscountGrpc No docker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/Services/Discount/Discount.Grpc/bin/Debug/net5.0/Discount.Grpc.dll",
             "args": [],
@@ -126,7 +125,6 @@
         //     "name": "Inventory Api No docker",
         //     "type": "coreclr",
         //     "request": "launch",
-        //     // "preLaunchTask": "build",
         //     "requireExactSource": false,
         //     "program": "${workspaceFolder}/src/Services/Inventory/Inventory.Api/bin/Debug/net5.0/Inventory.Api.dll",
         //     "args": [],
@@ -147,7 +145,6 @@
             "name": "temp No docker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/Services/temp/Temp.Api/bin/Debug/net5.0/Temp.Api.dll",
             "args": [],
@@ -168,7 +165,6 @@
             "name": "ApiGateway No docker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
             "requireExactSource": false,
             "program": "${workspaceFolder}/src/ApiGateways/OcelotApi/bin/Debug/net5.0/OcelotApi.dll",
             "args": [],
@@ -193,6 +189,26 @@
             "program": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/bin/Debug/net5.0/Shopping.Aggregator.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Identity No docker",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": false,
+            "program": "${workspaceFolder}/src/Security/Identity/bin/Debug/netcoreapp3.1/Identity.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Security/Identity",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",

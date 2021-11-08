@@ -66,20 +66,32 @@ namespace Identity
                     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
                     AllowedScopes = {"openid","profile" ,
                         "basket.fullaccess",
-                        "catalog.read", "catalog.write",
                         "hesstoysgateway.fullaccess",
                         "orders.fullaccess"
                         }
                 },
                  new Client
                 {
-                    ClientId = "hesstoytrucks_baskets_to_discount_tokenexchange",
-                    ClientName = "Hess Toys Discount",
-                    ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
-                    AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
-
-                    AllowedScopes = {"openid","profile" ,"discount.fullaccess"}
+                    ClientId = "hesstoytrucks_gateway_to_apis_tokenexchange",
+                    ClientName = "Hess Toys Gateway to downstream Token exchange Client",
+                    ClientSecrets = { new Secret("775e5143-2eff-476e-9986-576557877d15".Sha256()) },
+                    //AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
+                    //AllowedScopes = {"openid","profile", "catalog.read"},
+                    AllowedGrantTypes = new[] { "urn:ietf:params:oauth:grant-type:token-exchange" },
+                    RequireConsent = false,
+                    //ClientSecrets = { new Secret("0cdea0bc-779e-4368-b46b-09956f70712c".Sha256()) },
+                    AllowedScopes = {
+                         "openid", "profile", "catalog.read" }
                 },
+                //  new Client
+                // {
+                //     ClientId = "hesstoytrucks_baskets_to_discount_tokenexchange",
+                //     ClientName = "Hess Toys Discount",
+                //     ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
+                //     AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
+
+                //     AllowedScopes = {"openid","profile" ,"discount.fullaccess"}
+                // },
                    // new Client
                 // {
                 //     ClientId = "hesstoytrucksm2m",

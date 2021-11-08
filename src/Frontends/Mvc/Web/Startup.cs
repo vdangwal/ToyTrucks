@@ -86,7 +86,7 @@ namespace Web
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.Scope.Add("basket.fullaccess");
                 options.Scope.Add("hesstoysgateway.fullaccess");
-                options.Scope.Add("catalog.read");
+                //  options.Scope.Add("catalog.read");
                 // options.Scope.Add("orders.fullaccess");
 
             });

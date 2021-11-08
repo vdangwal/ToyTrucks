@@ -11,6 +11,7 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
+using OcelotApi.DelegatingHandlers;
 
 namespace OcelotApi
 {
@@ -28,9 +29,12 @@ namespace OcelotApi
                      options.Authority = "https://localhost:3520";
                      options.Audience = "hesstoysgateway";
                  });
-            services.AddOcelot();
 
+            services.AddHttpClient();
+            services.AddScoped<TokenExchangeDelegatingHandler>();
 
+            services.AddOcelot()
+                    .AddDelegatingHandler<TokenExchangeDelegatingHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -108,12 +108,11 @@
                 "GET"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
-            // ,
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ],
             // "FileCacheOptions": {
             //     "TtlSeconds": 10
             // }
@@ -132,11 +131,11 @@
                 "GET"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         },
         //Truck API
         {
@@ -154,11 +153,11 @@
                 "PUT"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         },
         {
             "DownstreamPathTemplate": "/api/trucks/{all}",
@@ -174,33 +173,12 @@
                 "GET"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         }
-        //,
-        // {
-        //     "DownstreamPathTemplate": "/api/trucks/TruckByName",
-        //     "DownstreamScheme": "https",
-        //     "DownstreamHostAndPorts": [
-        //         {
-        //             "Host": "localhost",
-        //             "Port": "3500"
-        //         }
-        //     ],
-        //     "UpstreamPathTemplate": "/trucks/api/trucks/TruckByName",
-        //     "UpstreamHttpMethod": [
-        //         "GET"
-        //     ],
-        //     "AuthenticationOptions": {
-        //         "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-        //         "AllowedScopes": [
-        //             "catalog.read"
-        //         ]
-        //     }
-        // }
     ],
     "GlobalConfiguration": {
         "BaseUrl": "https://localhost:4444"
