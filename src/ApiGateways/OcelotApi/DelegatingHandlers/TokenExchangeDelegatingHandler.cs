@@ -49,7 +49,7 @@ namespace OcelotApi.DelegatingHandlers
             {
                 { "subject_token_type", "urn:ietf:params:oauth:token-type:access_token"},
                 { "subject_token", incomingToken},
-                { "scope", "openid profile catalog.read" }
+                { "scope", "openid profile catalog.read basket.fullaccess" }
             };
 
             var tokenResponse = await client.RequestTokenAsync(new TokenRequest()

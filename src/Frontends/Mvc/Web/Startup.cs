@@ -84,7 +84,7 @@ namespace Web
                 options.ResponseType = "code";
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
-                options.Scope.Add("basket.fullaccess");
+                //options.Scope.Add("basket.fullaccess");
                 options.Scope.Add("hesstoysgateway.fullaccess");
                 //  options.Scope.Add("catalog.read");
                 // options.Scope.Add("orders.fullaccess");

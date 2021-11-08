@@ -18,10 +18,13 @@
             ],
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "basket.fullaccess"
-                ]
+                // "AllowedScopes": [
+                //     "basket.fullaccess"
+                // ]
             },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ],
             "AddHeadersToRequest": {
                 "MYCurrentUser": "TESTER"
             }
@@ -42,10 +45,13 @@
             ],
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "basket.fullaccess"
-                ]
-            }
+                // "AllowedScopes": [
+                //     "basket.fullaccess"
+                // ]
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         },
         {
             "DownstreamPathTemplate": "/api/v1/basket/Checkout",
@@ -62,10 +68,13 @@
             ],
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "basket.fullaccess"
-                ]
+                // "AllowedScopes": [
+                //     "basket.fullaccess"
+                // ]
             },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ],
             "AddHeadersToRequest": {
                 "MYCurrentUser": "TESTER"
             }
