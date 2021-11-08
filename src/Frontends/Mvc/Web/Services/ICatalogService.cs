@@ -12,6 +12,5 @@ namespace Web.Services
         Task<Truck> GetTruckById(Guid truckId);
         Task<IEnumerable<Category>> GetCategories();
         Task<TruckInventory> GetTruckInventory(Guid truckId);
-
     }
 }

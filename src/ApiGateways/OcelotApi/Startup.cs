@@ -29,7 +29,7 @@ namespace OcelotApi
                      options.Authority = "https://localhost:3520";
                      options.Audience = "hesstoysgateway";
                  });
-
+            services.AddAccessTokenManagement();
             services.AddHttpClient();
             services.AddScoped<TokenExchangeDelegatingHandler>();
 
