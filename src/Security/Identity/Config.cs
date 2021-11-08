@@ -64,6 +64,9 @@ namespace Identity
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     RedirectUris={"https://localhost:6501/signin-oidc"},
                     PostLogoutRedirectUris={"https://localhost:6501/signout-callback-oidc"},
+                    RequireConsent = false,
+                    AllowOfflineAccess = true, //refresh token
+                    AccessTokenLifetime = 60,
                     AllowedScopes = {"openid","profile" ,
                       //  "basket.fullaccess",
                         "hesstoysgateway.fullaccess",

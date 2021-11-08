@@ -52,20 +52,25 @@ namespace Web
                 //config.Cookie.HttpOnly=true;
                 config.Cookie.IsEssential = true;
             });
+
+            services.AddAccessTokenManagement();
             services.AddHttpClient<ICatalogService, CatalogService>(c =>
             {
                 c.BaseAddress = new Uri(_config["TruckCatalogUri"]);
-            });
+            })
+            .AddUserAccessTokenHandler();
             services.AddHttpClient<IBasketService, BasketService>(c =>
             {
                 c.BaseAddress = new Uri(_config["BasketUri"]);
                 //c.DefaultRequestHeaders.Add("api-version", "2.0");
 
-            });
+            })
+             .AddUserAccessTokenHandler();
             services.AddHttpClient<IOrderService, OrderService>(c =>
             {
                 c.BaseAddress = new Uri(_config["OrdersUri"]);
-            });
+            })
+             .AddUserAccessTokenHandler();
 
 
             services.AddSingleton<Settings>();
@@ -88,6 +93,7 @@ namespace Web
                 options.Scope.Add("hesstoysgateway.fullaccess");
                 //  options.Scope.Add("catalog.read");
                 // options.Scope.Add("orders.fullaccess");
+                options.Scope.Add("offline_access");
 
             });
 
