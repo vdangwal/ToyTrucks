@@ -13,6 +13,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Basket.Api.Helpers;
+using Microsoft.AspNetCore.Authentication;
+
 namespace Basket.Api.Controllers
 {
     [Route("api/v1/basket")]
@@ -25,18 +28,20 @@ namespace Basket.Api.Controllers
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<BasketController> _logger;
         private readonly IMapper _mapper;
+        private readonly TokenExchangeService _tokenExchangeService;
 
         public BasketController(
             ILogger<BasketController> logger,
             IBasketRepository repository,
             //IIdentityService identityService,
-            IPublishEndpoint publishEndpoint, IMapper mapper)
+            IPublishEndpoint publishEndpoint, IMapper mapper, TokenExchangeService tokenExchangeService)
         {
             _logger = logger;
             _repository = repository;
             //   _identityService = identityService;
             _publishEndpoint = publishEndpoint;
             _mapper = mapper;
+            _tokenExchangeService = tokenExchangeService;
         }
 
         [HttpGet("{id}")]
@@ -73,14 +78,14 @@ namespace Basket.Api.Controllers
                 return BadRequest();
             }
 
-            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
-            eventMessage.Basket = new List<BasketItemEvent>();
+            var basketCheckoutMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            basketCheckoutMessage.Basket = new List<BasketItemEvent>();
             decimal total = 0.0M;
             foreach (var item in basket.Items)
             {
                 var basketItemEvent = _mapper.Map<BasketItemEvent>(item);
                 total += item.Price * item.Quantity;
-                eventMessage.Basket.Add(basketItemEvent);
+                basketCheckoutMessage.Basket.Add(basketItemEvent);
             }
 
             Coupon coupon = null;
@@ -95,22 +100,23 @@ namespace Basket.Api.Controllers
 
             if (coupon != null)
             {
-                eventMessage.BasketTotal = total - coupon.Amount;
+                basketCheckoutMessage.BasketTotal = total - coupon.Amount;
             }
             else
             {
-                eventMessage.BasketTotal = total;
+                basketCheckoutMessage.BasketTotal = total;
             }
 
+            var incomingToken = await HttpContext.GetTokenAsync("access_token");
+            var accessTokenForOrderingService = await _tokenExchangeService.GetToken(incomingToken, "orders.fullaccess");
 
+            basketCheckoutMessage.SecurityContext.AccessToken = accessTokenForOrderingService;
             // Once basket is checkout, sends an integration event to
             // ordering.api to convert basket to order and proceeds with
             // order creation process
             try
             {
-                await _publishEndpoint.Publish(eventMessage);
-
-
+                await _publishEndpoint.Publish(basketCheckoutMessage);
             }
             catch (Exception ex)
             {
@@ -119,7 +125,7 @@ namespace Basket.Api.Controllers
                 throw;
             }
             await _repository.DeleteBasketAsync(basketCheckout.BasketId);
-            return Accepted(eventMessage);
+            return Accepted(basketCheckoutMessage);
         }
 
         // DELETE api/values/5

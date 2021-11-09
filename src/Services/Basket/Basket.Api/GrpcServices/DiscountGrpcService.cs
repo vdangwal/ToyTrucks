@@ -1,48 +1,48 @@
-using Discount.Grpc.Protos;
-using System;
-using System.Threading.Tasks;
-namespace Basket.Api.GrpcServices
-{
-    public class DiscountGrpcService
-    {
-        private readonly DiscountProtoService.DiscountProtoServiceClient _discountProtoService;
+// using Discount.Grpc.Protos;
+// using System;
+// using System.Threading.Tasks;
+// namespace Basket.Api.GrpcServices
+// {
+//     public class DiscountGrpcService
+//     {
+//         private readonly DiscountProtoService.DiscountProtoServiceClient _discountProtoService;
 
-        public DiscountGrpcService(DiscountProtoService.DiscountProtoServiceClient discountProtoService)
-        {
-            _discountProtoService = discountProtoService ?? throw new ArgumentNullException(nameof(discountProtoService));
-        }
+//         public DiscountGrpcService(DiscountProtoService.DiscountProtoServiceClient discountProtoService)
+//         {
+//             _discountProtoService = discountProtoService ?? throw new ArgumentNullException(nameof(discountProtoService));
+//         }
 
-        private async Task<string> GetToken()
-        {
-            //TODO need to implement for token exchange to discount service
-            //see catalog service in web app
-            throw new Exception();
-        }
+//         private async Task<string> GetToken()
+//         {
+//             //TODO need to implement for token exchange to discount service
+//             //see catalog service in web app
+//             throw new Exception();
+//         }
 
-        public async Task<GetDiscountResponse> GetDiscount(string productName)
-        {
-            var discountRequest = new GetDiscountRequest { ProductName = productName };
+//         public async Task<GetDiscountResponse> GetDiscount(string productName)
+//         {
+//             var discountRequest = new GetDiscountRequest { ProductName = productName };
 
-            return await _discountProtoService.GetDiscountAsync(discountRequest);
-        }
+//             return await _discountProtoService.GetDiscountAsync(discountRequest);
+//         }
 
-        public async Task<Coupon> CreateDiscount(Coupon coupon)
-        {
+//         public async Task<Coupon> CreateDiscount(Coupon coupon)
+//         {
 
-            return await _discountProtoService.CreateDiscountAsync(coupon);
-        }
+//             return await _discountProtoService.CreateDiscountAsync(coupon);
+//         }
 
-        public async Task<DeleteDiscountResponse> DeleteDiscount(string productName)
-        {
-            DeleteDiscountRequest request = new DeleteDiscountRequest { ProductName = productName };
-            return await _discountProtoService.DeleteDiscountAsync(request);
-        }
+//         public async Task<DeleteDiscountResponse> DeleteDiscount(string productName)
+//         {
+//             DeleteDiscountRequest request = new DeleteDiscountRequest { ProductName = productName };
+//             return await _discountProtoService.DeleteDiscountAsync(request);
+//         }
 
-        public async Task<UpdateDiscountResponse> UpdateDiscount(Coupon coupon)
-        {
-            //DeleteDiscountRequest request = new DeleteDiscountRequest { ProductId = productId };
-            var response = await _discountProtoService.UpdateDiscountAsync(coupon);
-            return response;
-        }
-    }
-}
+//         public async Task<UpdateDiscountResponse> UpdateDiscount(Coupon coupon)
+//         {
+//             //DeleteDiscountRequest request = new DeleteDiscountRequest { ProductId = productId };
+//             var response = await _discountProtoService.UpdateDiscountAsync(coupon);
+//             return response;
+//         }
+//     }
+// }

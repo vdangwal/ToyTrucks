@@ -9,17 +9,18 @@
     <PackageReference Include="AutoMapper" Version="10.1.1"/>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0"/>
-    <PackageReference Include="Grpc.Net.Client" Version="2.36.0"/>
+    <!-- <PackageReference Include="Grpc.Net.Client" Version="2.36.0"/>
     <PackageReference Include="Grpc.Tools" Version="2.37.0"/>
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.36.0"/>
-    <PackageReference Include="Google.Protobuf" Version="4.0.0-rc2"/>
+    <PackageReference Include="Google.Protobuf" Version="4.0.0-rc2"/> -->
     <PackageReference Include="MassTransit" Version="7.1.8"/>
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.8"/>
     <PackageReference Include="MassTransit.AspNetCore" Version="7.1.8"/>
     <PackageReference Include="MongoDB.Driver" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Bson" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Driver.Core" Version="2.12.3"/>
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3"/>
+    <PackageReference Include="IdentityModel.AspNetCore" Version="4.0.1"/>
      </ItemGroup>
   <ItemGroup>
     <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client"/>

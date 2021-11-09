@@ -24,7 +24,8 @@
     <PackageReference Include="MongoDB.Driver" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Bson" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Driver.Core" Version="2.12.3"/>
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3"/>
+    <PackageReference Include="IdentityModel" Version="5.2.0"/>
   </ItemGroup> 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>

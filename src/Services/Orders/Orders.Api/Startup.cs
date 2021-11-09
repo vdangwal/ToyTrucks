@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Orders.Api.Entities;
 using MongoDB;
+using Orders.Api.Helpers;
+
 namespace Orders.Api
 {
     public class Startup
@@ -56,6 +58,8 @@ namespace Orders.Api
             services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddScoped<IOrderContext, OrderContext>();
             services.AddScoped<BasketCheckoutConsumer>();
+            services.AddHttpClient();
+            services.AddScoped<TokenValidationService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

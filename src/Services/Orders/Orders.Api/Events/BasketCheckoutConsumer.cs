@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-
 using Orders.Api.Services;
 using Orders.Api.Models;
 using EventBus.Messages.Events;
+using Orders.Api.Helpers;
+
 namespace Orders.Api.Entities
 {
     public class BasketCheckoutConsumer : IConsumer<BasketCheckoutEvent>
@@ -17,18 +18,28 @@ namespace Orders.Api.Entities
         private readonly IMapper _mapper;
         private readonly ILogger<BasketCheckoutConsumer> _logger;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly TokenValidationService _tokenValidationService;
 
-        public BasketCheckoutConsumer(IMapper mapper, ILogger<BasketCheckoutConsumer> logger, IOrdersRepository service, IPublishEndpoint publishEndpoint)
+        public BasketCheckoutConsumer(IMapper mapper, ILogger<BasketCheckoutConsumer> logger, IOrdersRepository service,
+                                        IPublishEndpoint publishEndpoint, TokenValidationService tokenValidationService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            _tokenValidationService = tokenValidationService ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
         {
             var basketCheckoutDetails = (BasketCheckoutEvent)context.Message;
+
+            if (!await _tokenValidationService.ValidateToken(basketCheckoutDetails.SecurityContext.AccessToken))
+            {
+                _logger.LogError($"Token was invalid. Order of user: {basketCheckoutDetails.Email} with price: {basketCheckoutDetails.TotalPrice} was not created...");
+                return;
+            }
+
             var order = new Order
             {
                 UserId = basketCheckoutDetails.UserId,

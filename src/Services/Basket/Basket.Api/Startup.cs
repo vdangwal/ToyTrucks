@@ -18,11 +18,13 @@ using StackExchange.Redis;
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Discount.Grpc.Protos;
-using Basket.Api.GrpcServices;
+//using Discount.Grpc.Protos;
+//using Basket.Api.GrpcServices;
 using Basket.Api.Events;
 using MassTransit;
 using System.IdentityModel.Tokens.Jwt;
+using Basket.Api.Helpers;
+
 namespace Basket.Api
 {
     public class Startup
@@ -42,8 +44,8 @@ namespace Basket.Api
             services.AddScoped<IBasketRepository, RedisBasketRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
             // services.AddScoped<IBasketLinesService, BasketLinesService>();
-            // // services.AddScoped<OLDIBasketContext, OLDBasketContext>();
-            // services.AddScoped<ITruckService, TruckService>();
+            services.AddAccessTokenManagement();
+            services.AddScoped<TokenExchangeService>();
 
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
@@ -61,7 +63,7 @@ namespace Basket.Api
                   .RequireAuthenticatedUser()
                   .Build();
 
-            services.AddMyGrpcClient(Configuration);
+            //   services.AddMyGrpcClient(Configuration);
             //  services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
@@ -116,18 +118,18 @@ namespace Basket.Api
 
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
-        {
-            Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
-            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
-            {
-                opt.Address = new Uri(config["grpcServiceUrl"]);
+        // public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
+        // {
+        //     Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
+        //     services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
+        //     {
+        //         opt.Address = new Uri(config["grpcServiceUrl"]);
 
-            });
-            services.AddScoped<DiscountGrpcService>();
+        //     });
+        //     //   services.AddScoped<DiscountGrpcService>();
 
-            return services;
-        }
+        //     return services;
+        // }
 
         public static IServiceCollection AddMyMassTransit(this IServiceCollection services, IConfiguration config)
         {

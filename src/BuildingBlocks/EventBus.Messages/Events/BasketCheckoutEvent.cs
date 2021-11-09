@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using EventBus.Messages.Common;
+
 namespace EventBus.Messages.Events
 {
-    public class BasketCheckoutEvent
+    public class BasketCheckoutEvent : IntegrationBase
     {
         public Guid UserId { get; set; }
         public decimal TotalPrice { get; set; }

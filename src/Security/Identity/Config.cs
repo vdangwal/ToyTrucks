@@ -70,7 +70,7 @@ namespace Identity
                     AllowedScopes = {"openid","profile" ,
                       //  "basket.fullaccess",
                         "hesstoysgateway.fullaccess",
-                        "orders.fullaccess"
+                        // "orders.fullaccess"
                         }
                 },
                  new Client
@@ -83,15 +83,15 @@ namespace Identity
                     AllowedScopes = {
                          "openid", "profile", "catalog.read", "basket.fullaccess" }
                 },
-                //  new Client
-                // {
-                //     ClientId = "hesstoytrucks_baskets_to_discount_tokenexchange",
-                //     ClientName = "Hess Toys Discount",
-                //     ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
-                //     AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
+                 new Client
+                {
+                    ClientId = "hesstoytrucks_baskets_to_downstream_tokenexchange",
+                    ClientName = "Hess Toys Discount",
+                    ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
+                    AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
 
-                //     AllowedScopes = {"openid","profile" ,"discount.fullaccess"}
-                // },
+                    AllowedScopes = {"openid","profile" ,"discount.fullaccess","orders.fullaccess"}
+                },
                    // new Client
                 // {
                 //     ClientId = "hesstoytrucksm2m",
