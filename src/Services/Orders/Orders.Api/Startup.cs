@@ -14,7 +14,6 @@ using Microsoft.OpenApi.Models;
 using Orders.Api.DBContexts;
 using Orders.Api.Services;
 using MassTransit;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

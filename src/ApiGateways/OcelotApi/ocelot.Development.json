@@ -102,6 +102,20 @@
                 "GET"
             ]
         },
+        {
+            "DownstreamPathTemplate": "/api/orders/user/{all}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "3508"
+                }
+            ],
+            "UpstreamPathTemplate": "/orders/api/orders/user/{all}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
         //Category API
         {
             "DownstreamPathTemplate": "/api/categories",
