@@ -34,7 +34,7 @@ namespace Orders.Api.Entities
         {
             var basketCheckoutDetails = (BasketCheckoutEvent)context.Message;
 
-            if (!await _tokenValidationService.ValidateToken(basketCheckoutDetails.SecurityContext.AccessToken))
+            if (!await _tokenValidationService.ValidateToken(basketCheckoutDetails.SecurityContext.AccessToken, basketCheckoutDetails.CreationDateTime))
             {
                 _logger.LogError($"Token was invalid. Order of user: {basketCheckoutDetails.Email} with price: {basketCheckoutDetails.TotalPrice} was not created...");
                 return;

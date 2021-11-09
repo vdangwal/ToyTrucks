@@ -116,6 +116,8 @@ namespace Basket.Api.Controllers
             // order creation process
             try
             {
+                //here im emulating the time RabbitMQ received the message;
+                basketCheckoutMessage.CreationDateTime = DateTime.Now;
                 await _publishEndpoint.Publish(basketCheckoutMessage);
             }
             catch (Exception ex)

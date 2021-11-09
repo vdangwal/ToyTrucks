@@ -23,7 +23,7 @@ namespace Orders.Api.Helpers
             _logger = logger;
         }
 
-        public async Task<bool> ValidateToken(string tokenToValidate)
+        public async Task<bool> ValidateToken(string tokenToValidate, DateTime receivedAt)
         {
             var _client = _httpClientFactory.CreateClient();
             var discoveryDocResponse = await _client.GetDiscoveryDocumentAsync("https://localhost:3520");
@@ -50,7 +50,12 @@ namespace Orders.Api.Helpers
                 {
                     ValidAudience = "orders",
                     ValidIssuer = "https://localhost:3520",
-                    IssuerSigningKeys = issuerSigningKeys
+                    IssuerSigningKeys = issuerSigningKeys,
+                    LifetimeValidator = (notBefore, expires, securityToken, validationParameters) =>
+                    {
+                        return expires.Value.ToUniversalTime() > receivedAt.ToUniversalTime();
+                    }
+
                 };
 
                 _ = new JwtSecurityTokenHandler().ValidateToken(
