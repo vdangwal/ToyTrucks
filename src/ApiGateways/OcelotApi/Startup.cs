@@ -10,11 +10,18 @@ using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Cache.CacheManager;
+using Microsoft.Extensions.Configuration;
 
 namespace OcelotApi
 {
     public class Startup
     {
+        private readonly IConfiguration _config;
+
+        public Startup(IConfiguration config)
+        {
+            _config = config != null ? config : throw new ArgumentNullException(nameof(config));
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -30,16 +37,6 @@ namespace OcelotApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
 
             await app.UseOcelot();
         }

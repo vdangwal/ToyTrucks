@@ -32,7 +32,7 @@ namespace Web.Services
 
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            var response = await _client.GetAsync("/api/categories");
+            var response = await _client.GetAsync("api/categories");
             return await response.ReadContentAs<List<Category>>();
         }
 

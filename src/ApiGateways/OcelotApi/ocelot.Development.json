@@ -1,111 +1,120 @@
 {
+    "GlobalConfiguration": {
+        "BaseUrl": "https://localhost:5555"
+    },
     "Routes": [
         //Basket Api
         {
-            "DownstreamPathTemplate": "/api/basket",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/v1/basket",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "basket_api",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 3502
                 }
             ],
-            "UpstreamPathTemplate": "/basket",
+            "UpstreamPathTemplate": "/basket/api/v1/basket",
             "UpstreamHttpMethod": [
                 "OPTIONS",
                 "PUT",
                 "POST"
             ]
+            //,
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+            // },
+            // "DelegatingHandlers": [
+            //     "TokenExchangeDelegatingHandler"
+            // ],
+            // "AddHeadersToRequest": {
+            //     "MYCurrentUser": "TESTER"
+            // }
         },
         {
-            "DownstreamPathTemplate": "/api/basket/{userName}",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/v1/basket/{all}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "basket_api",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 3502
                 }
             ],
-            "UpstreamPathTemplate": "/basket/{userName}",
+            "UpstreamPathTemplate": "/basket/api/v1/basket/{all}",
             "UpstreamHttpMethod": [
                 "GET",
                 "DELETE"
             ]
+            // ,
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+            //     // "AllowedScopes": [
+            //     //     "basket.fullaccess"
+            //     // ]
+            // },
+            // "DelegatingHandlers": [
+            //     "TokenExchangeDelegatingHandler"
+            // ]
         },
         {
-            "DownstreamPathTemplate": "/api/basket/Checkout",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/v1/basket/Checkout",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "basket_api",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 3502
                 }
             ],
-            "UpstreamPathTemplate": "/basket/Checkout",
-            "UpstreamHttpMethod": [
-                "POST"
-            ],
-            "RateLimitOptions": {
-                "ClientWhitelist": [],
-                "EnableRateLimiting": true,
-                "Period": "3s",
-                "PeriodTimespan": 1,
-                "Limit": 1
-            }
-        },
-        {
-            "DownstreamPathTemplate": "/api/basket/CreateDiscount",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "basket_api",
-                    "Port": 80
-                }
-            ],
-            "UpstreamPathTemplate": "/basket/CreateDiscount",
+            "UpstreamPathTemplate": "/basket/api/v1/basket/Checkout",
             "UpstreamHttpMethod": [
                 "POST"
             ]
+            // ,
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
+            //     // "AllowedScopes": [
+            //     //     "basket.fullaccess"
+            //     // ]
+            // },
+            // "DelegatingHandlers": [
+            //     "TokenExchangeDelegatingHandler"
+            // ],
+            // "AddHeadersToRequest": {
+            //     "MYCurrentUser": "TESTER"
+            // }
+            // // ,
+            // // "RateLimitOptions": {
+            // //     "ClientWhitelist": [],
+            // //     "EnableRateLimiting": true,
+            // //     "Period": "3s",
+            // //     "PeriodTimespan": 1,
+            // //     "Limit": 1
+            // // }
         },
+        //Order API
         {
-            "DownstreamPathTemplate": "/api/basket/GetDiscount/{productId}",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/orders/{all}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "basket_api",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": "3508"
                 }
             ],
-            "UpstreamPathTemplate": "/basket/GetDiscount/{productId}",
+            "UpstreamPathTemplate": "/orders/api/orders/{all}",
             "UpstreamHttpMethod": [
                 "GET"
             ]
         },
         {
-            "DownstreamPathTemplate": "/api/basket/DeleteDiscount/{productId}",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/orders/user/{all}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "basket_api",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": "3508"
                 }
             ],
-            "UpstreamPathTemplate": "/basket/DeleteDiscount/{productId}",
-            "UpstreamHttpMethod": [
-                "DELETE"
-            ]
-        },
-        //Order API
-        {
-            "DownstreamPathTemplate": "/api/orders/{userName}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "order_api",
-                    "Port": "80"
-                }
-            ],
-            "UpstreamPathTemplate": "/orders/{userName}",
+            "UpstreamPathTemplate": "/orders/api/orders/user/{all}",
             "UpstreamHttpMethod": [
                 "GET"
             ]
@@ -113,95 +122,293 @@
         //Category API
         {
             "DownstreamPathTemplate": "/api/categories",
-            "DownstreamScheme": "http",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "catalog_api",
-                    "Port": "80"
+                    "Host": "localhost",
+                    "Port": "3500"
                 }
             ],
-            "UpstreamPathTemplate": "/categories",
+            "UpstreamPathTemplate": "/trucks/api/categories",
             "UpstreamHttpMethod": [
                 "GET"
             ],
-            "FileCacheOptions": {
-                "TtlSeconds": 10
-            }
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            // },
+            // "DelegatingHandlers": [
+            //     "TokenExchangeDelegatingHandler"
+            // ],
+            // // "FileCacheOptions": {
+            // //     "TtlSeconds": 10
+            // // }
         },
         {
             "DownstreamPathTemplate": "/api/categories/{isMini}",
-            "DownstreamScheme": "http",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "catalog_api",
-                    "Port": "80"
+                    "Host": "localhost",
+                    "Port": "3500"
                 }
             ],
-            "UpstreamPathTemplate": "/categories/{isMini}",
+            "UpstreamPathTemplate": "/trucks/api/categories/{isMini}",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            // },
+            // "DelegatingHandlers": [
+            //     "TokenExchangeDelegatingHandler"
+            // ]
         },
         //Truck API
         {
             "DownstreamPathTemplate": "/api/trucks",
-            "DownstreamScheme": "http",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "catalog_api",
-                    "Port": "80"
+                    "Host": "localhost",
+                    "Port": "3500"
                 }
             ],
-            "UpstreamPathTemplate": "/trucks",
+            "UpstreamPathTemplate": "/trucks/api/trucks",
             "UpstreamHttpMethod": [
                 "GET",
                 "PUT"
-            ]
+            ],
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            // },
+            // "DelegatingHandlers": [
+            //     "TokenExchangeDelegatingHandler"
+            // ]
         },
         {
-            "DownstreamPathTemplate": "/api/trucks/{categoryId}",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/trucks/{all}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "catalog_api",
-                    "Port": "80"
+                    "Host": "localhost",
+                    "Port": "3500"
                 }
             ],
-            "UpstreamPathTemplate": "/trucks/{categoryId}",
+            "UpstreamPathTemplate": "/trucks/api/trucks/{all}",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/trucks/{truckId}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "catalog_api",
-                    "Port": "80"
-                }
             ],
-            "UpstreamPathTemplate": "/trucks/{truckId}",
-            "UpstreamHttpMethod": [
-                "GET"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/trucks/TruckByName",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "catalog_api",
-                    "Port": "80"
-                }
-            ],
-            "UpstreamPathTemplate": "/trucks/TruckByName",
-            "UpstreamHttpMethod": [
-                "GET"
-            ]
+            // "AuthenticationOptions": {
+            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            // },
+            // "DelegatingHandlers": [
+            //     "TokenExchangeDelegatingHandler"
+            // ]
         }
-    ],
-    "GlobalConfiguration": {
-        "BaseUrl": "http:/localhost:5010"
-    }
+    ]
+    // "Routes": [
+    //     //Basket Api
+    //     {
+    //         "DownstreamPathTemplate": "/api/basket",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "basket_api",
+    //                 "Port": 80
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/basket",
+    //         "UpstreamHttpMethod": [
+    //             "OPTIONS",
+    //             "PUT",
+    //             "POST"
+    //         ]
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/basket/{userName}",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "basket_api",
+    //                 "Port": 80
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/basket/{userName}",
+    //         "UpstreamHttpMethod": [
+    //             "GET",
+    //             "DELETE"
+    //         ]
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/basket/Checkout",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "basket_api",
+    //                 "Port": 80
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/basket/Checkout",
+    //         "UpstreamHttpMethod": [
+    //             "POST"
+    //         ],
+    //         "RateLimitOptions": {
+    //             "ClientWhitelist": [],
+    //             "EnableRateLimiting": true,
+    //             "Period": "3s",
+    //             "PeriodTimespan": 1,
+    //             "Limit": 1
+    //         }
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/basket/CreateDiscount",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "basket_api",
+    //                 "Port": 80
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/basket/CreateDiscount",
+    //         "UpstreamHttpMethod": [
+    //             "POST"
+    //         ]
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/basket/GetDiscount/{productId}",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "basket_api",
+    //                 "Port": 80
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/basket/GetDiscount/{productId}",
+    //         "UpstreamHttpMethod": [
+    //             "GET"
+    //         ]
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/basket/DeleteDiscount/{productId}",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "basket_api",
+    //                 "Port": 80
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/basket/DeleteDiscount/{productId}",
+    //         "UpstreamHttpMethod": [
+    //             "DELETE"
+    //         ]
+    //     },
+    //     //Order API
+    //     {
+    //         "DownstreamPathTemplate": "/api/orders/{userName}",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "order_api",
+    //                 "Port": "80"
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/orders/{userName}",
+    //         "UpstreamHttpMethod": [
+    //             "GET"
+    //         ]
+    //     },
+    //     //Category API
+    //     {
+    //         "DownstreamPathTemplate": "/api/categories",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "catalog_api",
+    //                 "Port": "80"
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/categories",
+    //         "UpstreamHttpMethod": [
+    //             "GET"
+    //         ],
+    //         "FileCacheOptions": {
+    //             "TtlSeconds": 10
+    //         }
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/categories/{isMini}",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "catalog_api",
+    //                 "Port": "80"
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/categories/{isMini}",
+    //         "UpstreamHttpMethod": [
+    //             "GET"
+    //         ]
+    //     },
+    //     //Truck API
+    //     {
+    //         "DownstreamPathTemplate": "/api/trucks",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "catalog_api",
+    //                 "Port": "80"
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/trucks",
+    //         "UpstreamHttpMethod": [
+    //             "GET",
+    //             "PUT"
+    //         ]
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/trucks/{categoryId}",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "catalog_api",
+    //                 "Port": "80"
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/trucks/{categoryId}",
+    //         "UpstreamHttpMethod": [
+    //             "GET"
+    //         ]
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/trucks/{truckId}",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "catalog_api",
+    //                 "Port": "80"
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/trucks/{truckId}",
+    //         "UpstreamHttpMethod": [
+    //             "GET"
+    //         ]
+    //     },
+    //     {
+    //         "DownstreamPathTemplate": "/api/trucks/TruckByName",
+    //         "DownstreamScheme": "http",
+    //         "DownstreamHostAndPorts": [
+    //             {
+    //                 "Host": "catalog_api",
+    //                 "Port": "80"
+    //             }
+    //         ],
+    //         "UpstreamPathTemplate": "/trucks/TruckByName",
+    //         "UpstreamHttpMethod": [
+    //             "GET"
+    //         ]
+    //     }
+    // ],
+    // "GlobalConfiguration": {
+    //     "BaseUrl": "http:/localhost:5010"
+    // }
 }
