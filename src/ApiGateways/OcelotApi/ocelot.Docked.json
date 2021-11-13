@@ -1,16 +1,14 @@
-{
-    "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5555"
-    },
+{ //UPSTREAM coming from the Web
+    //DOWNSTREAM : Going to the API
     "Routes": [
         //Basket Api
         {
             "DownstreamPathTemplate": "/api/v1/basket",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/api/v1/basket",
@@ -32,11 +30,11 @@
         },
         {
             "DownstreamPathTemplate": "/api/v1/basket/{all}",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/api/v1/basket/{all}",
@@ -57,11 +55,11 @@
         },
         {
             "DownstreamPathTemplate": "/api/v1/basket/Checkout",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3502
+                    "Host": "basket_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/basket/api/v1/basket/Checkout",
@@ -93,11 +91,11 @@
         //Order API
         {
             "DownstreamPathTemplate": "/api/orders/{all}",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3508
+                    "Host": "order_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/orders/api/orders/{all}",
@@ -107,11 +105,11 @@
         },
         {
             "DownstreamPathTemplate": "/api/orders/user/{all}",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 3508
+                    "Host": "order_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/orders/api/orders/user/{all}",
@@ -122,11 +120,11 @@
         //Category API
         {
             "DownstreamPathTemplate": "/api/categories",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/trucks/api/categories",
@@ -145,11 +143,11 @@
         },
         {
             "DownstreamPathTemplate": "/api/categories/{isMini}",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/trucks/api/categories/{isMini}",
@@ -166,11 +164,11 @@
         //Truck API
         {
             "DownstreamPathTemplate": "/api/trucks",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/trucks/api/trucks",
@@ -187,11 +185,11 @@
         },
         {
             "DownstreamPathTemplate": "/api/trucks/{all}",
-            "DownstreamScheme": "https",
+            "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": "3500"
+                    "Host": "catalog_api",
+                    "Port": "80"
                 }
             ],
             "UpstreamPathTemplate": "/trucks/api/trucks/{all}",
@@ -205,5 +203,8 @@
             //     "TokenExchangeDelegatingHandler"
             // ]
         }
-    ]
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:5555"
+    }
 }

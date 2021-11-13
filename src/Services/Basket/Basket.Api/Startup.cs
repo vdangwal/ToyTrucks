@@ -62,14 +62,14 @@ namespace Basket.Api
             //c.BaseAddress = new Uri(Configuration["TruckCatalogUri"]));
 
             services.AddSingleton<ConnectionMultiplexer>(sp =>
-                       {
-                           //    /var settings = sp.GetRequiredService<IOptions<BasketSettings>>().Value;
-                           var configuration = ConfigurationOptions.Parse(Configuration["RedisServerUrl"], true);
+            {
+                //    /var settings = sp.GetRequiredService<IOptions<BasketSettings>>().Value;
+                var configuration = ConfigurationOptions.Parse(Configuration["RedisServerUrl"], true);
 
-                           configuration.ResolveDns = true;
+                configuration.ResolveDns = true;
 
-                           return ConnectionMultiplexer.Connect(configuration);
-                       });
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
             services.AddControllers();
         }
