@@ -26,9 +26,9 @@ namespace Identity
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                // new ApiScope("basket.fullaccess"),
-                //   new ApiScope("catalog.read"),
-                //   new ApiScope("catalog.write"),
+                new ApiScope("basket.fullaccess"),
+                  new ApiScope("catalog.read"),
+                  new ApiScope("catalog.write"),
                 //   new ApiScope("discount.fullaccess"),
                 //   new ApiScope("orders.fullaccess"),
                   new ApiScope("hesstoysgateway.fullaccess")
@@ -37,14 +37,14 @@ namespace Identity
            new ApiResource[]
            {
 
-                // new ApiResource("catalog","Hess Toys catalog Apis")
-                // {
-                //     Scopes = {"catalog.read", "catalog.write"}
-                // },
-                //  new ApiResource("basket","Hess Toys basket Apis")
-                // {
-                //     Scopes = {"basket.fullaccess"}
-                // },
+                new ApiResource("catalog","Hess Toys catalog Apis")
+                {
+                    Scopes = {"catalog.read", "catalog.write"}
+                },
+                 new ApiResource("basket","Hess Toys basket Apis")
+                {
+                    Scopes = {"basket.fullaccess"}
+                },
                 //  new ApiResource("discount","Hess Toys discount Apis")
                 // {
                 //     Scopes = {"discount.fullaccess"}
@@ -62,30 +62,29 @@ namespace Identity
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                 new Client
-                {
-                    ClientName =  "Machine 2 Machine Client",
-                    ClientId = "hesstoytrucksm2m",
-                    ClientSecrets = { new Secret("eac7008f-1b35-4325-ac8d-4a71932e6088".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "hesstoysgateway.fullaccess" }
-                },
+                //  new Client
+                // {
+                //     ClientName =  "Machine 2 Machine Client",
+                //     ClientId = "hesstoytrucksm2m",
+                //     ClientSecrets = { new Secret("eac7008f-1b35-4325-ac8d-4a71932e6088".Sha256()) },
+                //     AllowedGrantTypes = GrantTypes.ClientCredentials,
+                //     AllowedScopes = { "catalog.read" }
+                // },
 
               new Client
                 {
                     ClientId = "hesstoytrucks",
                     ClientName = "Hess Toys Client",
                     ClientSecrets = { new Secret("3322cccf-b6ff-4558-aefb-6c159cd566a0".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.Code,// GrantTypes.CodeAndClientCredentials,
+                    AllowedGrantTypes =  GrantTypes.CodeAndClientCredentials,
                     RedirectUris={ $"{_config["FrontEndUri"]}signin-oidc"},
                     PostLogoutRedirectUris={$"{_config["FrontEndUri"]}signout-callback-oidc"},
-                    //PostLogoutRedirectUris={ "https://localhost:6501/signout-callback-oidc"},
-
+                   
                     // RequireConsent = false,
                     // AllowOfflineAccess = true, //refresh token
                     // AccessTokenLifetime = 60,
                     AllowedScopes = {"openid","profile",
-                          "hesstoysgateway.fullaccess",
+                          "basket.fullaccess", "catalog.read"
                         // "hesstoysgateway.fullaccess",
                         // // "orders.fullaccess"
                         }
@@ -117,7 +116,9 @@ namespace Identity
                     ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
                     AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
 
-                    AllowedScopes = {"openid","profile" ,"discount.fullaccess","orders.fullaccess"}
+                    AllowedScopes = {"openid","profile" 
+                    //,"discount.fullaccess"
+                    ,"orders.fullaccess"}
                 },
             };
     }

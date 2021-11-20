@@ -85,7 +85,7 @@ namespace Basket.Api
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Audience = "hesstoysgateway";
+                    options.Audience = "basket";
                     options.Authority = Configuration["IdentityServerUrl"];
                 });
         }

@@ -42,9 +42,9 @@ namespace Web.Services
                     new ClientCredentialsTokenRequest
                     {
                         Address = discoveryDocumentResponse.TokenEndpoint,
-                        ClientId = "hesstoytrucksm2m",
-                        ClientSecret = "eac7008f-1b35-4325-ac8d-4a71932e6088",
-                        Scope = "hesstoysgateway.fullaccess"
+                        ClientId = "hesstoytrucks",
+                        ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0",
+                        Scope = "catalog.read"
                     });
 
             if (tokenResponse.IsError)
@@ -88,6 +88,8 @@ namespace Web.Services
 
         public async Task<TruckInventory> GetTruckInventory(Guid truckId)
         {
+            _client.SetBearerToken(await GetToken());
+            System.Console.WriteLine($"access token: {_accessToken}");
             var response = await _client.GetAsync($"api/trucks/inventory/{truckId}");
             return await response.ReadContentAs<TruckInventory>();
         }
