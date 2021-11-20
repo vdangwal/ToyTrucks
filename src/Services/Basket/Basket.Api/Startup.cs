@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Discount.Grpc.Protos;
@@ -73,21 +73,21 @@ namespace Basket.Api
                 return ConnectionMultiplexer.Connect(configuration);
             });
 
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-              .RequireAuthenticatedUser()
-              .Build();
+            // var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+            //   .RequireAuthenticatedUser()
+            //   .Build();
 
             var builder = services.AddControllers(options =>
             {
-                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                //   options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Audience = "basket";
-                    options.Authority = Configuration["IdentityServerUrl"];
-                });
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.Audience = "basket";
+            //         options.Authority = Configuration["IdentityServerUrl"];
+            //     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,7 +102,7 @@ namespace Basket.Api
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
+            //  app.UseAuthentication();
             app.UseAuthorization();
 
 

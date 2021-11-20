@@ -17,7 +17,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using MassTransit;
 using Catalog.Api.Events;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 namespace Catalog.Api
@@ -34,26 +34,25 @@ namespace Catalog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-                           .RequireAuthenticatedUser()
-                           .Build();
+            // var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+            //                .RequireAuthenticatedUser()
+            //                .Build();
 
             services.AddControllers(configure =>
             {
-                configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                //configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EventDto Catalog API", Version = "v1" });
             });
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = Configuration["IdentityServerUrl"];
-                    options.Audience = "catalog";
-                });
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.Authority = Configuration["IdentityServerUrl"];
+            //         options.Audience = "catalog";
+            //     });
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
@@ -75,11 +74,11 @@ namespace Catalog.Api
             {
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("CanRead",
-                policy => policy.RequireClaim("scope", "catalog.read"));
-            });
+            // services.AddAuthorization(options =>
+            // {
+            //     options.AddPolicy("CanRead",
+            //     policy => policy.RequireClaim("scope", "catalog.read"));
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,10 +91,10 @@ namespace Catalog.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog.Api v1"));
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
+            //       app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

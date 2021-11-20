@@ -10,14 +10,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
+// using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Api.Controllers
 {
     [Route("api/trucks")]
     [ApiVersion("1.0")]
     [ApiController]
-    [Authorize(Policy = "CanRead")]
+    //    [Authorize(Policy = "CanRead")]
     public class TruckController : ControllerBase
     {
         private readonly ITruckRepository _service;
