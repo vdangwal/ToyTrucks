@@ -37,8 +37,8 @@ namespace OcelotApi
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                    .AddJwtBearer(authenticationScheme, options =>
                    {
-                       options.Authority = "https://localhost:5010";
-                       options.Audience = "globoticketgateway";
+                       options.Authority = _config["IdentityUri"];// "https://localhost:5010";
+                       options.Audience = "hesstoysgateway";
                    });
 
             services.AddOcelot();

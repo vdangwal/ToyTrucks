@@ -84,7 +84,7 @@ namespace Web
                options.SaveTokens = true;
                options.ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0";
                options.GetClaimsFromUserInfoEndpoint = true;
-               //    options.Scope.Add("basket.fullaccess");
+               options.Scope.Add("hesstoysgateway.fullaccess");
                options.Scope.Add("basket.fullaccess");
            });
 

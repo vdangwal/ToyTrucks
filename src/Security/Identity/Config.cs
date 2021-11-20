@@ -85,7 +85,7 @@ namespace Identity
                     // AccessTokenLifetime = 60,
                     AllowedScopes = {"openid","profile",
                           "basket.fullaccess", "catalog.read"
-                        // "hesstoysgateway.fullaccess",
+                         , "hesstoysgateway.fullaccess",
                         // // "orders.fullaccess"
                         }
                 },
@@ -99,27 +99,27 @@ namespace Identity
 
 
 
-                 new Client
-                {
-                    ClientId = "hesstoytrucks_gateway_to_apis_tokenexchange",
-                    ClientName = "Hess Toys Gateway to downstream Token exchange Client",
-                    ClientSecrets = { new Secret("775e5143-2eff-476e-9986-576557877d15".Sha256()) },
-                    AllowedGrantTypes = new[] { "urn:ietf:params:oauth:grant-type:token-exchange" },
-                    RequireConsent = false,
-                    AllowedScopes = {
-                         "openid", "profile", "catalog.read", "basket.fullaccess" }
-                },
-                 new Client
-                {
-                    ClientId = "hesstoytrucks_baskets_to_downstream_tokenexchange",
-                    ClientName = "Hess Toys Discount",
-                    ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
-                    AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
+                //  new Client
+                // {
+                //     ClientId = "hesstoytrucks_gateway_to_apis_tokenexchange",
+                //     ClientName = "Hess Toys Gateway to downstream Token exchange Client",
+                //     ClientSecrets = { new Secret("775e5143-2eff-476e-9986-576557877d15".Sha256()) },
+                //     AllowedGrantTypes = new[] { "urn:ietf:params:oauth:grant-type:token-exchange" },
+                //     RequireConsent = false,
+                //     AllowedScopes = {
+                //          "openid", "profile", "catalog.read", "basket.fullaccess" }
+                // },
+                //  new Client
+                // {
+                //     ClientId = "hesstoytrucks_baskets_to_downstream_tokenexchange",
+                //     ClientName = "Hess Toys Discount",
+                //     ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
+                //     AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
 
-                    AllowedScopes = {"openid","profile" 
-                    //,"discount.fullaccess"
-                    ,"orders.fullaccess"}
-                },
+                //     AllowedScopes = {"openid","profile" 
+                //     //,"discount.fullaccess"
+                //     ,"orders.fullaccess"}
+                // },
             };
     }
 }

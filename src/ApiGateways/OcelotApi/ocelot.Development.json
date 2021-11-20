@@ -3,7 +3,6 @@
         "BaseUrl": "https://localhost:5555"
     },
     "Routes": [
-        //Basket Api
         {
             "DownstreamPathTemplate": "/api/v1/basket",
             "DownstreamScheme": "https",
@@ -18,17 +17,10 @@
                 "OPTIONS",
                 "PUT",
                 "POST"
-            ]
-            //,
-            // "AuthenticationOptions": {
-            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-            // },
-            // "DelegatingHandlers": [
-            //     "TokenExchangeDelegatingHandler"
-            // ],
-            // "AddHeadersToRequest": {
-            //     "MYCurrentUser": "TESTER"
-            // }
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/basket/{all}",
@@ -43,17 +35,10 @@
             "UpstreamHttpMethod": [
                 "GET",
                 "DELETE"
-            ]
-            // ,
-            // "AuthenticationOptions": {
-            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-            //     // "AllowedScopes": [
-            //     //     "basket.fullaccess"
-            //     // ]
-            // },
-            // "DelegatingHandlers": [
-            //     "TokenExchangeDelegatingHandler"
-            // ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+            }
         },
         {
             "DownstreamPathTemplate": "/api/v1/basket/Checkout",
@@ -68,29 +53,7 @@
             "UpstreamHttpMethod": [
                 "POST"
             ]
-            // ,
-            // "AuthenticationOptions": {
-            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-            //     // "AllowedScopes": [
-            //     //     "basket.fullaccess"
-            //     // ]
-            // },
-            // "DelegatingHandlers": [
-            //     "TokenExchangeDelegatingHandler"
-            // ],
-            // "AddHeadersToRequest": {
-            //     "MYCurrentUser": "TESTER"
-            // }
-            // // ,
-            // // "RateLimitOptions": {
-            // //     "ClientWhitelist": [],
-            // //     "EnableRateLimiting": true,
-            // //     "Period": "3s",
-            // //     "PeriodTimespan": 1,
-            // //     "Limit": 1
-            // // }
         },
-        //Order API
         {
             "DownstreamPathTemplate": "/api/orders/{all}",
             "DownstreamScheme": "https",
@@ -119,7 +82,6 @@
                 "GET"
             ]
         },
-        //Category API
         {
             "DownstreamPathTemplate": "/api/categories",
             "DownstreamScheme": "https",
@@ -132,16 +94,7 @@
             "UpstreamPathTemplate": "/trucks/api/categories",
             "UpstreamHttpMethod": [
                 "GET"
-            ],
-            // "AuthenticationOptions": {
-            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
-            // },
-            // "DelegatingHandlers": [
-            //     "TokenExchangeDelegatingHandler"
-            // ],
-            // // "FileCacheOptions": {
-            // //     "TtlSeconds": 10
-            // // }
+            ]
         },
         {
             "DownstreamPathTemplate": "/api/categories/{isMini}",
@@ -155,13 +108,7 @@
             "UpstreamPathTemplate": "/trucks/api/categories/{isMini}",
             "UpstreamHttpMethod": [
                 "GET"
-            ],
-            // "AuthenticationOptions": {
-            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
-            // },
-            // "DelegatingHandlers": [
-            //     "TokenExchangeDelegatingHandler"
-            // ]
+            ]
         },
         //Truck API
         {
@@ -177,13 +124,7 @@
             "UpstreamHttpMethod": [
                 "GET",
                 "PUT"
-            ],
-            // "AuthenticationOptions": {
-            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
-            // },
-            // "DelegatingHandlers": [
-            //     "TokenExchangeDelegatingHandler"
-            // ]
+            ]
         },
         {
             "DownstreamPathTemplate": "/api/trucks/{all}",
@@ -197,13 +138,7 @@
             "UpstreamPathTemplate": "/trucks/api/trucks/{all}",
             "UpstreamHttpMethod": [
                 "GET"
-            ],
-            // "AuthenticationOptions": {
-            //     "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
-            // },
-            // "DelegatingHandlers": [
-            //     "TokenExchangeDelegatingHandler"
-            // ]
+            ]
         }
     ]
 }
