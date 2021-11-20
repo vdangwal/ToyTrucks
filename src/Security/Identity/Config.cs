@@ -26,42 +26,51 @@ namespace Identity
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("basket.fullaccess"),
-                  new ApiScope("catalog.read"),
-                  new ApiScope("catalog.write"),
-                  new ApiScope("discount.fullaccess"),
-                  new ApiScope("orders.fullaccess"),
+                // new ApiScope("basket.fullaccess"),
+                //   new ApiScope("catalog.read"),
+                //   new ApiScope("catalog.write"),
+                //   new ApiScope("discount.fullaccess"),
+                //   new ApiScope("orders.fullaccess"),
                   new ApiScope("hesstoysgateway.fullaccess")
             };
         public static IEnumerable<ApiResource> ApiResources =>
            new ApiResource[]
            {
 
-                new ApiResource("catalog","Hess Toys catalog Apis")
-                {
-                    Scopes = {"catalog.read", "catalog.write"}
-                },
-                 new ApiResource("basket","Hess Toys basket Apis")
-                {
-                    Scopes = {"basket.fullaccess"}
-                },
-                 new ApiResource("discount","Hess Toys discount Apis")
-                {
-                    Scopes = {"discount.fullaccess"}
-                },
+                // new ApiResource("catalog","Hess Toys catalog Apis")
+                // {
+                //     Scopes = {"catalog.read", "catalog.write"}
+                // },
+                //  new ApiResource("basket","Hess Toys basket Apis")
+                // {
+                //     Scopes = {"basket.fullaccess"}
+                // },
+                //  new ApiResource("discount","Hess Toys discount Apis")
+                // {
+                //     Scopes = {"discount.fullaccess"}
+                // },
                  new ApiResource("hesstoysgateway","Hess Toys  Apis")
                 {
                     Scopes = {"hesstoysgateway.fullaccess"}
                 },
-                  new ApiResource("orders","Hess Toys orders Apis")
-                {
-                    Scopes = {"orders.fullaccess"}
-                },
+                //   new ApiResource("orders","Hess Toys orders Apis")
+                // {
+                //     Scopes = {"orders.fullaccess"}
+                // },
            };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
+                 new Client
+                {
+                    ClientName =  "Machine 2 Machine Client",
+                    ClientId = "hesstoytrucksm2m",
+                    ClientSecrets = { new Secret("eac7008f-1b35-4325-ac8d-4a71932e6088".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = { "hesstoysgateway.fullaccess" }
+                },
+
               new Client
                 {
                     ClientId = "hesstoytrucks",
@@ -75,19 +84,22 @@ namespace Identity
                     // RequireConsent = false,
                     // AllowOfflineAccess = true, //refresh token
                     // AccessTokenLifetime = 60,
-                    AllowedScopes = {"openid","profile" 
-                        // "basket.fullaccess",
+                    AllowedScopes = {"openid","profile",
+                          "hesstoysgateway.fullaccess",
                         // "hesstoysgateway.fullaccess",
                         // // "orders.fullaccess"
                         }
                 },
-                new Client{
-                    ClientId = "hesstoytrucksm2m",
-                    ClientName = "Hess Toys Loginless",
-                    ClientSecrets ={new Secret("661efc22-efff-42b9-a2c1-3844a4a810ff".Sha256())},
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes={"hesstoysgateway.fullaccess"}
-                },
+
+
+
+
+
+
+
+
+
+
                  new Client
                 {
                     ClientId = "hesstoytrucks_gateway_to_apis_tokenexchange",
