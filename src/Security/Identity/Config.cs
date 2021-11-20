@@ -33,9 +33,9 @@ namespace Identity
                   new ApiScope("orders.fullaccess"),
                   new ApiScope("hesstoysgateway.fullaccess")
             };
-         public static IEnumerable<ApiResource> ApiResources =>
-            new ApiResource[]
-            {
+        public static IEnumerable<ApiResource> ApiResources =>
+           new ApiResource[]
+           {
 
                 new ApiResource("catalog","Hess Toys catalog Apis")
                 {
@@ -57,7 +57,7 @@ namespace Identity
                 {
                     Scopes = {"orders.fullaccess"}
                 },
-            };
+           };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
@@ -67,16 +67,18 @@ namespace Identity
                     ClientId = "hesstoytrucks",
                     ClientName = "Hess Toys Client",
                     ClientSecrets = { new Secret("3322cccf-b6ff-4558-aefb-6c159cd566a0".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
-                    RedirectUris={$"{_config["FrontEndUri"]}signin-oidc"},
+                    AllowedGrantTypes = GrantTypes.Code,// GrantTypes.CodeAndClientCredentials,
+                    RedirectUris={ $"{_config["FrontEndUri"]}signin-oidc"},
                     PostLogoutRedirectUris={$"{_config["FrontEndUri"]}signout-callback-oidc"},
-                    RequireConsent = false,
-                    AllowOfflineAccess = true, //refresh token
-                    AccessTokenLifetime = 60,
-                    AllowedScopes = {"openid","profile" ,
-                      //  "basket.fullaccess",
-                        "hesstoysgateway.fullaccess",
-                        // "orders.fullaccess"
+                    //PostLogoutRedirectUris={ "https://localhost:6501/signout-callback-oidc"},
+
+                    // RequireConsent = false,
+                    // AllowOfflineAccess = true, //refresh token
+                    // AccessTokenLifetime = 60,
+                    AllowedScopes = {"openid","profile" 
+                        // "basket.fullaccess",
+                        // "hesstoysgateway.fullaccess",
+                        // // "orders.fullaccess"
                         }
                 },
                 new Client{

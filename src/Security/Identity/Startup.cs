@@ -37,7 +37,7 @@ namespace Identity
                 options.EmitStaticAudienceClaim = true;
             })
                 .AddTestUsers(TestUsers.Users);
-Config.AddConfiguration(Configuration);
+            Config.AddConfiguration(Configuration);
             // in-memory, code config
             builder.AddInMemoryIdentityResources(Config.IdentityResources);
             builder.AddInMemoryApiScopes(Config.ApiScopes);
