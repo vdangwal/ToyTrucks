@@ -2,6 +2,8 @@ version: '3.4'
 # docker build -t temp_catalog_api -f services/catalog/catalog.api/Dockerfile .  THis creates an image from the src dir...
 
 
+
+
 services:
   catalogdb:
     image: postgres:alpine
@@ -174,9 +176,7 @@ services:
 volumes:
   order_mongo_data: null
   basket_redis_data: null
-  catalog_postgres_data:
-
-    null
+  catalog_postgres_data: null
     # shopping_aggregator:
     #   container_name: shopping_aggregator
     #   build:
