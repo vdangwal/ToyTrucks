@@ -22,6 +22,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using Basket.Api.Helpers;
 
 namespace Basket.Api
 {
@@ -39,8 +40,11 @@ namespace Basket.Api
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddHttpContextAccessor();
+            services.AddAccessTokenManagement();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBasketRepository, RedisBasketRepository>();
+            services.AddScoped<TokenExchangeService>();
             services.AddTransient<IIdentityService, IdentityService>();
 
 
