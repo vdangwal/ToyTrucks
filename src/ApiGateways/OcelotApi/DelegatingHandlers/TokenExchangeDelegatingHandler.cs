@@ -59,7 +59,7 @@ namespace OcelotApi.DelegatingHandlers
             {
                 Address = discoveryDocumentResponse.TokenEndpoint,
                 GrantType = "urn:ietf:params:oauth:grant-type:token-exchange",
-                Parameters = Parameters.FromObject(customParams),
+                Parameters = customParams,
                 ClientId = "hesstoytrucks_gateway_to_apis_tokenexchange",
                 ClientSecret = "775e5143-2eff-476e-9986-576557877d15"
             });
