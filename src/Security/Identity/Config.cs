@@ -79,10 +79,9 @@ namespace Identity
                     AllowedGrantTypes =  GrantTypes.CodeAndClientCredentials,
                     RedirectUris={ $"{_config["FrontEndUri"]}signin-oidc"},
                     PostLogoutRedirectUris={$"{_config["FrontEndUri"]}signout-callback-oidc"},
-                   
-                    // RequireConsent = false,
-                    // AllowOfflineAccess = true, //refresh token
-                    // AccessTokenLifetime = 60,
+                    RequireConsent = false,
+                    AllowOfflineAccess = true, //refresh token
+                    AccessTokenLifetime = 60,
                     AllowedScopes = {"openid","profile"
                         ,"basket.fullaccess"
                         //, "catalog.read"

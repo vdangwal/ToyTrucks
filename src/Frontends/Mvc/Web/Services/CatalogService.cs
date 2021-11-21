@@ -29,7 +29,7 @@ namespace Web.Services
 
         public async Task<IEnumerable<Truck>> GetTrucksByCategoryId(int categoryId)
         {
-            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            //_client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             var response = await _client.GetAsync($"api/trucks/{categoryId}");
             var trucks = await response.ReadContentAs<List<Truck>>();
             var orderedTrucks = trucks.OrderBy(t => t.Year);
@@ -37,14 +37,14 @@ namespace Web.Services
         }
         public async Task<Truck> GetTruckById(Guid truckId)
         {
-            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            // _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             var response = await _client.GetAsync($"api/trucks/{truckId}");
             return await response.ReadContentAs<Truck>();
         }
 
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            // _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             var response = await _client.GetAsync("api/categories");
             return await response.ReadContentAs<List<Category>>();
         }
@@ -52,7 +52,7 @@ namespace Web.Services
         public async Task<IEnumerable<Truck>> GetTrucks()
         {
             // _client.SetBearerToken(await GetToken());
-            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            // _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             var response = await _client.GetAsync("api/trucks");
             var trucks = await response.ReadContentAs<List<Truck>>();
             var orderedTrucks = trucks.OrderBy(t => t.Year);
@@ -61,7 +61,7 @@ namespace Web.Services
 
         public async Task<TruckInventory> GetTruckInventory(Guid truckId)
         {
-            _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
+            // _client.SetBearerToken(await _httpContextAccessor.HttpContext.GetTokenAsync("access_token"));
             System.Console.WriteLine($"access token: {_accessToken}");
             var response = await _client.GetAsync($"api/trucks/inventory/{truckId}");
             return await response.ReadContentAs<TruckInventory>();
