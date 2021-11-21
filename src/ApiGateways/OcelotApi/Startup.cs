@@ -13,6 +13,7 @@ using Ocelot.Middleware;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using OcelotApi.DelegatingHandlers;
 
 namespace OcelotApi
 {
@@ -41,7 +42,11 @@ namespace OcelotApi
                        options.Audience = "hesstoysgateway";
                    });
 
-            services.AddOcelot();
+            services.AddHttpClient();
+            services.AddScoped<TokenExchangeDelegatingHandler>();
+
+            services.AddOcelot()
+            .AddDelegatingHandler<TokenExchangeDelegatingHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -114,11 +114,15 @@
                 "GET"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+                // ,
+                // "AllowedScopes": [
+                //     "catalog.read"
+                // ]
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         },
         {
             "DownstreamPathTemplate": "/api/categories/{isMini}",
@@ -134,11 +138,15 @@
                 "GET"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+                // ,
+                // "AllowedScopes": [
+                //     "catalog.read"
+                // ]
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         },
         //Truck API
         {
@@ -156,11 +164,15 @@
                 "PUT"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+                // ,
+                // "AllowedScopes": [
+                //     "catalog.read"
+                // ]
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         },
         {
             "DownstreamPathTemplate": "/api/trucks/{all}",
@@ -176,11 +188,15 @@
                 "GET"
             ],
             "AuthenticationOptions": {
-                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme",
-                "AllowedScopes": [
-                    "catalog.read"
-                ]
-            }
+                "AuthenticationProviderKey": "GloboTicketGatewayAuthenticationScheme"
+                // ,
+                // "AllowedScopes": [
+                //     "catalog.read"
+                // ]
+            },
+            "DelegatingHandlers": [
+                "TokenExchangeDelegatingHandler"
+            ]
         }
     ]
 }
