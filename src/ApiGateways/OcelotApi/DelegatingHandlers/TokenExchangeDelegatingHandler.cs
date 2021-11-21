@@ -1,3 +1,4 @@
+using IdentityModel.AspNetCore.AccessTokenManagement;
 using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,14 +13,35 @@ namespace OcelotApi.DelegatingHandlers
     public class TokenExchangeDelegatingHandler : DelegatingHandler
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IClientAccessTokenCache _clientAccessTokenCache;
         private readonly IConfiguration _config;
 
-        public TokenExchangeDelegatingHandler(IHttpClientFactory httpClientFactory, IConfiguration config)
+        public TokenExchangeDelegatingHandler(IHttpClientFactory httpClientFactory, IConfiguration config, IClientAccessTokenCache clientAccessTokenCache)
         {
             _httpClientFactory = httpClientFactory;
             _config = config;
+            _clientAccessTokenCache = clientAccessTokenCache;
         }
 
+        private async Task<string> GetAccessToken(string incomingToken)
+        {
+            var item = await _clientAccessTokenCache
+                .GetAsync("hesstoytrucks_gateway_to_apis_tokenexchange_catalog");
+            if (item != null)
+            {
+                System.Console.WriteLine($"token is in cache");
+                return item.AccessToken;
+            }
+
+            var (accessToken, expiresIn) = await ExchangeToken(incomingToken);
+
+            await _clientAccessTokenCache.SetAsync(
+                "hesstoytrucks_gateway_to_apis_tokenexchange_catalog",
+                accessToken,
+                expiresIn);
+            System.Console.WriteLine($"Token is new. It will expire in {expiresIn}");
+            return accessToken;
+        }
 
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
@@ -27,17 +49,24 @@ namespace OcelotApi.DelegatingHandlers
             // extract the current token
             var incomingToken = request.Headers.Authorization.Parameter;
 
-            // exchange it
-            var newToken = await ExchangeToken(incomingToken);
-
-            // replace the incoming bearer token with our new one
+            // set the bearer token
             request.Headers.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", newToken);
+                new System.Net.Http.Headers.AuthenticationHeaderValue(
+                    "Bearer",
+                    await GetAccessToken(incomingToken));
+
+
+            //// exchange it
+            //var newToken = await ExchangeToken(incomingToken);
+
+            //// replace the incoming bearer token with our new one
+            //request.Headers.Authorization = 
+            //    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", newToken);
 
             return await base.SendAsync(request, cancellationToken);
         }
 
-        private async Task<string> ExchangeToken(string incomingToken)
+        private async Task<(string, int)> ExchangeToken(string incomingToken)
         {
             var client = _httpClientFactory.CreateClient();
 
@@ -69,7 +98,7 @@ namespace OcelotApi.DelegatingHandlers
                 throw new Exception(tokenResponse.Error);
             }
 
-            return tokenResponse.AccessToken;
+            return (tokenResponse.AccessToken, tokenResponse.ExpiresIn);
 
         }
     }
