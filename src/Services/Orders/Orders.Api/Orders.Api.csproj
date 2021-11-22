@@ -24,9 +24,11 @@
     <PackageReference Include="MongoDB.Driver" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Bson" Version="2.12.3"/>
     <PackageReference Include="MongoDB.Driver.Core" Version="2.12.3"/>
+    <PackageReference Include="IdentityModel" Version="4.4.0"/>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0"/>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
   </ItemGroup>
-   
 </Project>

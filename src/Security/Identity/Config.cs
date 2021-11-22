@@ -112,7 +112,7 @@ namespace Identity
                     ClientName = "Hess Toys Discount",
                     ClientSecrets = { new Secret("b438b4c0-9963-444d-882f-74a754e667d1".Sha256()) },
                     AllowedGrantTypes =new[]{"urn:ietf:params:oauth:grant-type:token-exchange"},
-
+AccessTokenLifetime = 10,
                     AllowedScopes = {"openid","profile" 
                     //,"discount.fullaccess"
                     ,"orders.fullaccess"}

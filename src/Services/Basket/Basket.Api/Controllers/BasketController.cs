@@ -111,6 +111,8 @@ namespace Basket.Api.Controllers
 
             var incomingToken = await HttpContext.GetTokenAsync("access_token");
             var accessTokenForOrders = await _tokenExchangeService.GetTokenAsync(incomingToken, "orders.fullaccess");
+            eventMessage.SecurityContext.AccessToken = accessTokenForOrders;
+            eventMessage.CreationDateTime = DateTime.Now;
             try
             {
                 await _publishEndpoint.Publish(eventMessage);
