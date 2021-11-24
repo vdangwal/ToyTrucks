@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 namespace EventBus.Messages.Events
 {
-    public class BasketCheckoutEvent
+    public class BasketCheckoutEvent : IntegrationBase
     {
         public Guid UserId { get; set; }
         public decimal TotalPrice { get; set; }

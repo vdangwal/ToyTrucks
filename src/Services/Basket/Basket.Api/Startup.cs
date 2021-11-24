@@ -12,13 +12,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Discount.Grpc.Protos;
 using Basket.Api.GrpcServices;
 using Basket.Api.Events;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using Basket.Api.Helpers;
 
 namespace Basket.Api
 {
@@ -34,13 +38,15 @@ namespace Basket.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddHttpContextAccessor();
+            services.AddAccessTokenManagement();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBasketRepository, RedisBasketRepository>();
+            services.AddScoped<TokenExchangeService>();
             services.AddTransient<IIdentityService, IdentityService>();
-            // services.AddScoped<IBasketLinesService, BasketLinesService>();
-            // // services.AddScoped<OLDIBasketContext, OLDBasketContext>();
-            // services.AddScoped<ITruckService, TruckService>();
+
 
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
@@ -62,16 +68,30 @@ namespace Basket.Api
             //c.BaseAddress = new Uri(Configuration["TruckCatalogUri"]));
 
             services.AddSingleton<ConnectionMultiplexer>(sp =>
-                       {
-                           //    /var settings = sp.GetRequiredService<IOptions<BasketSettings>>().Value;
-                           var configuration = ConfigurationOptions.Parse(Configuration["RedisServerUrl"], true);
+            {
+                //    /var settings = sp.GetRequiredService<IOptions<BasketSettings>>().Value;
+                var configuration = ConfigurationOptions.Parse(Configuration["RedisServerUrl"], true);
 
-                           configuration.ResolveDns = true;
+                configuration.ResolveDns = true;
 
-                           return ConnectionMultiplexer.Connect(configuration);
-                       });
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
-            services.AddControllers();
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+              .RequireAuthenticatedUser()
+              .Build();
+
+            var builder = services.AddControllers(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Audience = "basket";
+                    options.Authority = Configuration["IdentityServerUrl"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,8 +106,9 @@ namespace Basket.Api
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

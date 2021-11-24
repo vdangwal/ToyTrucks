@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Web.Models;
 using Web.Services;
 
@@ -29,7 +33,14 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            var builder = services.AddControllersWithViews();
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+              .RequireAuthenticatedUser()
+              .Build();
+
+            var builder = services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+            });
 
             if (_environment.IsDevelopment())
             {
@@ -41,23 +52,43 @@ namespace Web
                 //config.Cookie.HttpOnly=true;
                 config.Cookie.IsEssential = true;
             });
-            services.AddHttpClient<ICatalogService, CatalogService>(c =>
-            {
-                c.BaseAddress = new Uri(_config["TruckCatalogUri"]);
-            });
+
+            services.AddAccessTokenManagement();
+            services.AddHttpClient<ICatalogService, CatalogService>(c => c.BaseAddress = new Uri(_config["TruckCatalogUri"]))
+            .AddUserAccessTokenHandler();
             services.AddHttpClient<IBasketService, BasketService>(c =>
             {
                 c.BaseAddress = new Uri(_config["BasketUri"]);
                 //c.DefaultRequestHeaders.Add("api-version", "2.0");
 
-            });
+            }).AddUserAccessTokenHandler();
             services.AddHttpClient<IOrderService, OrderService>(c =>
             {
                 c.BaseAddress = new Uri(_config["OrdersUri"]);
-            });
+            }).AddUserAccessTokenHandler();
 
 
             services.AddSingleton<Settings>();
+
+            services.AddAuthentication(options =>
+           {
+               options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+               options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+           }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+           .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+           {
+               options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+               options.Authority = _config["IdentityUri"];// "https://localhost:5010/";
+               options.ClientId = "hesstoytrucks";
+               options.ResponseType = "code";
+               options.SaveTokens = true;
+               options.ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0";
+               options.GetClaimsFromUserInfoEndpoint = true;
+               options.Scope.Add("hesstoysgateway.fullaccess");
+               options.Scope.Add("basket.fullaccess");
+               // options.Scope.Add("offline_access");
+               // options.Scope.Add("catalog.read");
+           });
 
         }
 
@@ -80,6 +111,7 @@ namespace Web
             app.UseRouting();
             app.UseSession();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

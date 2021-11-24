@@ -17,6 +17,8 @@ using MassTransit;
 
 using Orders.Api.Entities;
 using MongoDB;
+using Orders.Api.Helpers;
+
 namespace Orders.Api
 {
     public class Startup
@@ -32,6 +34,8 @@ namespace Orders.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddHttpClient();
+            services.AddScoped<TokenValidationService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -96,7 +100,7 @@ namespace Orders.Api
 
         public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
         {
-          
+
 
             services.AddMassTransit(configuration =>
             {

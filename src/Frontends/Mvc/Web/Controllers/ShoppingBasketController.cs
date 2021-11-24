@@ -8,6 +8,7 @@ using Web.Models.View;
 using Web.Extensions;
 using Web.Models.Api;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace Web.Controllers
 {
@@ -16,13 +17,15 @@ namespace Web.Controllers
         private readonly IBasketService _basketService;
         private readonly ICatalogService _catalogService;
         private readonly Settings _settings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ShoppingBasketController(IBasketService basketService,
-            Settings settings, ICatalogService catalogService)
+            Settings settings, ICatalogService catalogService, IHttpContextAccessor httpContextAccessor)
         {
             _basketService = basketService;
             _settings = settings;
             _catalogService = catalogService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -141,6 +144,7 @@ namespace Web.Controllers
                         CvvCode = basketCheckoutViewModel.CvvCode,
                         BasketId = basketId,
                         UserId = _settings.UserId
+                        //UserId = 
                     };
 
                     await _basketService.Checkout(basketId, basketForCheckout);
