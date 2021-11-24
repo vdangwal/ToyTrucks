@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: C:\Code\tools\kompose.exe convert -o ./k8s
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: basketdb
+  name: basketdb
+spec:
+  containers:
+    - image: redis:alpine
+      name: basketdb
+      ports:
+        - containerPort: 6379
+      resources: {}
+      volumeMounts:
+        - mountPath: /data/basketdb
+          name: basket-redis-data
+  restartPolicy: Never
+  volumes:
+    - name: basket-redis-data
+      persistentVolumeClaim:
+        claimName: basket-redis-data
+status: {}

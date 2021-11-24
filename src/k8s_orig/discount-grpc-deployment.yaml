@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Code\tools\kompose.exe convert -o ./k8s
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: discount-grpc
+  name: discount-grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: discount-grpc
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Code\tools\kompose.exe convert -o ./k8s
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: discount-grpc
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: POSTGRES_DB
+              value: discountdb
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_SERVER
+              value: catalogdb
+            - name: POSTGRES_USER
+              value: marcus
+          image: discount-grpc
+          name: discount-grpc
+          ports:
+            - containerPort: 80
+          resources: {}
+          volumeMounts:
+            - mountPath: /discountgrpcwork/
+              name: discount-grpc-claim0
+      restartPolicy: Always
+      volumes:
+        - name: discount-grpc-claim0
+          persistentVolumeClaim:
+            claimName: discount-grpc-claim0
+status: {}

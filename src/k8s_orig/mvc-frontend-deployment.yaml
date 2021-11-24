@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Code\tools\kompose.exe convert -o ./k8s
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mvc-frontend
+  name: mvc-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mvc-frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Code\tools\kompose.exe convert -o ./k8s
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mvc-frontend
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_HTTPS_PORT
+              value: "8001"
+            - name: ASPNETCORE_URLS
+              value: https://+;http://+
+            - name: BasketUri
+              value: http://ocelot_api/basket/
+            - name: OrdersUri
+              value: http://ocelot_api/orders/
+            - name: TruckCatalogUri
+              value: http://ocelot_api/trucks/
+          image: mvc-frontend
+          name: mvc-frontend
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          resources: {}
+          volumeMounts:
+            - mountPath: /root/.microsoft/usersecrets
+              name: mvc-frontend-claim0
+            - mountPath: /root/.aspnet/https/
+              name: mvc-frontend-claim1
+      restartPolicy: Always
+      volumes:
+        - name: mvc-frontend-claim0
+          persistentVolumeClaim:
+            claimName: mvc-frontend-claim0
+        - name: mvc-frontend-claim1
+          persistentVolumeClaim:
+            claimName: mvc-frontend-claim1
+status: {}

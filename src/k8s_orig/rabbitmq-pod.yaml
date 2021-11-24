@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: C:\Code\tools\kompose.exe convert -o ./k8s
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rabbitmq
+  name: rabbitmq
+spec:
+  containers:
+    - env:
+        - name: teds
+      image: rabbitmq:3-management-alpine
+      name: rabbitmq
+      ports:
+        - containerPort: 5672
+        - containerPort: 15672
+      resources: {}
+  restartPolicy: Never
+status: {}
