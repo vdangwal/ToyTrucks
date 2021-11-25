@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: discount_grpc
+  labels:
+    app: discount_grpc
+spec:
+  ports:
+    - name: "3506"
+      port: 3506
+      targetPort: 80
+  selector:
+    app: discount_grpc
+status:
+  loadBalancer: {}

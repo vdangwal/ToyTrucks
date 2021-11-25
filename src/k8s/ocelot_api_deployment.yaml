@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: node-env
+  name: env-vars
+data:
+  ASPNETCORE_ENVIRONMENT: Docked
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocelot_api
+  labels:
+    app: ocelot_api
+    version: "1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocelot_api
+      version: "1.0"
+
+  template:
+    metadata:
+      labels:
+        app: ocelot_api
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+          image: ocelot_api
+          name: ocelot_api
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          resources: {}
+      restartPolicy: Always

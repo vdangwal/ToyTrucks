@@ -1,0 +1,24 @@
+#DONT THINK THIS IS ANYWAY CORRECT!
+apiVersion: v1
+kind: Pod
+metadata:
+  name: basketdb
+  labels:
+    app: basketdb
+
+spec:
+  containers:
+    - image: redis:alpine
+      name: basketdb
+      ports:
+        - containerPort: 6379
+      resources: {}
+      volumeMounts:
+        - mountPath: /data/basketdb
+          name: basket_redis_data
+  restartPolicy: Always
+  volumes:
+    - name: basket_redis_data
+      persistentVolumeClaim:
+        claimName: basket_redis_data
+status: {}

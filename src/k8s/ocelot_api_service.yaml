@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocelot_api
+  labels:
+    app: ocelot_api
+spec:
+  ports:
+    - name: "8010"
+      port: 8010
+      targetPort: 80
+  selector:
+    app: ocelot_api
+status:
+  loadBalancer: {}

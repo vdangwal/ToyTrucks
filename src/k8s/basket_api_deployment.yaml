@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: node-env
+  name: env-vars
+data:
+  NODE_ENV: "production"
+  CONTAINER: "true"
+  ASPNETCORE_ENVIRONMENT: Development
+  grpcServiceUrl: "http://discount_grpc:80"
+  EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+  BasketUpdatedQueue: "basketinventoryupdated-queue"
+  RedisServerUrl: "basketdb"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basket_api
+  namespace: hesstrucks
+  labels:
+    app: basket_api
+    version: "1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basket_api
+      version: "1.0"
+  # strategy:
+  #   type: Recreate
+  template:
+    metadata:
+      labels:
+        app: basket_api
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: BasketUpdatedQueue
+              valueFrom:
+                configMapKeyRef:
+                  key: BasketUpdatedQueue
+                  name: env-vars
+            - name: EventBusAddress
+              valueFrom:
+                configMapKeyRef:
+                  key: EventBusAddress
+                  name: env-vars
+            - name: RedisServerUrl
+              valueFrom:
+                configMapKeyRef:
+                  key: RedisServerUrl
+                  name: env-vars
+            - name: grpcServiceUrl
+              valueFrom:
+                configMapKeyRef:
+                  key: grpcServiceUrl
+                  name: env-vars
+          image: basket_api
+          name: basket_api
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          ports:
+            - containerPort: 443
+
+          volumeMounts:
+            - mountPath: /basketwork/Services/Basket/Basket.Api/
+              name: basket_api_claim0
+      restartPolicy: Always
+      volumes:
+        - name: basket_api_claim0
+          persistentVolumeClaim:
+            claimName: basket_api_claim0

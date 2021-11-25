@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: node-env
+  name: env-vars
+data:
+  NODE_ENV: "production"
+  CONTAINER: "true"
+  ASPNETCORE_ENVIRONMENT: Development
+  POSTGRES_SERVER: "catalogdb"
+  POSTGRES_DB: "catalogdb"
+  POSTGRES_USER: "marcus"
+  POSTGRES_PASSWORD: "password"
+  EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+  OutOfStockQueue: "outofstock-queue"
+  InventoryUpdatedQueue: "inventoryupdated-queue"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-api
+  namespace: hesstrucks
+  labels:
+    app: catalog_api
+    version: "1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog_api
+      version: "1.0"
+  # strategy:
+  #   type: Recreate
+  template:
+    metadata:
+      labels:
+        service: catalog_api
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: EventBusAddress
+              valueFrom:
+                configMapKeyRef:
+                  key: EventBusAddress
+                  name: env-vars
+            - name: InventoryUpdatedQueue
+              valueFrom:
+                configMapKeyRef:
+                  key: InventoryUpdatedQueue
+                  name: env-vars
+            - name: OutOfStockQueue
+              valueFrom:
+                configMapKeyRef:
+                  key: OutOfStockQueue
+                  name: env-vars
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: env-vars
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: env-vars
+            - name: POSTGRES_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_SERVER
+                  name: env-vars
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: env-vars
+          image: catalog_api
+          imagePullPolicy: IfNotPresent
+          name: catalog_api
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          ports:
+            - containerPort: 80
+
+          volumeMounts:
+            - mountPath: /work/Services/Catalog/Catalog.Api/
+              name: catalog_api_claim0
+      restartPolicy: Always
+      volumes:
+        - name: catalog_api_claim0
+          persistentVolumeClaim:
+            claimName: catalog_api_claim0

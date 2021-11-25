@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: node-env
+  name: env-vars
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  POSTGRES_SERVER: "catalogdb"
+  POSTGRES_DB: "discountdb"
+  POSTGRES_USER: "marcus"
+  POSTGRES_PORT: "5432"
+  POSTGRES_PASSWORD: "password"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discount_grpc
+  labels:
+    app: discount_grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discount_grpc
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: discount_grpc
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: env-vars
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: env-vars
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PORT
+                  name: env-vars
+            - name: POSTGRES_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_SERVER
+                  name: env-vars
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: env-vars
+          image: discount_grpc
+          name: discount_grpc
+          ports:
+            - containerPort: 80
+          resources: {}
+          volumeMounts:
+            - mountPath: /discountgrpcwork/
+              name: discount_grpc_claim0
+      restartPolicy: Always
+      volumes:
+        - name: discount_grpc_claim0
+          persistentVolumeClaim:
+            claimName: discount_grpc_claim0
+status: {}

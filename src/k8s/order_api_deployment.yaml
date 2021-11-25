@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: node-env
+  name: env-vars
+data:
+  NODE_ENV: "production"
+  CONTAINER: "true"
+  ASPNETCORE_ENVIRONMENT: Development
+  EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
+  BasketCheckoutQueue: "basketcheckout-queue"
+  MONGO_SERVER: "orderdb"
+  MONGO_PORT: "27017"
+  MONGO_DB: "OrderDb"
+  MONGO_COLLECTION: "Orders"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order_api
+  amespace: hesstrucks
+  labels:
+    app: order_api
+    version: "1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order_api
+      version: "1.0"
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: order_api
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: BasketCheckoutQueue
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: EventBusAddress
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: MONGO_COLLECTION
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: MONGO_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: MONGO_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+          image: order_api
+          name: order_api
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /orderapiwork/Services/Orders/Orders.Api/
+              name: order_api_claim0
+      restartPolicy: Always
+      volumes:
+        - name: order_api_claim0
+          persistentVolumeClaim:
+            claimName: order_api_claim0

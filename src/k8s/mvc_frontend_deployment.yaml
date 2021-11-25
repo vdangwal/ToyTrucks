@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: node-env
+  name: env-vars
+data:
+  TruckCatalogUri: "http://ocelot_api/trucks/"
+  BasketUri: "http://ocelot_api/basket/"
+  OrdersUri: "http://ocelot_api/orders/"
+  ASPNETCORE_URLS: "https://+;http://+"
+  ASPNETCORE_HTTPS_PORT: "8001"
+  ASPNETCORE_ENVIRONMENT: Development
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mvc_frontend
+  namespace: hesstrucks
+  labels:
+    app: mvc_frontend
+    version: "1.0"
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mvc_frontend
+      version: "1.0"
+  # strategy:
+  #   type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mvc_frontend
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_ENVIRONMENT
+                  name: env-vars
+            - name: ASPNETCORE_HTTPS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_HTTPS_PORT
+                  name: env-vars
+            - name: ASPNETCORE_URLS
+              valueFrom:
+                configMapKeyRef:
+                  key: ASPNETCORE_URLS
+                  name: env-vars
+            - name: BasketUri
+              valueFrom:
+                configMapKeyRef:
+                  key: BasketUri
+                  name: env-vars
+            - name: OrdersUri
+              valueFrom:
+                configMapKeyRef:
+                  key: OrdersUri
+                  name: env-vars
+            - name: TruckCatalogUri
+              valueFrom:
+                configMapKeyRef:
+                  key: TruckCatalogUri
+                  name: env-vars
+          image: mvc_frontend
+          name: mvc_frontend
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+
+          volumeMounts:
+            - mountPath: /root/.microsoft/usersecrets
+              name: mvc_frontend_claim0
+            - mountPath: /root/.aspnet/https/
+              name: mvc_frontend_claim1
+      restartPolicy: Always
+      volumes:
+        - name: mvc_frontend_claim0
+          persistentVolumeClaim:
+            claimName: mvc_frontend_claim0
+        - name: mvc_frontend_claim1
+          persistentVolumeClaim:
+            claimName: mvc_frontend_claim1
+status: {}
