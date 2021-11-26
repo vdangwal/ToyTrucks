@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: order_api
+  name: orderapi
   labels:
-    app: order_api
+    app: orderapi
 
 spec:
   selector:
-    app: order_api
+    app: orderapi
     type: LoadBalancer
   ports:
     - name: "3508"

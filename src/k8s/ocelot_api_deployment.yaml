@@ -6,27 +6,27 @@ metadata:
   name: env-vars
 data:
   ASPNETCORE_ENVIRONMENT: Docked
-  IdentityUri: "https://identity_service/"
+  IdentityUri: "https://identityservice/"
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ocelot_api
+  name: ocelotapi
   labels:
-    app: ocelot_api
-    version: "1.0"
+    app: ocelotapi
+    # version: "1.0"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ocelot_api
-      version: "1.0"
+      app: ocelotapi
+      # version: "1.0"
 
   template:
     metadata:
       labels:
-        app: ocelot_api
+        app: ocelotapi
     spec:
       containers:
         - env:
@@ -40,8 +40,8 @@ spec:
                 configMapKeyRef:
                   key: IdentityUri
                   name: env-vars
-          image: ocelot_api
-          name: ocelot_api
+          image: ocelotapi
+          name: ocelotapi
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

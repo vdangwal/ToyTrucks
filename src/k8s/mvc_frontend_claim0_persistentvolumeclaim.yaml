@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mvc_frontend_claim0
+  name: mvcfrontendclaim0
   labels:
-    app: mvc_frontend_claim0
+    app: mvcfrontendclaim0
 spec:
   accessModes:
     - ReadWriteOnce

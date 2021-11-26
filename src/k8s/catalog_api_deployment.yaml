@@ -15,29 +15,29 @@ data:
   EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
   OutOfStockQueue: "outofstock-queue"
   InventoryUpdatedQueue: "inventoryupdated-queue"
-  IdentityUri: "https://identity_service/"
+  IdentityUri: "https://identityservice/"
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: catalog-api
-  namespace: hesstrucks
+  name: catalogapi
+  #namespace: hesstrucks
   labels:
-    app: catalog_api
-    version: "1.0"
+    app: catalogapi
+    # version: "1.0"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: catalog_api
-      version: "1.0"
+      app: catalogapi
+      # version: "1.0"
   # strategy:
   #   type: Recreate
   template:
     metadata:
       labels:
-        service: catalog_api
+        app: catalogapi
     spec:
       containers:
         - env:
@@ -87,9 +87,9 @@ spec:
                   key: IdentityUri
                   name: env-vars
 
-          image: catalog_api
+          image: catalogapi
           imagePullPolicy: IfNotPresent
-          name: catalog_api
+          name: catalogapi
           resources:
             limits:
               memory: 512Mi
@@ -102,9 +102,9 @@ spec:
 
           volumeMounts:
             - mountPath: /work/Services/Catalog/Catalog.Api/
-              name: catalog_api_claim0
+              name: catalogapiclaim0
       restartPolicy: Always
       volumes:
-        - name: catalog_api_claim0
+        - name: catalogapiclaim0
           persistentVolumeClaim:
-            claimName: catalog_api_claim0
+            claimName: catalogapiclaim0

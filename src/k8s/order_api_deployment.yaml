@@ -14,29 +14,29 @@ data:
   MONGO_PORT: "27017"
   MONGO_DB: "OrderDb"
   MONGO_COLLECTION: "Orders"
-  IdentityUri: "https://identity_service/"
+  IdentityUri: "https://identityservice/"
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order_api
-  namespace: hesstrucks
+  name: orderapi
+  #namespace: hesstrucks
   labels:
-    app: order_api
-    version: "1.0"
+    app: orderapi
+    # version: "1.0"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order_api
-      version: "1.0"
+      app: orderapi
+      # version: "1.0"
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: order_api
+        app: orderapi
     spec:
       containers:
         - env:
@@ -80,8 +80,8 @@ spec:
                 configMapKeyRef:
                   key: IdentityUri
                   name: env-vars
-          image: order_api
-          name: order_api
+          image: orderapi
+          name: orderapi
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -94,9 +94,9 @@ spec:
             - containerPort: 80
           volumeMounts:
             - mountPath: /orderapiwork/Services/Orders/Orders.Api/
-              name: order_api_claim0
+              name: orderapiclaim0
       restartPolicy: Always
       volumes:
-        - name: order_api_claim0
+        - name: orderapiclaim0
           persistentVolumeClaim:
-            claimName: order_api_claim0
+            claimName: orderapiclaim0

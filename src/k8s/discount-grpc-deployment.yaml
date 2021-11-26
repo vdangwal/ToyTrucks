@@ -11,26 +11,26 @@ data:
   POSTGRES_USER: "marcus"
   POSTGRES_PORT: "5432"
   POSTGRES_PASSWORD: "password"
-  IdentityUri: "https://identity_service/"
+  IdentityUri: "https://identityservice/"
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: discount_grpc
+  name: discountgrpc
   labels:
-    app: discount_grpc
+    app: discountgrpc
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: discount_grpc
+      app: discountgrpc
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: discount_grpc
+        app: discountgrpc
     spec:
       containers:
         - env:
@@ -69,17 +69,17 @@ spec:
                 configMapKeyRef:
                   key: IdentityUri
                   name: env-vars
-          image: discount_grpc
-          name: discount_grpc
+          image: discountgrpc
+          name: discountgrpc
           ports:
             - containerPort: 80
           resources: {}
           volumeMounts:
             - mountPath: /discountgrpcwork/
-              name: discount_grpc_claim0
+              name: discountgrpcclaim0
       restartPolicy: Always
       volumes:
-        - name: discount_grpc_claim0
+        - name: discountgrpcclaim0
           persistentVolumeClaim:
-            claimName: discount_grpc_claim0
+            claimName: discountgrpcclaim0
 status: {}

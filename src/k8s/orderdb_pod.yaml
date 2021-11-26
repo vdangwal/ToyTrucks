@@ -13,10 +13,10 @@ spec:
       resources: {}
       volumeMounts:
         - mountPath: /data/orderdb
-          name: order_mongo_data
+          name: ordermongodata
   restartPolicy: Always
   volumes:
-    - name: order_mongo_data
+    - name: ordermongodata
       persistentVolumeClaim:
-        claimName: order_mongo_data
+        claimName: ordermongodata
 status: {}

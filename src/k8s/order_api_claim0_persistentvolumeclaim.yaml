@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: order_api_claim0
+  name: orderapiclaim0
   labels:
-    app: order_api_claim0
+    app: orderapiclaim0
 
 spec:
   accessModes:

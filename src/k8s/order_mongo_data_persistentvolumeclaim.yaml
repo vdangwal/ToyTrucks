@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: order_mongo_data
+  name: ordermongodata
   labels:
-    app: order_mongo_data
+    app: ordermongodata
 spec:
   accessModes:
     - ReadWriteOnce

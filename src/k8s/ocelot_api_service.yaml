@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ocelot_api
+  name: ocelotapi
   labels:
-    app: ocelot_api
+    app: ocelotapi
 spec:
   ports:
     - name: "8010"
       port: 8010
       targetPort: 80
   selector:
-    app: ocelot_api
+    app: ocelotapi
 status:
   loadBalancer: {}

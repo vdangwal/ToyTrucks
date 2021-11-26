@@ -18,10 +18,10 @@ spec:
       resources: {}
       volumeMounts:
         - mountPath: /data/catalogdb
-          name: catalog_postgres_data
+          name: catalogpostgresdata
   restartPolicy: Always
   volumes:
-    - name: catalog_postgres_data
+    - name: catalogpostgresdata
       persistentVolumeClaim:
-        claimName: catalog_postgres_data
+        claimName: catalogpostgresdata
 status: {}

@@ -5,36 +5,36 @@ metadata:
     app: node-env
   name: env-vars
 data:
-  TruckCatalogUri: "http://ocelot_api/trucks/"
-  BasketUri: "http://ocelot_api/basket/"
-  OrdersUri: "http://ocelot_api/orders/"
+  TruckCatalogUri: "http://ocelotapi/trucks/"
+  BasketUri: "http://ocelotapi/basket/"
+  OrdersUri: "http://ocelotapi/orders/"
   ASPNETCORE_URLS: "https://+;http://+"
   ASPNETCORE_HTTPS_PORT: "8001"
   ASPNETCORE_ENVIRONMENT: Development
-  IdentityUri: "https://identity_service/"
+  IdentityUri: "https://identityservice/"
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mvc_frontend
-  namespace: hesstrucks
+  name: mvcfrontend
+  #namespace: hesstrucks
   labels:
-    app: mvc_frontend
-    version: "1.0"
+    app: mvcfrontend
+    # version: "1.0"
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mvc_frontend
-      version: "1.0"
+      app: mvcfrontend
+      # version: "1.0"
   # strategy:
   #   type: Recreate
   template:
     metadata:
       labels:
-        app: mvc_frontend
+        app: mvcfrontend
     spec:
       containers:
         - env:
@@ -73,8 +73,8 @@ spec:
                 configMapKeyRef:
                   key: IdentityUri
                   name: env-vars
-          image: mvc_frontend
-          name: mvc_frontend
+          image: mvcfrontend
+          name: mvcfrontend
           resources:
             limits:
               memory: 512Mi
@@ -88,15 +88,15 @@ spec:
 
           volumeMounts:
             - mountPath: /root/.microsoft/usersecrets
-              name: mvc_frontend_claim0
+              name: mvcfrontendclaim0
             - mountPath: /root/.aspnet/https/
-              name: mvc_frontend_claim1
+              name: mvcfrontendclaim1
       restartPolicy: Always
       volumes:
-        - name: mvc_frontend_claim0
+        - name: mvcfrontendclaim0
           persistentVolumeClaim:
-            claimName: mvc_frontend_claim0
-        - name: mvc_frontend_claim1
+            claimName: mvcfrontendclaim0
+        - name: mvcfrontendclaim1
           persistentVolumeClaim:
-            claimName: mvc_frontend_claim1
+            claimName: mvcfrontendclaim1
 status: {}

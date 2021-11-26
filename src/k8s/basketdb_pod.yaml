@@ -15,10 +15,10 @@ spec:
       resources: {}
       volumeMounts:
         - mountPath: /data/basketdb
-          name: basket_redis_data
+          name: basketredisdata
   restartPolicy: Always
   volumes:
-    - name: basket_redis_data
+    - name: basketredisdata
       persistentVolumeClaim:
-        claimName: basket_redis_data
+        claimName: basketredisdata
 status: {}

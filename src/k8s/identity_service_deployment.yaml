@@ -6,26 +6,26 @@ metadata:
   name: env-vars
 data:
   ASPNETCORE_ENVIRONMENT: Local
-  FrontEndUri: mvc_frontend
+  FrontEndUri: mvcfrontend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: identity_service
+  name: identityservice
   labels:
-    app: identity_service
-    version: "1.0"
+    app: identityservice
+    # version: "1.0"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: identity_service
-      version: "1.0"
+      app: identityservice
+      # version: "1.0"
 
   template:
     metadata:
       labels:
-        app: identity_service
+        app: identityservice
     spec:
       containers:
         - env:
@@ -34,8 +34,8 @@ spec:
                 configMapKeyRef:
                   key: ASPNETCORE_ENVIRONMENT
                   name: env-vars
-          image: identity_service
-          name: identity_service
+          image: identityservice
+          name: identityservice
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
