@@ -15,6 +15,7 @@ data:
   EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
   OutOfStockQueue: "outofstock-queue"
   InventoryUpdatedQueue: "inventoryupdated-queue"
+  IdentityUri: "https://identity_service/"
 
 ---
 apiVersion: apps/v1
@@ -80,6 +81,12 @@ spec:
                 configMapKeyRef:
                   key: POSTGRES_USER
                   name: env-vars
+            - name: IdentityUri
+              valueFrom:
+                configMapKeyRef:
+                  key: IdentityUri
+                  name: env-vars
+
           image: catalog_api
           imagePullPolicy: IfNotPresent
           name: catalog_api

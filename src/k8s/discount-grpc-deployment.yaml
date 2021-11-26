@@ -11,6 +11,7 @@ data:
   POSTGRES_USER: "marcus"
   POSTGRES_PORT: "5432"
   POSTGRES_PASSWORD: "password"
+  IdentityUri: "https://identity_service/"
 
 ---
 apiVersion: apps/v1
@@ -62,6 +63,11 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_USER
+                  name: env-vars
+            - name: IdentityUri
+              valueFrom:
+                configMapKeyRef:
+                  key: IdentityUri
                   name: env-vars
           image: discount_grpc
           name: discount_grpc

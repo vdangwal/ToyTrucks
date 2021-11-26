@@ -12,6 +12,7 @@ data:
   EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
   BasketUpdatedQueue: "basketinventoryupdated-queue"
   RedisServerUrl: "basketdb"
+  IdentityUri: "https://identity_service/"
 
 ---
 apiVersion: apps/v1
@@ -61,6 +62,11 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: grpcServiceUrl
+                  name: env-vars
+            - name: IdentityUri
+              valueFrom:
+                configMapKeyRef:
+                  key: IdentityUri
                   name: env-vars
           image: basket_api
           name: basket_api

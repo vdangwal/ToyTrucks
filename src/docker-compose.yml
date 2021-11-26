@@ -8,6 +8,30 @@ version: '3.4'
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 services:
   catalogdb:
     image: postgres:alpine
@@ -174,6 +198,22 @@ services:
       - catalog_api
       - order_api
       - basket_api
+
+  identity_service:
+    container_name: identity_service
+    build:
+      context: .
+      dockerfile: Security/Identity/Dockerfile
+      target: debug
+    environment:
+      ASPNETCORE_ENVIRONMENT: Local
+      FrontEndUri: mvc_frontend
+    ports:
+      - 3520:80
+    # depends_on: 
+    #   - catalog_api
+    #   - order_api
+    #   - basket_api
 
 volumes:
   order_mongo_data: null
