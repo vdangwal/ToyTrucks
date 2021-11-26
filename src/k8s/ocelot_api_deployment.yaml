@@ -46,4 +46,4 @@ spec:
           ports:
             - containerPort: 80
           resources: {}
-      restartPolicy: Always
+      restartPolicy: Never #Always

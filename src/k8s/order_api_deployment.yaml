@@ -95,7 +95,7 @@ spec:
           volumeMounts:
             - mountPath: /orderapiwork/Services/Orders/Orders.Api/
               name: orderapiclaim0
-      restartPolicy: Always
+      restartPolicy: Never #Always
       volumes:
         - name: orderapiclaim0
           persistentVolumeClaim:

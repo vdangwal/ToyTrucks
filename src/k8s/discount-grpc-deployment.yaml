@@ -77,7 +77,7 @@ spec:
           volumeMounts:
             - mountPath: /discountgrpcwork/
               name: discountgrpcclaim0
-      restartPolicy: Always
+      restartPolicy: Never #Always
       volumes:
         - name: discountgrpcclaim0
           persistentVolumeClaim:

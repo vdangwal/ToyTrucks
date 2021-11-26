@@ -16,7 +16,7 @@ spec:
       volumeMounts:
         - mountPath: /data/basketdb
           name: basketredisdata
-  restartPolicy: Always
+  restartPolicy: Never #Always
   volumes:
     - name: basketredisdata
       persistentVolumeClaim:

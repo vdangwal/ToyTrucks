@@ -103,7 +103,7 @@ spec:
           volumeMounts:
             - mountPath: /work/Services/Catalog/Catalog.Api/
               name: catalogapiclaim0
-      restartPolicy: Always
+      restartPolicy: Never #Always
       volumes:
         - name: catalogapiclaim0
           persistentVolumeClaim:

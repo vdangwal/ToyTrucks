@@ -19,7 +19,7 @@ spec:
       volumeMounts:
         - mountPath: /data/catalogdb
           name: catalogpostgresdata
-  restartPolicy: Always
+  restartPolicy: Never #Always
   volumes:
     - name: catalogpostgresdata
       persistentVolumeClaim:

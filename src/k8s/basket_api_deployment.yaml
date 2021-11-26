@@ -84,7 +84,7 @@ spec:
           volumeMounts:
             - mountPath: /basketwork/Services/Basket/Basket.Api/
               name: basketapiclaim0
-      restartPolicy: Always
+      restartPolicy: Never #Always
       volumes:
         - name: basketapiclaim0
           persistentVolumeClaim:
