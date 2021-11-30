@@ -15,8 +15,8 @@ using StackExchange.Redis;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Discount.Grpc.Protos;
-using Basket.Api.GrpcServices;
+//using Discount.Grpc.Protos;
+//using Basket.Api.GrpcServices;
 using Basket.Api.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
@@ -60,7 +60,7 @@ namespace Basket.Api
               options.ApiVersionReader = new HeaderApiVersionReader("api-version");
           });
 
-            services.AddMyGrpcClient(Configuration);
+            //    services.AddMyGrpcClient(Configuration);
             //  services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
@@ -119,18 +119,18 @@ namespace Basket.Api
 
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
-        {
-            Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
-            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
-            {
-                opt.Address = new Uri(config["grpcServiceUrl"]);
+        // public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
+        // {
+        //     Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
+        //     services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
+        //     {
+        //         opt.Address = new Uri(config["grpcServiceUrl"]);
 
-            });
-            services.AddScoped<DiscountGrpcService>();
+        //     });
+        //     services.AddScoped<DiscountGrpcService>();
 
-            return services;
-        }
+        //     return services;
+        // }
 
         public static IServiceCollection AddMyMassTransit(this IServiceCollection services, IConfiguration config)
         {

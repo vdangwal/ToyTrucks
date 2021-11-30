@@ -13,6 +13,11 @@
             "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\CleanWorkspace.bat"
         },
         {
+            "label": "restore",
+            "type": "shell",
+            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\restoreWorkspace.bat"
+        },
+        {
             "type": "docker-build",
             "label": "docker-build: debug",
             "dependsOn": [
