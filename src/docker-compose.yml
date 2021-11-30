@@ -1,8 +1,5 @@
-version: '3.4'
 # docker build -t temp_catalog_api -f services/catalog/catalog.api/Dockerfile .  THis creates an image from the src dir...
-
-
-
+version: '3.4'
 
 services:
   catalogdb:
@@ -91,25 +88,6 @@ services:
       - basketdb #basket_redis_db
       - rabbitmq
 
-  discount_grpc:
-    container_name: discount_grpc
-    build:
-      context: ./Services/Discount/Discount.Grpc
-      target: debug
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "catalogdb"
-      POSTGRES_DB: "discountdb"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PORT: "5432"
-      POSTGRES_PASSWORD: "password"
-    ports:
-      - 3506:80
-    volumes:
-      - ./Services/Discount/Discount.Grpc/:/discountgrpcwork/
-    depends_on:
-      - catalogdb
-
   order_api:
     container_name: order_api
     build:
@@ -149,9 +127,9 @@ services:
     ports:
       - "8000:80"
       - "8001:443"
-    volumes:
-      - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-      - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
+      # volumes:
+      #   - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+      #   - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
     depends_on:
       - catalog_api
       - order_api
@@ -174,44 +152,9 @@ services:
       - basket_api
 
 volumes:
-  order_mongo_data: null
-  basket_redis_data: null
-  catalog_postgres_data: null
-    # shopping_aggregator:
-    #   container_name: shopping_aggregator
-    #   build:
-    #     context: .
-    #     dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
-    #     target: debug
-    #   environment: 
-    #     ASPNETCORE_ENVIRONMENT: Development
-    #     "ApiSettings:CatalogUrl": "http://catalog_api"
-    #   ports:
-    #     - 5005:80
-    #   depends_on: 
-    #     - catalog_api
-    #     - inventory_api
-    #     - order_api
-    #     - basket_api
-
-    # pgadmin:
-    #   container_name: pgadmin
-    #   image: dpage/pgadmin4
-    #   environment: 
-    #     #POSTGRES_DB: ""
-    #     PGADMIN_DEFAULT_EMAIL: "admin@turkish.com"
-    #     PGADMIN_DEFAULT_PASSWORD: "password"
-    #   ports: 
-    #     - 5050:80
-    #   volumes:
-    #     - pgadmin_data:/root/.pgadmin
-
-    # portainer:
-    #   image: portainer/portainer-ce
-    #   container_name: portainer
-    #   ports:
-    #     - 8080:8000
-    #     - 8090:9000
-    #   volumes: 
-    #     - /var/run/docker.sock:/var/run/docker.sock
-    #     - portainer_data:/data
+  order_mongo_data:
+    name: order_mongo_data
+  basket_redis_data:
+    name: basket_redis_data
+  catalog_postgres_data:
+    name: catalog_postgres_data
