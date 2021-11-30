@@ -60,7 +60,7 @@ services:
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       OutOfStockQueue: "outofstock-queue"
       InventoryUpdatedQueue: "inventoryupdated-queue"
-
+      IdentityUri: "https://identity_service/"
     ports:
       - 3500:80
     volumes:
@@ -80,6 +80,7 @@ services:
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       BasketUpdatedQueue: "basketinventoryupdated-queue"
       RedisServerUrl: "basketdb"
+      IdentityUri: "https://identity_service/"
     ports:
       - 3502:443
     volumes:
@@ -102,6 +103,7 @@ services:
       MONGO_PORT: "27017"
       MONGO_DB: "OrderDb"
       MONGO_COLLECTION: "Orders"
+      IdentityUri: "https://identity_service/"
     ports:
       - 3508:80
     volumes:
@@ -124,6 +126,7 @@ services:
       ASPNETCORE_URLS: "https://+;http://+"
       ASPNETCORE_HTTPS_PORT: "8001"
       ASPNETCORE_ENVIRONMENT: Development
+      IdentityUri: "https://identity_service/"
     ports:
       - "8000:80"
       - "8001:443"
@@ -144,12 +147,25 @@ services:
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docked
+      IdentityUri: "https://identity_service/"
     ports:
       - 8010:80
     depends_on:
       - catalog_api
       - order_api
       - basket_api
+
+  identity_service:
+    container_name: identity_service
+    build:
+      context: .
+      dockerfile: Security/Identity/Dockerfile
+      target: debug
+    environment:
+      ASPNETCORE_ENVIRONMENT: Local
+      FrontEndUri: mvc_frontend
+    ports:
+      - 3520:80
 
 volumes:
   order_mongo_data:
