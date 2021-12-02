@@ -56,14 +56,6 @@ services:
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
-      POSTGRES_SERVER: "catalogdb"
-      POSTGRES_DB: "catalogdb"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      OutOfStockQueue: "outofstock-queue"
-      InventoryUpdatedQueue: "inventoryupdated-queue"
-      IdentityUri: "http://identity_service/"
     ports:
       - 3500:80
     volumes:
@@ -79,11 +71,6 @@ services:
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
-      grpcServiceUrl: "http://discount_grpc:80"
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      BasketUpdatedQueue: "basketinventoryupdated-queue"
-      RedisServerUrl: "basketdb"
-      IdentityUri: "http://identity_service/"
     ports:
       - 3502:443
     volumes:
@@ -100,13 +87,6 @@ services:
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      BasketCheckoutQueue: "basketcheckout-queue"
-      MONGO_SERVER: "orderdb"
-      MONGO_PORT: "27017"
-      MONGO_DB: "OrderDb"
-      MONGO_COLLECTION: "Orders"
-      IdentityUri: "http://identity_service/"
     ports:
       - 3508:80
     volumes:
@@ -123,14 +103,10 @@ services:
       dockerfile: Frontends/Mvc/Web/Dockerfile
       target: debug
     environment:
-      TruckCatalogUri: "http://ocelot_api/trucks/"
-      BasketUri: "http://ocelot_api/basket/"
-      OrdersUri: "http://ocelot_api/orders/"
       #ASPNETCORE_URLS: "https://+;http://+"
       ASPNETCORE_URLS: "http://+"
       #ASPNETCORE_HTTPS_PORT: "8001"
       ASPNETCORE_ENVIRONMENT: Docker
-      IdentityUri: "http://identity_service/"
     ports:
       - "8000:80"
       # - "8001:443"
@@ -151,7 +127,6 @@ services:
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
-      IdentityUri: "http://identity_service/"
     ports:
       - 8010:80
     depends_on:
@@ -167,8 +142,6 @@ services:
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Local
-      #FrontEndUri: mvc_frontend
-      FrontEndUri: "http://mvc_frontend/"
     ports:
       - 3520:80
 

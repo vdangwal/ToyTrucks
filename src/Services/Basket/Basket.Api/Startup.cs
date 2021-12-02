@@ -62,8 +62,6 @@ namespace Basket.Api
             //  services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
-            //  services.AddHttpClient<ITruckCatalogApiService, TruckCatalogApiService>(c =>
-            //c.BaseAddress = new Uri(Configuration["TruckCatalogUri"]));
 
             services.AddSingleton<ConnectionMultiplexer>(sp =>
             {
@@ -77,8 +75,6 @@ namespace Basket.Api
             System.Console.WriteLine($"BAsket Service useAuth = {Configuration["UseOAuth"]}");
             if (Configuration["UseOAuth"] == "true")
             {
-
-
                 var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
                   .RequireAuthenticatedUser()
                   .Build();

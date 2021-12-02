@@ -31,6 +31,7 @@ namespace OcelotApi
         {
             services.AddHttpClient();
 
+            System.Console.WriteLine($"Ocelot useAuth = {_config["UseOAuth"]}");
             if (_config["UseOAuth"] == "true")
             {
                 services.AddAccessTokenManagement();
