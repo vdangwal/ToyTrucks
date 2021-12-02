@@ -9,11 +9,13 @@ using EventBus.Messages.Events;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Basket.Api.Helpers;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
 
 namespace Basket.Api.Controllers
 {
@@ -27,13 +29,14 @@ namespace Basket.Api.Controllers
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<BasketController> _logger;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
         private readonly TokenExchangeService _tokenExchangeService;
 
         public BasketController(
             ILogger<BasketController> logger,
             IBasketRepository repository,
             //IIdentityService identityService,
-            IPublishEndpoint publishEndpoint, IMapper mapper, TokenExchangeService tokenExchangeService)
+            IPublishEndpoint publishEndpoint, IMapper mapper, TokenExchangeService tokenExchangeService, IConfiguration config)
         {
             _logger = logger;
             _repository = repository;
@@ -41,6 +44,7 @@ namespace Basket.Api.Controllers
             _publishEndpoint = publishEndpoint;
             _mapper = mapper;
             _tokenExchangeService = tokenExchangeService;
+            _config = config;
         }
 
         [HttpGet("{id}")]
@@ -109,9 +113,12 @@ namespace Basket.Api.Controllers
             // ordering.api to convert basket to order and proceeds with
             // order creation process
 
-            var incomingToken = await HttpContext.GetTokenAsync("access_token");
-            var accessTokenForOrders = await _tokenExchangeService.GetTokenAsync(incomingToken, "orders.fullaccess");
-            eventMessage.SecurityContext.AccessToken = accessTokenForOrders;
+            if (_config["UseOAuth"] == "true")
+            {
+                var incomingToken = await HttpContext.GetTokenAsync("access_token");
+                var accessTokenForOrders = await _tokenExchangeService.GetTokenAsync(incomingToken, "orders.fullaccess");
+                eventMessage.SecurityContext.AccessToken = accessTokenForOrders;
+            }
             eventMessage.CreationDateTime = DateTime.Now;
             try
             {

@@ -12,6 +12,8 @@ services:
       - 5432:5432
     volumes:
       - catalog_postgres_data:/data/catalogdb
+    logging:
+      driver: none
 
   orderdb:
     image: mongo
@@ -31,6 +33,8 @@ services:
       - "6379:6379"
     volumes:
       - basket_redis_data:/data/basketdb
+    logging:
+      driver: none
 
   rabbitmq:
     container_name: rabbitmq
@@ -42,7 +46,6 @@ services:
       - "5672:5672"
       - "15672:15672"
     logging:
-      # turns off logging
       driver: none
 
   catalog_api:
@@ -52,7 +55,7 @@ services:
       dockerfile: Services/Catalog/Catalog.Api/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       POSTGRES_SERVER: "catalogdb"
       POSTGRES_DB: "catalogdb"
       POSTGRES_USER: "marcus"
@@ -75,7 +78,7 @@ services:
       dockerfile: Services/Basket/Basket.Api/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       grpcServiceUrl: "http://discount_grpc:80"
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       BasketUpdatedQueue: "basketinventoryupdated-queue"
@@ -96,7 +99,7 @@ services:
       dockerfile: Services/Orders/Orders.Api/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
       BasketCheckoutQueue: "basketcheckout-queue"
       MONGO_SERVER: "orderdb"
@@ -126,7 +129,7 @@ services:
       #ASPNETCORE_URLS: "https://+;http://+"
       ASPNETCORE_URLS: "http://+"
       #ASPNETCORE_HTTPS_PORT: "8001"
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       IdentityUri: "http://identity_service/"
     ports:
       - "8000:80"
@@ -147,7 +150,7 @@ services:
       dockerfile: ApiGateways/OcelotApi/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Docked
+      ASPNETCORE_ENVIRONMENT: Docker
       IdentityUri: "http://identity_service/"
     ports:
       - 8010:80

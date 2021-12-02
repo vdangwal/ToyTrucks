@@ -47,10 +47,8 @@ namespace Basket.Api
             services.AddScoped<TokenExchangeService>();
             services.AddTransient<IIdentityService, IdentityService>();
 
-
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
-
 
             services.AddApiVersioning(options =>
           {
@@ -76,22 +74,31 @@ namespace Basket.Api
 
                 return ConnectionMultiplexer.Connect(configuration);
             });
-
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-              .RequireAuthenticatedUser()
-              .Build();
-
-            var builder = services.AddControllers(options =>
+            System.Console.WriteLine($"BAsket Service useAuth = {Configuration["UseOAuth"]}");
+            if (Configuration["UseOAuth"] == "true")
             {
-                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
-            });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+
+                var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
+
+                var builder = services.AddControllers(options =>
                 {
-                    options.Audience = "basket";
-                    options.Authority = Configuration["IdentityServerUrl"];
+                    options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
                 });
+
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.Audience = "basket";
+                        options.Authority = Configuration["IdentityServerUrl"];
+                    });
+            }
+            else
+            {
+                services.AddControllers();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -106,7 +113,10 @@ namespace Basket.Api
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
+            if (Configuration["UseOAuth"] == "true")
+            {
+                app.UseAuthentication();
+            }
             app.UseAuthorization();
 
 

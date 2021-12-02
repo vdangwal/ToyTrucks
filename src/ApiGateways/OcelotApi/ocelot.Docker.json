@@ -205,6 +205,6 @@
         }
     ],
     "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5555"
+        "BaseUrl": "http://localhost:6666"
     }
 }

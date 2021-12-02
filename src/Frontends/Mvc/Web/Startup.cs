@@ -27,25 +27,14 @@ namespace Web
             _environment = environment;
         }
 
-        public IConfiguration Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor();
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-              .RequireAuthenticatedUser()
-              .Build();
 
-            var builder = services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
-            });
 
-            if (_environment.IsDevelopment())
-            {
-                builder.AddRazorRuntimeCompilation();
-            }
+
             services.AddSession(config =>
             {
                 config.IdleTimeout = TimeSpan.FromSeconds(20);
@@ -67,28 +56,54 @@ namespace Web
                 c.BaseAddress = new Uri(_config["OrdersUri"]);
             }).AddUserAccessTokenHandler();
 
-
+            services.AddHttpContextAccessor();
             services.AddSingleton<Settings>();
+            System.Console.WriteLine($"FrontEnd useAuth = {_config["UseOAuth"]}");
+            if (_config["UseOAuth"] == "true")
+            {
 
-            services.AddAuthentication(options =>
-           {
-               options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-               options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-           }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-           .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
-           {
-               options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-               options.Authority = _config["IdentityUri"];// "https://localhost:5010/";
-               options.ClientId = "hesstoytrucks";
-               options.ResponseType = "code";
-               options.SaveTokens = true;
-               options.ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0";
-               options.GetClaimsFromUserInfoEndpoint = true;
-               options.Scope.Add("hesstoysgateway.fullaccess");
-               options.Scope.Add("basket.fullaccess");
-               // options.Scope.Add("offline_access");
-               // options.Scope.Add("catalog.read");
-           });
+                var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
+
+                var builder = services.AddControllersWithViews(options =>
+                {
+                    options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                });
+                if (_environment.IsDevelopment())
+                {
+                    builder.AddRazorRuntimeCompilation();
+                }
+
+                services.AddAuthentication(options =>
+               {
+                   options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                   options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+               }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+               {
+                   options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                   options.Authority = _config["IdentityUri"];// "https://localhost:5010/";
+                   options.ClientId = "hesstoytrucks";
+                   options.ResponseType = "code";
+                   options.SaveTokens = true;
+                   options.ClientSecret = "3322cccf-b6ff-4558-aefb-6c159cd566a0";
+                   options.GetClaimsFromUserInfoEndpoint = true;
+                   options.Scope.Add("hesstoysgateway.fullaccess");
+                   options.Scope.Add("basket.fullaccess");
+                   // options.Scope.Add("offline_access");
+                   // options.Scope.Add("catalog.read");
+               });
+            }
+            else
+            {
+                var builder = services.AddControllersWithViews();
+
+                if (_environment.IsDevelopment())
+                {
+                    builder.AddRazorRuntimeCompilation();
+                }
+            }
 
         }
 
@@ -110,8 +125,10 @@ namespace Web
 
             app.UseRouting();
             app.UseSession();
-
-            app.UseAuthentication();
+            if (_config["UseOAuth"] == "true")
+            {
+                app.UseAuthentication();
+            }
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
