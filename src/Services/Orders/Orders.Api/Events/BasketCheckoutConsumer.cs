@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.Extensions.Configuration;
 using Orders.Api.Services;
 using Orders.Api.Models;
 using EventBus.Messages.Events;
@@ -20,24 +20,30 @@ namespace Orders.Api.Entities
         private readonly ILogger<BasketCheckoutConsumer> _logger;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly TokenValidationService _tokenValidationService;
+        private readonly IConfiguration _config;
 
-        public BasketCheckoutConsumer(IMapper mapper, ILogger<BasketCheckoutConsumer> logger, IOrdersRepository service, IPublishEndpoint publishEndpoint, TokenValidationService tokenValidationService)
+        public BasketCheckoutConsumer(IMapper mapper, ILogger<BasketCheckoutConsumer> logger, IOrdersRepository service, IPublishEndpoint publishEndpoint, TokenValidationService tokenValidationService, IConfiguration config)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
             _tokenValidationService = tokenValidationService;
+            _config = config;
         }
 
         public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
         {
             var basketCheckoutDetails = (BasketCheckoutEvent)context.Message;
 
-            if (!await _tokenValidationService.ValidateTokenAsync(basketCheckoutDetails.SecurityContext.AccessToken, basketCheckoutDetails.CreationDateTime))
+            if (_config["UseOAuth"] == "true")
             {
-                _logger.LogError("Token is not valid! Order was not completed.");
-                return;
+
+                if (!await _tokenValidationService.ValidateTokenAsync(basketCheckoutDetails.SecurityContext.AccessToken, basketCheckoutDetails.CreationDateTime))
+                {
+                    _logger.LogError("Token is not valid! Order was not completed.");
+                    return;
+                }
             }
             var order = new Order
             {

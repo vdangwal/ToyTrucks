@@ -1,8 +1,5 @@
-version: '3.4'
 # docker build -t temp_catalog_api -f services/catalog/catalog.api/Dockerfile .  THis creates an image from the src dir...
-
-
-
+version: '3.4'
 
 services:
   catalogdb:
@@ -15,6 +12,8 @@ services:
       - 5432:5432
     volumes:
       - catalog_postgres_data:/data/catalogdb
+    logging:
+      driver: none
 
   orderdb:
     image: mongo
@@ -34,6 +33,8 @@ services:
       - "6379:6379"
     volumes:
       - basket_redis_data:/data/basketdb
+    logging:
+      driver: none
 
   rabbitmq:
     container_name: rabbitmq
@@ -45,7 +46,6 @@ services:
       - "5672:5672"
       - "15672:15672"
     logging:
-      # turns off logging
       driver: none
 
   catalog_api:
@@ -55,15 +55,7 @@ services:
       dockerfile: Services/Catalog/Catalog.Api/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "catalogdb"
-      POSTGRES_DB: "catalogdb"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PASSWORD: "password"
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      OutOfStockQueue: "outofstock-queue"
-      InventoryUpdatedQueue: "inventoryupdated-queue"
-
+      ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - 3500:80
     volumes:
@@ -78,11 +70,7 @@ services:
       dockerfile: Services/Basket/Basket.Api/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      grpcServiceUrl: "http://discount_grpc:80"
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      BasketUpdatedQueue: "basketinventoryupdated-queue"
-      RedisServerUrl: "basketdb"
+      ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - 3502:443
     volumes:
@@ -91,25 +79,6 @@ services:
       - basketdb #basket_redis_db
       - rabbitmq
 
-  discount_grpc:
-    container_name: discount_grpc
-    build:
-      context: ./Services/Discount/Discount.Grpc
-      target: debug
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      POSTGRES_SERVER: "catalogdb"
-      POSTGRES_DB: "discountdb"
-      POSTGRES_USER: "marcus"
-      POSTGRES_PORT: "5432"
-      POSTGRES_PASSWORD: "password"
-    ports:
-      - 3506:80
-    volumes:
-      - ./Services/Discount/Discount.Grpc/:/discountgrpcwork/
-    depends_on:
-      - catalogdb
-
   order_api:
     container_name: order_api
     build:
@@ -117,13 +86,7 @@ services:
       dockerfile: Services/Orders/Orders.Api/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      EventBusAddress: "amqp://guest:guest@rabbitmq:5672"
-      BasketCheckoutQueue: "basketcheckout-queue"
-      MONGO_SERVER: "orderdb"
-      MONGO_PORT: "27017"
-      MONGO_DB: "OrderDb"
-      MONGO_COLLECTION: "Orders"
+      ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - 3508:80
     volumes:
@@ -140,18 +103,16 @@ services:
       dockerfile: Frontends/Mvc/Web/Dockerfile
       target: debug
     environment:
-      TruckCatalogUri: "http://ocelot_api/trucks/"
-      BasketUri: "http://ocelot_api/basket/"
-      OrdersUri: "http://ocelot_api/orders/"
-      ASPNETCORE_URLS: "https://+;http://+"
-      ASPNETCORE_HTTPS_PORT: "8001"
-      ASPNETCORE_ENVIRONMENT: Development
+      #ASPNETCORE_URLS: "https://+;http://+"
+      ASPNETCORE_URLS: "http://+"
+      #ASPNETCORE_HTTPS_PORT: "8001"
+      ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - "8000:80"
-      - "8001:443"
-    volumes:
-      - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-      - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
+      # - "8001:443"
+      # volumes:
+      #   - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+      #   - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
     depends_on:
       - catalog_api
       - order_api
@@ -165,7 +126,7 @@ services:
       dockerfile: ApiGateways/OcelotApi/Dockerfile
       target: debug
     environment:
-      ASPNETCORE_ENVIRONMENT: Docked
+      ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - 8010:80
     depends_on:
@@ -173,45 +134,21 @@ services:
       - order_api
       - basket_api
 
+  identity_service:
+    container_name: identity_service
+    build:
+      context: .
+      dockerfile: Security/Identity/Dockerfile
+      target: debug
+    environment:
+      ASPNETCORE_ENVIRONMENT: Local
+    ports:
+      - 3520:80
+
 volumes:
-  order_mongo_data: null
-  basket_redis_data: null
-  catalog_postgres_data: null
-    # shopping_aggregator:
-    #   container_name: shopping_aggregator
-    #   build:
-    #     context: .
-    #     dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
-    #     target: debug
-    #   environment: 
-    #     ASPNETCORE_ENVIRONMENT: Development
-    #     "ApiSettings:CatalogUrl": "http://catalog_api"
-    #   ports:
-    #     - 5005:80
-    #   depends_on: 
-    #     - catalog_api
-    #     - inventory_api
-    #     - order_api
-    #     - basket_api
-
-    # pgadmin:
-    #   container_name: pgadmin
-    #   image: dpage/pgadmin4
-    #   environment: 
-    #     #POSTGRES_DB: ""
-    #     PGADMIN_DEFAULT_EMAIL: "admin@turkish.com"
-    #     PGADMIN_DEFAULT_PASSWORD: "password"
-    #   ports: 
-    #     - 5050:80
-    #   volumes:
-    #     - pgadmin_data:/root/.pgadmin
-
-    # portainer:
-    #   image: portainer/portainer-ce
-    #   container_name: portainer
-    #   ports:
-    #     - 8080:8000
-    #     - 8090:9000
-    #   volumes: 
-    #     - /var/run/docker.sock:/var/run/docker.sock
-    #     - portainer_data:/data
+  order_mongo_data:
+    name: order_mongo_data
+  basket_redis_data:
+    name: basket_redis_data
+  catalog_postgres_data:
+    name: catalog_postgres_data

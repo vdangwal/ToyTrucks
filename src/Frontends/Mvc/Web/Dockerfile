@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS debug
 # ENV ASPNETCORE_URLS=http://+:80  
-ENV ASPNETCORE_URLS=https://+:443  
+#ENV ASPNETCORE_URLS=https://+:443  
 RUN apt-get update
 RUN apt-get install -y unzip
 # dls a sh script from ../getvsdbgsh and pipes it to /bin/sh for execution and provides a few arguments, most importantly the /vsdbg which is where the remote debugger will be extracted to

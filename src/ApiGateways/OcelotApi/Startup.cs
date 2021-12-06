@@ -29,25 +29,34 @@ namespace OcelotApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAccessTokenManagement();
-            // sub => http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            var authenticationScheme = "GloboTicketGatewayAuthenticationScheme";
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                   .AddJwtBearer(authenticationScheme, options =>
-                   {
-                       options.Authority = _config["IdentityUri"];// "https://localhost:5010";
-                       options.Audience = "hesstoysgateway";
-                   });
-
             services.AddHttpClient();
-            services.AddScoped<TokenExchangeDelegatingHandler>();
 
-            services.AddOcelot()
-            .AddDelegatingHandler<TokenExchangeDelegatingHandler>();
+            System.Console.WriteLine($"Ocelot useAuth = {_config["UseOAuth"]}");
+            if (_config["UseOAuth"] == "true")
+            {
+                services.AddAccessTokenManagement();
+                // sub => http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier
+
+                JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+                var authenticationScheme = "GloboTicketGatewayAuthenticationScheme";
+
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                       .AddJwtBearer(authenticationScheme, options =>
+                       {
+                           options.Authority = _config["IdentityUri"];// "https://localhost:5010";
+                           options.Audience = "hesstoysgateway";
+                       });
+
+                services.AddScoped<TokenExchangeDelegatingHandler>();
+
+                services.AddOcelot()
+                .AddDelegatingHandler<TokenExchangeDelegatingHandler>();
+            }
+            else
+            {
+                services.AddOcelot();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -36,25 +36,11 @@ namespace Catalog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-                           .RequireAuthenticatedUser()
-                           .Build();
-
-            services.AddControllers(configure =>
-            {
-                configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
-            });
 
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EventDto Catalog API", Version = "v1" });
-            });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = Configuration["IdentityServerUrl"];
-                    options.Audience = "catalog";
-                });
+       {
+           c.SwaggerDoc("v1", new OpenApiInfo { Title = "EventDto Catalog API", Version = "v1" });
+       });
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
@@ -76,11 +62,33 @@ namespace Catalog.Api
             {
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
-            // services.AddAuthorization(options =>
-            // {
-            //     options.AddPolicy("CanRead",
-            //     policy => policy.RequireClaim("scope", "catalog.read"));
-            // });
+
+            System.Console.WriteLine($"Catalog Service useAuth = {Configuration["UseOAuth"]}");
+
+            if (Configuration["UseOAuth"] == "true")
+            {
+                var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                           .RequireAuthenticatedUser()
+                           .Build();
+
+                services.AddControllers(configure =>
+                {
+                    configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                });
+
+
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.Authority = Configuration["IdentityServerUrl"];
+                        options.Audience = "catalog";
+                    });
+
+            }
+            else
+            {
+                services.AddControllers();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,7 +104,10 @@ namespace Catalog.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthentication();
+            if (Configuration["UseOAuth"] == "true")
+            {
+                app.UseAuthentication();
+            }
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
