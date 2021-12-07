@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: basketapi-service
+spec:
+  selector:
+    app: basketapi-pod
+  ports:
+    - name: "bingo2"
+      port: 14002
+      targetPort: 80
+  type: LoadBalancer

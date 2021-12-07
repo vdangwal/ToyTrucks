@@ -45,6 +45,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
     logging:
       driver: none
 
@@ -158,3 +160,5 @@ volumes:
     name: basket_redis_data
   catalog_postgres_data:
     name: catalog_postgres_data
+  rabbitmqdata:
+    name: rabbitmqdata
