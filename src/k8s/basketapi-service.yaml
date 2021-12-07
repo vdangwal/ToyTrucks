@@ -5,8 +5,9 @@ metadata:
 spec:
   selector:
     app: basketapi-pod
+  type: NodePort
   ports:
     - name: "bingo2"
       port: 14002
       targetPort: 80
-  type: LoadBalancer
+      nodePort: 30006

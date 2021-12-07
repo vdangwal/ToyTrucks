@@ -5,8 +5,9 @@ metadata:
 spec:
   selector:
     app: orderapi-pod
+  type: NodePort
   ports:
     - name: "bingo3"
       port: 14004
       targetPort: 80
-  type: LoadBalancer
+      nodePort: 30007

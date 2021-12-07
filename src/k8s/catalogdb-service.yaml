@@ -5,8 +5,9 @@ metadata:
 spec:
   selector:
     app: catalogdb-pod
+  type: NodePort
   ports:
     - name: "postgresbaby"
       port: 5432
       targetPort: 5432
-  type: LoadBalancer
+      nodePort: 30002

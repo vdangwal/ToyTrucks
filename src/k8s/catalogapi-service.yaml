@@ -5,8 +5,9 @@ metadata:
 spec:
   selector:
     app: catalogapi-pod
+  type: NodePort
   ports:
     - name: "bingo"
       port: 14000
       targetPort: 80
-  type: LoadBalancer
+      nodePort: 30005
