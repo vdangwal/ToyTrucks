@@ -144,5 +144,18 @@ namespace Web.Services
                 _logger.LogWarning($"No basket item found with id of {basketLineForUpdate.LineId}");
             }
         }
+
+        public async Task<bool> HasLineItems(string basketId)
+        {
+            if (string.IsNullOrWhiteSpace(basketId))
+            {
+                basketId = CreateBasketCookie();
+            }
+            var response = await _client.GetAsync($"api/v1/basket/{basketId}");
+
+            var basket = await response.ReadContentAs<CustomerBasket>();
+
+            return basket.Items.Any();
+        }
     }
 }

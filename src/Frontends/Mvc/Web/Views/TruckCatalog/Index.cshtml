@@ -41,6 +41,9 @@
     }
 </div>
 
-@section Widget{
+@if (Model.NumberOfItems > 0)
+{
+    @section Widget{
 <partial name="_BasketWidget" model="@Model.NumberOfItems" />
+}
 }

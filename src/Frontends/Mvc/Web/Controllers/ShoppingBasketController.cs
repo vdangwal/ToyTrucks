@@ -111,6 +111,10 @@ namespace Web.Controllers
             {
                 var basketId = Request.Cookies.GetCurrentBasketId(_settings);
                 await _basketService.RemoveLine(basketId, lineId);
+                if (!await _basketService.HasLineItems(basketId))
+                {
+                    return RedirectToAction("Index", "TruckCatalog");
+                }
             }
             return RedirectToAction("Index");
         }
