@@ -55,7 +55,6 @@ namespace OcelotApi.DelegatingHandlers
                     "Bearer",
                     await GetAccessToken(incomingToken));
 
-
             //// exchange it
             //var newToken = await ExchangeToken(incomingToken);
 
