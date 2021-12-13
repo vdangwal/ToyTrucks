@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using MassTransit;
 using Catalog.Api.Events;
+using EventBus.Messages.Common;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -154,7 +155,8 @@ namespace Catalog.Api
 
         public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
         {
-
+            var queueSettingsSection = new QueueSettings();
+            config.Bind("RabbitMQ:QueueSettings", queueSettingsSection);
 
             services.AddMassTransit(configuration =>
             {
@@ -162,7 +164,15 @@ namespace Catalog.Api
                 configuration.AddConsumer<InventoryToUpdateConsumer>();
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host(config["EventBusAddress"]);
+                    // cfg.Host(config["EventBusAddress"]);
+                    cfg.Host(queueSettingsSection.HostName, queueSettingsSection.VirtualHost,
+                 //cfg.Host("localhost", queueSettingsSection.VirtualHost,
+                 cg =>
+                 {
+                     cg.Username(queueSettingsSection.UserName);
+                     cg.Password(queueSettingsSection.Password);
+                 });
+                    // cfg.ExchangeType = ExchangeType.Direct;
                     cfg.ReceiveEndpoint(config["OutOfStockQueue"], c =>
                     {
                         c.ConfigureConsumer<InventorySoldOutConsumer>(ctx);

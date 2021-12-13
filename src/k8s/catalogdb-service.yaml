@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogdb-service
+spec:
+  selector:
+    app: catalogdb-pod
+  type: NodePort
+  ports:
+    - name: "postgresbaby"
+      port: 5432
+      targetPort: 5432
+      nodePort: 30002

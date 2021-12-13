@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderapi-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orderapi-pod
+  template:
+    metadata:
+      labels:
+        app: orderapi-pod
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Kubernetes
+          image: hesstrucks/orderapi:1.0
+          name: orderapi-container
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+      restartPolicy: Always

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigateway-pod
+  template:
+    metadata:
+      labels:
+        app: apigateway-pod
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Kubernetes
+          image: hesstrucks/apigateway:1.0
+          name: apigateway-container
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+      restartPolicy: Always

@@ -45,10 +45,13 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
     logging:
       driver: none
 
   catalog_api:
+    image: hesstrucks/catalogapi:1.0
     container_name: catalog_api
     build:
       context: .
@@ -64,6 +67,7 @@ services:
       - catalogdb
 
   basket_api:
+    image: hesstrucks/basketapi:1.0
     container_name: basket_api
     build:
       context: .
@@ -80,6 +84,7 @@ services:
       - rabbitmq
 
   order_api:
+    image: hesstrucks/orderapi:1.0
     container_name: order_api
     build:
       context: .
@@ -97,6 +102,7 @@ services:
       - orderdb
 
   mvc_frontend:
+    image: hesstrucks/mvcfrontend:1.0
     container_name: mvc_frontend
     build:
       context: .
@@ -120,6 +126,7 @@ services:
       - ocelot_api
 
   ocelot_api:
+    image: hesstrucks/apigateway:1.0
     container_name: ocelot_api
     build:
       context: .
@@ -135,6 +142,7 @@ services:
       - basket_api
 
   identity_service:
+    image: hesstrucks/identityservice:1.0
     container_name: identity_service
     build:
       context: .
@@ -152,3 +160,5 @@ volumes:
     name: basket_redis_data
   catalog_postgres_data:
     name: catalog_postgres_data
+  rabbitmqdata:
+    name: rabbitmqdata
