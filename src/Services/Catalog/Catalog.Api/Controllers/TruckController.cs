@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-// using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Api.Controllers
 {
@@ -117,7 +116,6 @@ namespace Catalog.Api.Controllers
             if (truckDto == null)
                 return BadRequest();
             var truck = _mapper.Map<Entities.Truck>(truckDto);
-            //_service.UpdateTruck(truck);
             if (await _service.UpdateTruck(truck))
                 return Ok();
             else

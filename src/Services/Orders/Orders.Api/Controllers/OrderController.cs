@@ -66,19 +66,7 @@ namespace Orders.Api.Controllers
             var orders = await _service.GetOrdersAsync();
             var ordersToReturn = _mapper.Map<IEnumerable<OrderDto>>(orders);
             return Ok(ordersToReturn);
-        }
-
-        // [HttpPost(Name = "CheckoutOrder")]
-        // [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        // [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        // public async Task<ActionResult<int>> CheckoutOrder([FromBody] OrderDto order)
-        // {
-        //     if (order == null)
-        //         return BadRequest();
-        //     var orderDto = _mapper.Map<OrderDto>(order);
-        //     var returnOrder = await _service.AddOrderAsync(orderDto);
-        //     return Ok(returnOrder?.Id);
-        // }
+        } 
 
         [HttpPut(Name = "UpdateOrder")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
