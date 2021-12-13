@@ -7,6 +7,6 @@ spec:
     app: mvcfrontend-pod
   ports:
     - name: "bingo"
-      port: 14000
+      port: 3426
       targetPort: 80
   type: LoadBalancer

@@ -23,7 +23,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Basket.Api.Helpers;
-
+using RabbitMQ.Client;
+using EventBus.Messages.Common;
 namespace Basket.Api
 {
     public class Startup
@@ -140,7 +141,8 @@ namespace Basket.Api
 
         public static IServiceCollection AddMyMassTransit(this IServiceCollection services, IConfiguration config)
         {
-            Console.WriteLine($"EventBusAddress: {config["EventBusAddress"]}");
+            var queueSettingsSection = new QueueSettings();
+            config.Bind("RabbitMQ:QueueSettings", queueSettingsSection);
 
             services.AddMassTransit(configuration =>
             {
@@ -148,7 +150,25 @@ namespace Basket.Api
                 //create new service bus
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host(config["EventBusAddress"]);
+                    //       var rabbitUri = $"amqp://{queueSettingsSection["UserName"]}:{queueSettingsSection["Password"]}@{queueSettingsSection["HostName"]}:{queueSettingsSection["Port"]}{queueSettingsSection["VirtualHost"]}";
+                    //cfg.Host(rabbitUri);//config["EventBusAddress"]);
+                    cfg.Host(queueSettingsSection.HostName, queueSettingsSection.VirtualHost,
+                 //cfg.Host("localhost", queueSettingsSection.VirtualHost,
+                 cg =>
+                 {
+                     cg.Username(queueSettingsSection.UserName);
+                     cg.Password(queueSettingsSection.Password);
+                 });
+                    // cfg.ExchangeType = ExchangeType.Direct;
+
+
+                    // cfg.Host(queueSettingsSection["HostName"], queueSettingsSection["Port"],
+                    // cfg =>
+                    // {
+                    //     cfg.Username(queueSettingsSection["UserName"]);
+                    //     cfg.Password(queueSettingsSection["Password"]);
+                    // });
+                    // cfg.ExchangeType = ExchangeType.Direct;
                     cfg.ReceiveEndpoint(config["BasketUpdatedQueue"], c =>
                    {
                        c.ConfigureConsumer<UpdatedInventoryConsumer>(ctx);

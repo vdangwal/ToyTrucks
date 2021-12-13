@@ -13,7 +13,7 @@ dotnet build .\src\Services\Basket\Basket.Api\
 dotnet build .\src\Services\Orders\Orders.Api\
 dotnet build .\src\Security\Identity\
 @REM dotnet build .\src\Services\Inventory\Inventory.Api\
-dotnet build .\src\ApiGateways\Shopping.Aggregator\
+@REM dotnet build .\src\ApiGateways\Shopping.Aggregator\
 dotnet build .\src\ApiGateways\OcelotApi\
 dotnet build .\src\Frontends\Mvc\Web\
  

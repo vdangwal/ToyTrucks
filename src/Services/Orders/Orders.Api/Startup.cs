@@ -14,7 +14,7 @@ using Microsoft.OpenApi.Models;
 using Orders.Api.DBContexts;
 using Orders.Api.Services;
 using MassTransit;
-
+using EventBus.Messages.Common;
 using Orders.Api.Entities;
 using MongoDB;
 using Orders.Api.Helpers;
@@ -100,6 +100,8 @@ namespace Orders.Api
 
         public static IServiceCollection AddClientMassTransit(this IServiceCollection services, IConfiguration config)
         {
+            var queueSettingsSection = new QueueSettings();
+            config.Bind("RabbitMQ:QueueSettings", queueSettingsSection);
 
 
             services.AddMassTransit(configuration =>
@@ -107,7 +109,15 @@ namespace Orders.Api
                 configuration.AddConsumer<BasketCheckoutConsumer>();
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host(config["EventBusAddress"]);
+                    // cfg.Host(config["EventBusAddress"]);
+                    cfg.Host(queueSettingsSection.HostName, queueSettingsSection.VirtualHost,
+                   //cfg.Host("localhost", queueSettingsSection.VirtualHost,
+                   cg =>
+                   {
+                       cg.Username(queueSettingsSection.UserName);
+                       cg.Password(queueSettingsSection.Password);
+                   });
+                    // cfg.ExchangeType = ExchangeType.Direct;
                     cfg.ReceiveEndpoint(config["BasketCheckoutQueue"], c =>
                     {
                         c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
