@@ -28,13 +28,14 @@
                     <td>
                         <form asp-action="UpdateLine">
                             <input type="hidden" name="LineId" value="@line.LineId" />
-                            <select name="Quantity" class="w-25" asp-for="@line.Quantity">
+                            <input type="hidden" id="LineIdInitialValue" value="@line.Quantity" />
+                            <select name="Quantity" id=QuantitySelector class="w-25" asp-for="@line.Quantity">
                                 @for (int i = 1; i <= @line.TruckQuantity; i++)
                                 {
                                     <option value="@i">@i</option>
                                 }
                             </select>
-                            <button type="submit" class="filterButton">Update</button>
+                            <button id=UpdateQuantity type="submit" class="filterButton">Update</button>
                         </form>
                     </td>
                     <td class="bold big">$@(line.Price * line.Quantity) </td>
@@ -84,8 +85,8 @@
 </table>
 
 <div class="row">
-    <div class="col-9">
-        <h4>Enter your discount code here!</h4>
+     <div class="col-9">
+       @* <h4>Enter your discount code here!</h4>
 
         <form asp-action="ApplyDiscountCode" method="post" class="form-inline" role="form">
 
@@ -93,8 +94,8 @@
             <input type="text" class="form-control mb-2 mr-sm-2" name="Code" placeholder="ABC-123">
             <input type="submit" class="filterButton" value="Apply" />
 
-        </form>
-    </div>
+        </form>*@
+    </div> 
     <div class="col-3">
         <div class="text-center">
             <a class="btn btn-primary" asp-controller="ShoppingBasket" asp-action="Checkout">Check out now!</a>
@@ -106,3 +107,15 @@
         <img class="backIcon" src="~/img/arrow-down.svg" /> Back to truck catalog
     </a>
 </div>
+
+<script type="text/javascript">
+    let input = document.getElementById("QuantitySelector")
+    let button = document.getElementById("UpdateQuantity")
+
+    button.disabled = true
+    input.addEventListener("change", stateHandle)
+
+    function stateHandle() {
+        button.disabled = !(input.value !== document.getElementById("LineIdInitialValue").value)
+    }
+</script>
