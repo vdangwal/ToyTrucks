@@ -28,8 +28,15 @@
                     <td>
                         <form asp-action="UpdateLine">
                             <input type="hidden" name="LineId" value="@line.LineId" />
+<<<<<<< HEAD
                             <input type="hidden" id="initialValue_@line.LineId" value="@line.Quantity" />
                             <select name="Quantity" id="cboQuantitySelector_@line.LineId" class="w-25" 
+=======
+                            <input type="text" id="initialValue_@line.LineId" value="@line.Quantity" />
+
+
+                            <select name="@line.LineId" id="cboQuantitySelector_@line.LineId" class="w-25"
+>>>>>>> de72b44d524d002f24e67f0f8702e4fa6e45cabf
                         asp-for="@line.Quantity">
                                 @for (int i = 1; i <= @line.TruckQuantity; i++)
                                 {
@@ -110,6 +117,7 @@
 </div>
 
 <script type="text/javascript">
+ 
     var inputs = document.querySelectorAll('[id^="cboQuantitySelector_"]')
     let buttons = document.querySelectorAll('[id^="btnUpdateQuantity_"]')
 
@@ -132,4 +140,5 @@
 
     buttons.forEach(button => button.disabled = true)
 
+ 
 </script>
