@@ -27,7 +27,7 @@ namespace Catalog.Api.Services
                 _logger.LogError("Photo to add is null");
                 throw new ArgumentNullException(nameof(photo));
             }
-             await _context.Photos.AddAsync(photo);
+            await _context.Photos.AddAsync(photo);
         }
 
         public async Task<IEnumerable<Photo>> GetPhotosByTruckId(Guid truckId)
@@ -53,8 +53,6 @@ namespace Catalog.Api.Services
                 _logger.LogError("Photo to add is null");
                 throw new ArgumentNullException(nameof(photo));
             }
-            //return Task.CompletedTask;
-            // throw new NotImplementedException();
         }
     }
 }

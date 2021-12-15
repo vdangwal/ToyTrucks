@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,14 +24,9 @@ namespace Web
             _environment = environment;
         }
 
-
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
-
             services.AddSession(config =>
             {
                 config.IdleTimeout = TimeSpan.FromSeconds(20);
@@ -83,7 +75,7 @@ namespace Web
                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                {
                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                   options.Authority = _config["IdentityUri"];// "https://localhost:5010/";
+                   options.Authority = _config["IdentityUri"];
                    options.ClientId = "hesstoytrucks";
                    options.ResponseType = "code";
                    options.SaveTokens = true;
@@ -91,8 +83,6 @@ namespace Web
                    options.GetClaimsFromUserInfoEndpoint = true;
                    options.Scope.Add("hesstoysgateway.fullaccess");
                    options.Scope.Add("basket.fullaccess");
-                   // options.Scope.Add("offline_access");
-                   // options.Scope.Add("catalog.read");
                });
             }
             else

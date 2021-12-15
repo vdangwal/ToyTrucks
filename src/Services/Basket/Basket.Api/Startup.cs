@@ -15,8 +15,6 @@ using StackExchange.Redis;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
-//using Discount.Grpc.Protos;
-//using Basket.Api.GrpcServices;
 using Basket.Api.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
@@ -59,8 +57,6 @@ namespace Basket.Api
               options.ApiVersionReader = new HeaderApiVersionReader("api-version");
           });
 
-            //    services.AddMyGrpcClient(Configuration);
-            //  services.AddMyRedisCache(Configuration);
             services.AddMyMassTransit(Configuration);
 
 
@@ -126,19 +122,6 @@ namespace Basket.Api
 
     public static class ServiceExtensions
     {
-        // public static IServiceCollection AddMyGrpcClient(this IServiceCollection services, IConfiguration config)
-        // {
-        //     Console.WriteLine($"Grpc url: {config["grpcServiceUrl"]}");
-        //     services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
-        //     {
-        //         opt.Address = new Uri(config["grpcServiceUrl"]);
-
-        //     });
-        //     services.AddScoped<DiscountGrpcService>();
-
-        //     return services;
-        // }
-
         public static IServiceCollection AddMyMassTransit(this IServiceCollection services, IConfiguration config)
         {
             var queueSettingsSection = new QueueSettings();
@@ -150,7 +133,7 @@ namespace Basket.Api
                 //create new service bus
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
-                    //       var rabbitUri = $"amqp://{queueSettingsSection["UserName"]}:{queueSettingsSection["Password"]}@{queueSettingsSection["HostName"]}:{queueSettingsSection["Port"]}{queueSettingsSection["VirtualHost"]}";
+                    //  var rabbitUri = $"amqp://{queueSettingsSection["UserName"]}:{queueSettingsSection["Password"]}@{queueSettingsSection["HostName"]}:{queueSettingsSection["Port"]}{queueSettingsSection["VirtualHost"]}";
                     //cfg.Host(rabbitUri);//config["EventBusAddress"]);
                     cfg.Host(queueSettingsSection.HostName, queueSettingsSection.VirtualHost,
                  //cfg.Host("localhost", queueSettingsSection.VirtualHost,
@@ -159,15 +142,6 @@ namespace Basket.Api
                      cg.Username(queueSettingsSection.UserName);
                      cg.Password(queueSettingsSection.Password);
                  });
-                    // cfg.ExchangeType = ExchangeType.Direct;
-
-
-                    // cfg.Host(queueSettingsSection["HostName"], queueSettingsSection["Port"],
-                    // cfg =>
-                    // {
-                    //     cfg.Username(queueSettingsSection["UserName"]);
-                    //     cfg.Password(queueSettingsSection["Password"]);
-                    // });
                     // cfg.ExchangeType = ExchangeType.Direct;
                     cfg.ReceiveEndpoint(config["BasketUpdatedQueue"], c =>
                    {
@@ -178,27 +152,6 @@ namespace Basket.Api
             services.AddMassTransitHostedService();
 
             return services;
-
         }
-
-        // public static IServiceCollection AddMyRedisCache(this IServiceCollection services, IConfiguration config)
-        // {
-        //     //docker run -d -p 6379:6379 --name redis_basket redis
-        //     var redisServer = config["REDIS_SERVER"] ?? "localhost";
-        //     var redisConnection = $"{redisServer}:6379";
-        //     Console.WriteLine($"CONNECTION STRING Basket redis: {redisConnection}");
-        //     services.AddStackExchangeRedisCache(options =>
-        //     {
-        //         options.Configuration = redisConnection;
-        //     });
-        //     return services;
-
-        //     //once u attach a shell run redis-cli
-        // 127.0.0.1:6379> keys *
-        // 1) "a3597eca-d535-40e9-bc8f-08d9542dcc7d"
-        // 127.0.0.1:6379> get a3597eca-d535-40e9-bc8f-08d9542dcc7d
-        // ...
-        // 127.0.0.1:6379> del a3597eca-d535-40e9-bc8f-08d9542dcc7d
-
     }
 }

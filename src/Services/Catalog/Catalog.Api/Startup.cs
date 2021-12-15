@@ -188,6 +188,5 @@ namespace Catalog.Api
             return services;
 
         }
-
     }
 }

@@ -59,10 +59,7 @@ namespace Orders.Api.Services
         public async Task<Order> AddOrderAsync(Order order)
         {
             if (order == null)
-                throw new ArgumentNullException(nameof(order));
-            // var newEntity = await _context.Orders.AddAsync(order);
-            // await _context.SaveChangesAsync();
-            // return newEntity.Entity;
+                throw new ArgumentNullException(nameof(order)); 
 
             await _context.Orders.InsertOneAsync(order);
             return await Task.FromResult(order);

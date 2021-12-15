@@ -1,8 +1,6 @@
 using System;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -92,8 +90,6 @@ namespace Orders.Api
     {
         public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration config)
         {
-
-            //services.AddMongoDb()
             // services.AddMongoDb(); 
             return services;
         }
@@ -103,31 +99,26 @@ namespace Orders.Api
             var queueSettingsSection = new QueueSettings();
             config.Bind("RabbitMQ:QueueSettings", queueSettingsSection);
 
-
             services.AddMassTransit(configuration =>
             {
                 configuration.AddConsumer<BasketCheckoutConsumer>();
                 configuration.UsingRabbitMq((ctx, cfg) =>
                 {
-                    // cfg.Host(config["EventBusAddress"]);
                     cfg.Host(queueSettingsSection.HostName, queueSettingsSection.VirtualHost,
-                   //cfg.Host("localhost", queueSettingsSection.VirtualHost,
                    cg =>
                    {
                        cg.Username(queueSettingsSection.UserName);
                        cg.Password(queueSettingsSection.Password);
                    });
-                    // cfg.ExchangeType = ExchangeType.Direct;
                     cfg.ReceiveEndpoint(config["BasketCheckoutQueue"], c =>
-                    {
-                        c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
-                    });
+                   {
+                       c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
+                   });
                 });
             });
             services.AddMassTransitHostedService();
 
             return services;
-
         }
 
     }

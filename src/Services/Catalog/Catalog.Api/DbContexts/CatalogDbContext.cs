@@ -38,10 +38,6 @@ namespace Catalog.Api.DbContexts
                 .Property(t => t.Hidden)
                 .HasDefaultValue(false)
                 .ValueGeneratedOnAdd();
-            // modelBuilder.Entity<Truck>()
-            //     .Property(t => t.Quantity)
-            //     .HasDefaultValue(1)
-            //     .ValueGeneratedOnAdd();
             modelBuilder.Entity<Truck>()
                 .Property(t => t.Price)
                 .HasPrecision(18, 2);

@@ -25,7 +25,6 @@ namespace Basket.Api.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
-        //private readonly IIdentityService _identityService;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<BasketController> _logger;
         private readonly IMapper _mapper;
@@ -35,12 +34,10 @@ namespace Basket.Api.Controllers
         public BasketController(
             ILogger<BasketController> logger,
             IBasketRepository repository,
-            //IIdentityService identityService,
             IPublishEndpoint publishEndpoint, IMapper mapper, TokenExchangeService tokenExchangeService, IConfiguration config)
         {
             _logger = logger;
             _repository = repository;
-            //   _identityService = identityService;
             _publishEndpoint = publishEndpoint;
             _mapper = mapper;
             _tokenExchangeService = tokenExchangeService;
@@ -69,11 +66,6 @@ namespace Basket.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
         {
-            // var userId = _identityService.GetUserIdentity();
-
-            // basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-            //     guid : basketCheckout.RequestId;
-
             var basket = await _repository.GetBasketAsync(basketCheckout.BasketId);
 
             if (basket == null)

@@ -28,13 +28,14 @@
                     <td>
                         <form asp-action="UpdateLine">
                             <input type="hidden" name="LineId" value="@line.LineId" />
-                            <select name="Quantity" class="w-25" asp-for="@line.Quantity">
+                            <input type="hidden" id="initialValue_@line.LineId" value="@line.Quantity" />
+                            <select name="Quantity" id="cboQuantitySelector_@line.LineId" class="w-25" asp-for="@line.Quantity">
                                 @for (int i = 1; i <= @line.TruckQuantity; i++)
                                 {
                                     <option value="@i">@i</option>
                                 }
                             </select>
-                            <button type="submit" class="filterButton">Update</button>
+                            <button id=btnUpdateQuantity_@line.LineId type="submit" class="filterButton">Update</button>
                         </form>
                     </td>
                     <td class="bold big">$@(line.Price * line.Quantity) </td>
@@ -68,12 +69,12 @@
 
     </tbody>
     <tfoot>
-        <tr>
+        @* <tr>
             <td colspan="5" class="text-right bold big">Discount:</td>
             <td class="text-right bold big">
-                $@Model.Discount
+            $@Model.Discount
             </td>
-        </tr>
+            </tr> *@
         <tr>
             <td colspan="5" class="text-right bold big">Total:</td>
             <td class="text-right bold big">
@@ -85,15 +86,15 @@
 
 <div class="row">
     <div class="col-9">
-        <h4>Enter your discount code here!</h4>
+        @* <h4>Enter your discount code here!</h4>
 
-        <form asp-action="ApplyDiscountCode" method="post" class="form-inline" role="form">
+            <form asp-action="ApplyDiscountCode" method="post" class="form-inline" role="form">
 
             <label class="sr-only">Code</label>
             <input type="text" class="form-control mb-2 mr-sm-2" name="Code" placeholder="ABC-123">
             <input type="submit" class="filterButton" value="Apply" />
 
-        </form>
+            </form>*@
     </div>
     <div class="col-3">
         <div class="text-center">
@@ -106,3 +107,28 @@
         <img class="backIcon" src="~/img/arrow-down.svg" /> Back to truck catalog
     </a>
 </div>
+
+<script type="text/javascript">
+
+    var inputs = document.querySelectorAll('[id^="cboQuantitySelector_"]')
+    let buttons = document.querySelectorAll('[id^="btnUpdateQuantity_"]')
+
+    inputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+            var id = e.target.id.slice(e.target.id.indexOf('_') + 1)
+            console.log(id);
+            var button = document.getElementById("btnUpdateQuantity_" + id)
+            var valueToCheckAgainst = document.getElementById("initialValue_" + id)
+            if (button === null || valueToCheckAgainst === null) {
+                console.log("Cant find button nor cbo for " + id)
+                return
+            }
+    @* console.log("cbo value: " + e.target.value)
+        console.log("valueToCheckAgainst value: " + valueToCheckAgainst.value) *@
+                button.disabled = !(e.target.value !== valueToCheckAgainst.value)
+
+        })
+    });
+
+    buttons.forEach(button => button.disabled = true) 
+</script>
