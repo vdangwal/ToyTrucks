@@ -52,14 +52,14 @@ namespace Catalog.Api
                 " ('Hess 1991 Truck and Racer', 1991, 2, 'It has 27 different red, white, and yellow lights', 11.99,  '1991_1.jpg'), " +
                 " ('Hess 1992 18 Wheeler and Racer', 1992, 3, 'Lights...', 11.99,  '1992_1.jpg'), " +
                 " ('Hess 1994 Rescue Truck', 1994, 22, 'Lights... . Sounds include a back up alert, truck horn, and an emergency siren ', 11.99,  '1994_1.jpg'), " +
-                " ('Hess 1995 Truck and Helicopter', 1995, 22, 'Lights... Chopper has a searchlight, and flashing beacon lights ', 11.99, '1995_1.jpg'), " +
+                " ('Hess 1995 Truck and Helicopter', 1995, 3, 'Lights... Chopper has a searchlight, and flashing beacon lights ', 11.99, '1995_1.jpg'), " +
                 " ('Hess 1996 Emergency Truck', 1996, 20, 'It has a searchlight, flashers, emergency lights, a backup alert along with a siren', 11.99,  '1996_1.jpg'), " +
                 " ('Hess 1997 Truck and Racers', 1997, 17, 'Lights... Racers have working headlights and taillights', 11.99,  '1997_1.jpg'), " +
                 " ('Hess 1998 Recreation Van', 1998, 2, 'Rv has headlights, taillights, and market lights.', 11.99,  '1998_1.jpg'), " +
-                " ('Hess 1999 Truck and Space Shuttle with Satellite', 1999, 18, 'Truck has working headlights, taillights, and running lights. Shuttle has lights, sounds and a satellite with solar panels', 11.99,  '1999_1.jpg'), " +
+                " ('Hess 1999 Truck and Space Shuttle with Satellite', 1999, 12, 'Truck has working headlights, taillights, and running lights. Shuttle has lights, sounds and a satellite with solar panels', 11.99,  '1999_1.jpg'), " +
                 " ('Hess 2000 Fire Truck', 2000, 2, 'It has  working headlights, taillights and emergency flashing lights, a backup alert along with a horn', 11.99,  '2000_1.jpg'), " +
                 " ('Hess 2001 Helicopter With Motorcycle and Cruiser', 2001, 8, 'Helicopter that has internal, external lights and emergency flasher', 11.99,  '2001_1.jpg'), " +
-                " ('Hess 2002 Truck and Airplane', 2002, 9, ' The truck has front and rear lights', 11.99,  '2002_1.jpg'), " +
+                " ('Hess 2002 Truck and Airplane', 2002, 4, ' The truck has front and rear lights', 11.99,  '2002_1.jpg'), " +
                 " ('Hess 2003 18 Wheeler Truck and Race Cars', 2003, 14, 'The truck has running lights, front and rear lights, an internally lit trailer.', 11.99,  '2003_1.jpg'), " +
                 " ('Hess 2004 Sport Utility Vehicle & Motorcycles', 2004, 1, 'Lights... . Bikes have working lights', 11.99, '2004_1.jpg'), " +
                 " ('Hess 2005 Emergency Truck with Rescue Vehicle', 2005, 1, 'Truck has front and rear lights, emergency flashing red lights, and three different emergency sirens sounds.', 11.99,  '2005_1.jpg'), " +
