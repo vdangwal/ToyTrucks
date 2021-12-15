@@ -29,8 +29,7 @@
                         <form asp-action="UpdateLine">
                             <input type="hidden" name="LineId" value="@line.LineId" />
                             <input type="hidden" id="initialValue_@line.LineId" value="@line.Quantity" />
-                            <select name="Quantity" id="cboQuantitySelector_@line.LineId" class="w-25" 
-                        asp-for="@line.Quantity">
+                            <select name="Quantity" id="cboQuantitySelector_@line.LineId" class="w-25" asp-for="@line.Quantity">
                                 @for (int i = 1; i <= @line.TruckQuantity; i++)
                                 {
                                     <option value="@i">@i</option>
@@ -109,13 +108,13 @@
     </a>
 </div>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
     var inputs = document.querySelectorAll('[id^="cboQuantitySelector_"]')
     let buttons = document.querySelectorAll('[id^="btnUpdateQuantity_"]')
 
     inputs.forEach(input => {
         input.addEventListener('change', (e) => {
-            var id = e.target.id.slice(e.target.id.indexOf('_')  + 1)
+            var id = e.target.id.slice(e.target.id.indexOf('_') + 1)
             console.log(id);
             var button = document.getElementById("btnUpdateQuantity_" + id)
             var valueToCheckAgainst = document.getElementById("initialValue_" + id)
@@ -131,6 +130,4 @@
     });
 
     buttons.forEach(button => button.disabled = true)
-
- 
 </script>
