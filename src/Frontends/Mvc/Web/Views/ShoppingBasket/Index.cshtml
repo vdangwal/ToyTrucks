@@ -28,14 +28,17 @@
                     <td>
                         <form asp-action="UpdateLine">
                             <input type="hidden" name="LineId" value="@line.LineId" />
-                            <input type="hidden" id="LineIdInitialValue" value="@line.Quantity" />
-                            <select name="Quantity" id=QuantitySelector class="w-25" asp-for="@line.Quantity">
+                            <input type="text" id="initialValue_@line.LineId" value="@line.Quantity" />
+
+
+                            <select name="@line.LineId" id="cboQuantitySelector_@line.LineId" class="w-25"
+                        asp-for="@line.Quantity">
                                 @for (int i = 1; i <= @line.TruckQuantity; i++)
                                 {
                                     <option value="@i">@i</option>
                                 }
                             </select>
-                            <button id=UpdateQuantity type="submit" class="filterButton">Update</button>
+                            <button id=btnUpdateQuantity_@line.LineId type="submit" class="filterButton">Update</button>
                         </form>
                     </td>
                     <td class="bold big">$@(line.Price * line.Quantity) </td>
@@ -85,17 +88,17 @@
 </table>
 
 <div class="row">
-     <div class="col-9">
-       @* <h4>Enter your discount code here!</h4>
+    <div class="col-9">
+        @* <h4>Enter your discount code here!</h4>
 
-        <form asp-action="ApplyDiscountCode" method="post" class="form-inline" role="form">
+            <form asp-action="ApplyDiscountCode" method="post" class="form-inline" role="form">
 
             <label class="sr-only">Code</label>
             <input type="text" class="form-control mb-2 mr-sm-2" name="Code" placeholder="ABC-123">
             <input type="submit" class="filterButton" value="Apply" />
 
-        </form>*@
-    </div> 
+            </form>*@
+    </div>
     <div class="col-3">
         <div class="text-center">
             <a class="btn btn-primary" asp-controller="ShoppingBasket" asp-action="Checkout">Check out now!</a>
@@ -109,13 +112,27 @@
 </div>
 
 <script type="text/javascript">
-    let input = document.getElementById("QuantitySelector")
-    let button = document.getElementById("UpdateQuantity")
+    var inputs = document.querySelectorAll('[id^="cboQuantitySelector_"]');
+    let buttons = document.querySelectorAll('[id^="btnUpdateQuantity_"]')
 
-    button.disabled = true
-    input.addEventListener("change", stateHandle)
+    inputs.forEach(input => {
+        input.addEventListener("change", stateHandle(input.name));
+        //    console.log(input.name)
+    });
 
-    function stateHandle() {
-        button.disabled = !(input.value !== document.getElementById("LineIdInitialValue").value)
+    buttons.forEach(button => button.disabled = true);
+
+    function stateHandle(id) {
+        console.log('in state handle: id = ' + id)
+        var button = document.getElementById("btnUpdateQuantity_" + id);
+        var input = document.getElementById("cboQuantitySelector_" + id);
+        var valueToCheckAgainst = document.getElementById("initialValue_" + id);
+        if (button === null || input === null || valueToCheckAgainst === null) {
+            console.log("Cant find button nor cbo for " + id);
+            return;
+        }
+        console.log("cbo value: " + input.value)
+        console.log("valueToCheckAgainst value: " + valueToCheckAgainst.value)
+        button.disabled = !(input.value !== valueToCheckAgainst.value)
     }
 </script>
