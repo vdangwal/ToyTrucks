@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using EventBus.Messages.Events;
+using ToyTrucks.EventBus.Messages.Events;
 using ToyTrucks.Catalog.Api.Services;
 using ToyTrucks.Catalog.Api.Models;
 using ToyTrucks.Catalog.Api.Entities;

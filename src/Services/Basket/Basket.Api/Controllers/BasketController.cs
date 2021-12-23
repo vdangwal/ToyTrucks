@@ -5,7 +5,7 @@ using ToyTrucks.Basket.Api.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using EventBus.Messages.Events;
+using ToyTrucks.EventBus.Messages.Events;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

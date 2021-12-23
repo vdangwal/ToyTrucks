@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using EventBus.Messages.Events;
+using ToyTrucks.EventBus.Messages.Events;
 using ToyTrucks.Basket.Api.Services;
 using AutoMapper;
 

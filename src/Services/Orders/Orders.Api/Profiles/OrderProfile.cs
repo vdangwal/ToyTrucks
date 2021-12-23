@@ -1,5 +1,5 @@
 using AutoMapper;
-using EventBus.Messages.Events;
+using ToyTrucks.EventBus.Messages.Events;
 using MongoDB.Bson;
 using ToyTrucks.Orders.Api.Entities;
 using ToyTrucks.Orders.Api.Models;

@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using ToyTrucks.Basket.Api.Helpers;
 using RabbitMQ.Client;
-using EventBus.Messages.Common;
+using ToyTrucks.EventBus.Messages.Common;
 namespace ToyTrucks.Basket.Api
 {
     public class Startup

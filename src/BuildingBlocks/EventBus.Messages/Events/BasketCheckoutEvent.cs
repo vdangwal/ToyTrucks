@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace EventBus.Messages.Events
+namespace ToyTrucks.EventBus.Messages.Events
 {
     public class BasketCheckoutEvent : IntegrationBase
     {

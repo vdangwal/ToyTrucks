@@ -1,4 +1,4 @@
-namespace EventBus.Messages.Common
+namespace ToyTrucks.EventBus.Messages.Common
 {
     public class EventBusConstants
     {
