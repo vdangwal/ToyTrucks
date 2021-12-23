@@ -13,7 +13,7 @@ WORKDIR /work
 
 
 COPY ["Services/Catalog/Catalog.Api/Catalog.Api.csproj", "Services/Catalog/Catalog.Api/"]
-COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+COPY ["BuildingBlocks/Messaging/Messaging.csproj", "BuildingBlocks/Messaging/"]
 # 
 # RUN dotnet publish --no-restore -o out -c Release
 RUN dotnet restore Services/Catalog/Catalog.Api/Catalog.Api.csproj

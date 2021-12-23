@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using ToyTrucks.Orders.Api.Services;
 using ToyTrucks.Orders.Api.Models;
-using ToyTrucks.EventBus.Messages.Events;
+using ToyTrucks.Messaging.Events;
 using ToyTrucks.Orders.Api.Helpers;
 
 namespace ToyTrucks.Orders.Api.Entities

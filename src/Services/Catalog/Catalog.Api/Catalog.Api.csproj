@@ -26,7 +26,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12"/>
   </ItemGroup>
    <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Messaging\Messaging.csproj"/>
    </ItemGroup>
 
 </Project>

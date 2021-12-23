@@ -17,7 +17,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using MassTransit;
 using ToyTrucks.Catalog.Api.Events;
-using ToyTrucks.EventBus.Messages.Common;
+using ToyTrucks.Messaging.Common;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;

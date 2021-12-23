@@ -1,5 +1,5 @@
 using System;
-namespace ToyTrucks.EventBus.Messages.Events
+namespace ToyTrucks.Messaging.Events
 {
     public class InventoryToUpdate
     {

@@ -9,7 +9,7 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 WORKDIR /basketwork
 #src\Services\Basket\Basket.Api\Basket.Api.csproj 
 COPY ["Services/Basket/Basket.Api/Basket.Api.csproj", "Services/Basket/Basket.Api/"]
-COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+COPY ["BuildingBlocks/Messaging/Messaging.csproj", "BuildingBlocks/Messaging/"]
 COPY ["Services/Discount/Discount.Grpc/Protos/discount.proto", "Services/Discount/Discount.Grpc/Protos/"]
 # # Copy necessary files and restore as distinct layer
 # #COPY *.csproj ./

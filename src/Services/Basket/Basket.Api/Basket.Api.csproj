@@ -21,6 +21,6 @@
     <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Messaging\Messaging.csproj"/>
   </ItemGroup>
 </Project>

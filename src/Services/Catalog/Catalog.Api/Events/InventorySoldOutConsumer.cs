@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 using ToyTrucks.Catalog.Api.Services;
 
-using ToyTrucks.EventBus.Messages.Events;
+using ToyTrucks.Messaging.Events;
 using MassTransit;
 
 namespace ToyTrucks.Catalog.Api.Events

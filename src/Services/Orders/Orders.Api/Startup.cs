@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 using ToyTrucks.Orders.Api.DBContexts;
 using ToyTrucks.Orders.Api.Services;
 using MassTransit;
-using ToyTrucks.EventBus.Messages.Common;
+using ToyTrucks.Messaging.Common;
 using ToyTrucks.Orders.Api.Entities;
 using MongoDB;
 using ToyTrucks.Orders.Api.Helpers;

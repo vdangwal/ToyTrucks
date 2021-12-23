@@ -29,6 +29,6 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Messaging\Messaging.csproj"/>
   </ItemGroup>
 </Project>
