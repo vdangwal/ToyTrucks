@@ -1,5 +1,5 @@
 using System;
-namespace Basket.Api.Dtos
+namespace ToyTrucks.Basket.Api.Dtos
 {
     public class BasketCheckout
     {

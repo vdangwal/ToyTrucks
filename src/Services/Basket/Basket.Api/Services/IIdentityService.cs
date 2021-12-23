@@ -1,4 +1,4 @@
-namespace Basket.Api.Services
+namespace ToyTrucks.Basket.Api.Services
 {
     public interface IIdentityService
     {

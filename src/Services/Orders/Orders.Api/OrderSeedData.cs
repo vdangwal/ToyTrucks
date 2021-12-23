@@ -1,8 +1,8 @@
-using Orders.Api.Models;
+using ToyTrucks.Orders.Api.Models;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
-namespace Orders.Api
+namespace ToyTrucks.Orders.Api
 {
     public class OrderSeedData
     {

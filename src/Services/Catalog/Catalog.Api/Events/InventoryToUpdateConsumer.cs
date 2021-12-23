@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using EventBus.Messages.Events;
-using Catalog.Api.Services;
-using Catalog.Api.Models;
-using Catalog.Api.Entities;
+using ToyTrucks.Catalog.Api.Services;
+using ToyTrucks.Catalog.Api.Models;
+using ToyTrucks.Catalog.Api.Entities;
 using AutoMapper;
 
-namespace Catalog.Api.Events
+namespace ToyTrucks.Catalog.Api.Events
 {
     public class InventoryToUpdateConsumer : IConsumer<InventoryToUpdate>
     {

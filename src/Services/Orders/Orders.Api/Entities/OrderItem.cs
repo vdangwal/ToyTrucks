@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Orders.Api.Entities
+namespace ToyTrucks.Orders.Api.Entities
 {
     public class OrderItem
     {

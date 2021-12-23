@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers
+namespace ToyTrucks.Web.Controllers
 {
     public class AuthenticationController : Controller
     {

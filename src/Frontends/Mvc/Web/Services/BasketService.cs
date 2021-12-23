@@ -8,11 +8,11 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Web.Extensions;
-using Web.Models;
-using Web.Models.Api;
+using ToyTrucks.Web.Extensions;
+using ToyTrucks.Web.Models;
+using ToyTrucks.Web.Models.Api;
 
-namespace Web.Services
+namespace ToyTrucks.Web.Services
 {
     public class BasketService : IBasketService
     {

@@ -1,4 +1,4 @@
-namespace Discount.Grpc.Dtos
+namespace ToyTrucks.Discount.Grpc.Dtos
 {
     public class Coupon
     {

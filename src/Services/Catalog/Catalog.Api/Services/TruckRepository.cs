@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Catalog.Api.DbContexts;
-using Catalog.Api.Entities;
+using ToyTrucks.Catalog.Api.DbContexts;
+using ToyTrucks.Catalog.Api.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.Api.Services
+namespace ToyTrucks.Catalog.Api.Services
 {
     public class TruckRepository : ITruckRepository
     {

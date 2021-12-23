@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 
-using Catalog.Api.Services;
+using ToyTrucks.Catalog.Api.Services;
 
 using EventBus.Messages.Events;
 using MassTransit;
 
-namespace Catalog.Api.Events
+namespace ToyTrucks.Catalog.Api.Events
 {
     public class InventorySoldOutConsumer : IConsumer<InventorySoldOutEvent>
     {

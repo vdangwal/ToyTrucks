@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
-using Orders.Api.Entities;
+using ToyTrucks.Orders.Api.Entities;
 
-namespace Orders.Api.Models
+namespace ToyTrucks.Orders.Api.Models
 {
     public class OrderDto
     {

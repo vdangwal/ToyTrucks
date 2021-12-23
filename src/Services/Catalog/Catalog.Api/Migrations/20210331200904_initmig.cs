@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Catalog.Api.Migrations
+namespace ToyTrucks.Catalog.Api.Migrations
 {
     public partial class initmig : Migration
     {

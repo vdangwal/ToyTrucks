@@ -1,12 +1,12 @@
 using Dapper;
-using Discount.Grpc.Dtos;
+using ToyTrucks.Discount.Grpc.Dtos;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System;
 using System.Threading.Tasks;
 
-namespace Discount.Grpc.Services
+namespace ToyTrucks.Discount.Grpc.Services
 {
     public class DiscountRepository : IDiscountRepository
     {

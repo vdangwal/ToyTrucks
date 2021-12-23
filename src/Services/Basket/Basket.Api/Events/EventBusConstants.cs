@@ -1,4 +1,4 @@
-namespace Basket.Api.Events
+namespace ToyTrucks.Basket.Api.Events
 {
     public static class EventBusConstants
     {

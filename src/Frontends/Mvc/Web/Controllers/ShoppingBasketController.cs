@@ -1,16 +1,16 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Web.Models;
-using Web.Services;
+using ToyTrucks.Web.Models;
+using ToyTrucks.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Web.Models.View;
-using Web.Extensions;
-using Web.Models.Api;
+using ToyTrucks.Web.Models.View;
+using ToyTrucks.Web.Extensions;
+using ToyTrucks.Web.Models.Api;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 
-namespace Web.Controllers
+namespace ToyTrucks.Web.Controllers
 {
     public class ShoppingBasketController : Controller
     {

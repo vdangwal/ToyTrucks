@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using EventBus.Messages.Events;
-using Basket.Api.Services;
+using ToyTrucks.Basket.Api.Services;
 using AutoMapper;
 
-namespace Basket.Api.Events
+namespace ToyTrucks.Basket.Api.Events
 {
     public class UpdatedInventoryConsumer : IConsumer<UpdatedInventory>
     {

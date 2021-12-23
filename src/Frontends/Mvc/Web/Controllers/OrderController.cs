@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using Web.Models;
-using Web.Models.Api;
-using Web.Services;
-using Web.Models.View;
+using ToyTrucks.Web.Models;
+using ToyTrucks.Web.Models.Api;
+using ToyTrucks.Web.Services;
+using ToyTrucks.Web.Models.View;
 
-namespace Web.Controllers
+namespace ToyTrucks.Web.Controllers
 {
 
     public class OrderController : Controller

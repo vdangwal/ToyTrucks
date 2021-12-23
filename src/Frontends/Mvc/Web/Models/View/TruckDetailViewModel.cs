@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Web.Models.Api;
+using ToyTrucks.Web.Models.Api;
 
-namespace Web.Models.View
+namespace ToyTrucks.Web.Models.View
 {
     public class TruckDetailViewModel
     {

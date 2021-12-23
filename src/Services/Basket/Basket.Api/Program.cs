@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Basket.Api
+namespace ToyTrucks.Basket.Api
 {
     public class Program
     {

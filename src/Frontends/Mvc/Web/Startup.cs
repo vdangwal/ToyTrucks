@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Web.Models;
-using Web.Services;
+using ToyTrucks.Web.Models;
+using ToyTrucks.Web.Services;
 
-namespace Web
+namespace ToyTrucks.Web
 {
     public class Startup
     {

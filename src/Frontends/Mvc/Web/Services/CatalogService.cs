@@ -4,15 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Web.Models.Api;
+using ToyTrucks.Web.Models.Api;
 
-using Web.Extensions;
+using ToyTrucks.Web.Extensions;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 
-namespace Web.Services
+namespace ToyTrucks.Web.Services
 {
     public class CatalogService : ICatalogService
     {

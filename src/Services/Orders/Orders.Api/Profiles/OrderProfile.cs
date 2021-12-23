@@ -1,10 +1,10 @@
 using AutoMapper;
 using EventBus.Messages.Events;
 using MongoDB.Bson;
-using Orders.Api.Entities;
-using Orders.Api.Models;
+using ToyTrucks.Orders.Api.Entities;
+using ToyTrucks.Orders.Api.Models;
 
-namespace Orders.Api.Profiles
+namespace ToyTrucks.Orders.Api.Profiles
 {
     public class OrderProfile : Profile
     {

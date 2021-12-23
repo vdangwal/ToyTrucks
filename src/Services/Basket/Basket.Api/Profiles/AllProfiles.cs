@@ -1,8 +1,8 @@
 using AutoMapper;
-using Basket.Api.Events;
-using Basket.Api.Dtos;
+using ToyTrucks.Basket.Api.Events;
+using ToyTrucks.Basket.Api.Dtos;
 using EventBus.Messages.Events;
-namespace Basket.Api.Profiles
+namespace ToyTrucks.Basket.Api.Profiles
 {
     public class AllProfiles : Profile
     {

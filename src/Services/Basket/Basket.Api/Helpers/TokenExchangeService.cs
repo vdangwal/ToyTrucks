@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using IdentityModel.AspNetCore.AccessTokenManagement;
 using IdentityModel.Client;
 
-namespace Basket.Api.Helpers
+namespace ToyTrucks.Basket.Api.Helpers
 {
     public class TokenExchangeService
     {

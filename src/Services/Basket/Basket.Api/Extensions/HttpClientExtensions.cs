@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Basket.Api.Extensions
+namespace ToyTrucks.Basket.Api.Extensions
 {
     public static class HttpClientExtensions
     {

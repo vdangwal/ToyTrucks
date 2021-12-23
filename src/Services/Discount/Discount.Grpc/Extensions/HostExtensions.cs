@@ -7,7 +7,7 @@ using Npgsql;
 using Polly;
 using System;
 
-namespace Discount.Grpc.Extensions
+namespace ToyTrucks.Discount.Grpc.Extensions
 {
     public static class HostExtensions
     {
@@ -19,7 +19,7 @@ namespace Discount.Grpc.Extensions
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<TContext>>();
                 var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-            
+
                 policy.Execute(() =>
                 {
                     SeedData.Initialize(config).Wait();

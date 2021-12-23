@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Npgsql;
 using Microsoft.Extensions.Configuration;
-namespace Discount.Grpc
+namespace ToyTrucks.Discount.Grpc
 {
     public class SeedData
     {

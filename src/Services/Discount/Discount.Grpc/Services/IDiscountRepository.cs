@@ -1,10 +1,10 @@
-using Discount.Grpc.Dtos;
+using ToyTrucks.Discount.Grpc.Dtos;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 
-namespace Discount.Grpc.Services
+namespace ToyTrucks.Discount.Grpc.Services
 {
     public interface IDiscountRepository
     {

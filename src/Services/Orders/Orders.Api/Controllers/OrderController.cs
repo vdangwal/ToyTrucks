@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orders.Api.Entities;
+using ToyTrucks.Orders.Api.Entities;
 using System.Net;
 using AutoMapper;
-using Orders.Api.Services;
-using Orders.Api.Models;
+using ToyTrucks.Orders.Api.Services;
+using ToyTrucks.Orders.Api.Models;
 
 using Microsoft.Extensions.Logging;
 
-namespace Orders.Api.Controllers
+namespace ToyTrucks.Orders.Api.Controllers
 {
     [ApiController]
     [Route("api/orders")]
@@ -66,7 +66,7 @@ namespace Orders.Api.Controllers
             var orders = await _service.GetOrdersAsync();
             var ordersToReturn = _mapper.Map<IEnumerable<OrderDto>>(orders);
             return Ok(ordersToReturn);
-        } 
+        }
 
         [HttpPut(Name = "UpdateOrder")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]

@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using Web.Models;
-using Web.Extensions;
-using Web.Services;
+using ToyTrucks.Web.Models;
+using ToyTrucks.Web.Extensions;
+using ToyTrucks.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Web.Models.View;
+using ToyTrucks.Web.Models.View;
 using Microsoft.AspNetCore.Http;
 
-namespace Web.Controllers
+namespace ToyTrucks.Web.Controllers
 {
     public class TruckCatalogController : Controller
     {

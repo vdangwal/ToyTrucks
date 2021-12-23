@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Basket.Api.Dtos;
+using ToyTrucks.Basket.Api.Dtos;
 
-namespace Basket.Api.Services
+namespace ToyTrucks.Basket.Api.Services
 {
     public interface IBasketRepository
     {

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.Api.DbContexts;
-using Catalog.Api.Services;
+using ToyTrucks.Catalog.Api.DbContexts;
+using ToyTrucks.Catalog.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,14 +16,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using MassTransit;
-using Catalog.Api.Events;
+using ToyTrucks.Catalog.Api.Events;
 using EventBus.Messages.Common;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace Catalog.Api
+namespace ToyTrucks.Catalog.Api
 {
     public class Startup
     {

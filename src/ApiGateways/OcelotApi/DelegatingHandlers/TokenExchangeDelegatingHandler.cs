@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OcelotApi.DelegatingHandlers
+namespace ToyTrucks.OcelotApi.DelegatingHandlers
 {
     public class TokenExchangeDelegatingHandler : DelegatingHandler
     {

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Web.Models.Api;
+using ToyTrucks.Web.Models.Api;
 
-namespace Web.Services
+namespace ToyTrucks.Web.Services
 {
     public interface IBasketService
     {

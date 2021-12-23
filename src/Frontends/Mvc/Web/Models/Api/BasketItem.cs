@@ -1,5 +1,5 @@
 using System;
-namespace Web.Models.Api
+namespace ToyTrucks.Web.Models.Api
 {
     public class BasketItem
     {

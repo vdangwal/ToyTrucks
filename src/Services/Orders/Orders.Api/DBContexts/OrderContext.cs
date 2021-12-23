@@ -1,7 +1,7 @@
 using MongoDB.Driver;
-using Orders.Api.Entities;
+using ToyTrucks.Orders.Api.Entities;
 using Microsoft.Extensions.Configuration;
-namespace Orders.Api.DBContexts
+namespace ToyTrucks.Orders.Api.DBContexts
 {
     public class OrderContext : IOrderContext
     {

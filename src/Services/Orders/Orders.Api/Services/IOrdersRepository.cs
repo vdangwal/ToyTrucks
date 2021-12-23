@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orders.Api.Entities;
+using ToyTrucks.Orders.Api.Entities;
 
-namespace Orders.Api.Services
+namespace ToyTrucks.Orders.Api.Services
 {
     public interface IOrdersRepository
     {
