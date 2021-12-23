@@ -1,7 +1,7 @@
 
 echo 'Building projects...'
 dotnet build .\src\BuildingBlocks\EventBus.Messages\
-dotnet build .\src\Services\Discount\Discount.Grpc\
+@REM dotnet build .\src\Services\Discount\Discount.Grpc\
 dotnet build .\src\Services\Catalog\Catalog.Api\
 dotnet build .\src\Services\Basket\Basket.Api\
 dotnet build .\src\Services\Orders\Orders.Api\
