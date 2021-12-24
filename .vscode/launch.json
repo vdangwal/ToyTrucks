@@ -22,48 +22,6 @@
             }
         },
         {
-            "name": "Discount No docker",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "requireExactSource": false,
-            "program": "${workspaceFolder}/src/Services/Discount/Discount.Api/bin/Debug/net5.0/Discount.Api.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/Services/Discount/Discount.Api",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
-            "name": "DiscountGrpc No docker",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "requireExactSource": false,
-            "program": "${workspaceFolder}/src/Services/Discount/Discount.Grpc/bin/Debug/net5.0/Discount.Grpc.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/Services/Discount/Discount.Grpc",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
             "name": "CatalogApi  No docker",
             "type": "coreclr",
             "request": "launch",
@@ -123,48 +81,6 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
-        // {
-        //     "name": "Inventory Api No docker",
-        //     "type": "coreclr",
-        //     "request": "launch",
-        //     // "preLaunchTask": "build",
-        //     "requireExactSource": false,
-        //     "program": "${workspaceFolder}/src/Services/Inventory/Inventory.Api/bin/Debug/net5.0/Inventory.Api.dll",
-        //     "args": [],
-        //     "cwd": "${workspaceFolder}/src/Services/Inventory/Inventory.Api",
-        //     "stopAtEntry": false,
-        //     "serverReadyAction": {
-        //         "action": "openExternally",
-        //         "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
-        //     },
-        //     "env": {
-        //         "ASPNETCORE_ENVIRONMENT": "Development"
-        //     },
-        //     "sourceFileMap": {
-        //         "/Views": "${workspaceFolder}/Views"
-        //     }
-        // },
-        {
-            "name": "temp No docker",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "requireExactSource": false,
-            "program": "${workspaceFolder}/src/Services/temp/Temp.Api/bin/Debug/net5.0/Temp.Api.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/Services/temp/Temp.Api",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
         {
             "name": "ApiGateway No docker",
             "type": "coreclr",
@@ -206,26 +122,6 @@
             }
         },
         {
-            "name": "ShoppingAggregator No docker",
-            "type": "coreclr",
-            "request": "launch",
-            "requireExactSource": false,
-            "program": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/bin/Debug/net5.0/Shopping.Aggregator.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\\\bNow listening on:\\\\s+(https?://\\\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
             "name": "CatalogApi Docker Attach",
             "type": "coreclr",
             "request": "attach",
@@ -242,7 +138,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/work": "${workspaceRoot}/src/"
+                "/work": "${workspaceRoot}/src/Services/Catalog/Catalog.Api/"
             }
         },
         {
@@ -262,7 +158,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/basketwork": "${workspaceRoot}/src/"
+                "/basketwork": "${workspaceRoot}/src/Services/Basket/Basket.Api/"
             }
         },
         {
@@ -282,29 +178,10 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/orderapiwork": "${workspaceRoot}/src/"
+                "/orderapiwork": "${workspaceRoot}/src/Services/Orders/Orders.Api/"
             }
         },
-        {
-            "name": "DiscountGrpc Docker Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickRemoteProcess}",
-            "pipeTransport": {
-                "pipeProgram": "docker",
-                "pipeArgs": [
-                    "exec",
-                    "-i",
-                    "discount_grpc"
-                ],
-                "debuggerPath": "/root/vsdbg/vsdbg",
-                "pipeCwd": "${workspaceRoot}",
-                "quoteArgs": false
-            },
-            "sourceFileMap": {
-                "/discountgrpcwork": "${workspaceRoot}/src/Services/Discount/Discount.Grpc/"
-            }
-        },
+        //  
         {
             "name": "Mvc Client Docker Attach",
             "type": "coreclr",
@@ -322,7 +199,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/mvcwork": "${workspaceRoot}/src/"
+                "/mvcwork": "${workspaceRoot}/src/Frontends/Mvc/Web/"
             }
         },
         {

@@ -12,16 +12,16 @@ WORKDIR /apigatewaywork
 # Copy necessary files and restore as distinct layer
 
 
-COPY ["ApiGateways/OcelotApi/OcelotApi.csproj", "ApiGateways/OcelotApi/"]
+COPY OcelotApi.csproj ./
 
 # RUN dotnet publish --no-restore -o out -c Release
-RUN dotnet restore ApiGateways/OcelotApi/OcelotApi.csproj
+RUN dotnet restore 
 
 COPY . ./
 # Copy everything else and build
-RUN dotnet publish ApiGateways/OcelotApi/OcelotApi.csproj --no-restore -o out -c Release
+RUN dotnet publish  --no-restore -o out -c Release
 #--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "-p", "ApiGateways/OcelotApi/", "--no-launch-profile"] 
+ENTRYPOINT ["dotnet", "run",  "--no-launch-profile"] 
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod

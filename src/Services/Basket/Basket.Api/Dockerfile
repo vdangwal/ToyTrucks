@@ -8,20 +8,19 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 
 WORKDIR /basketwork
 #src\Services\Basket\Basket.Api\Basket.Api.csproj 
-COPY ["Services/Basket/Basket.Api/Basket.Api.csproj", "Services/Basket/Basket.Api/"] 
-COPY ["Services/Discount/Discount.Grpc/Protos/discount.proto", "Services/Discount/Discount.Grpc/Protos/"]
+#COPY ["Services/Basket/Basket.Api/Basket.Api.csproj", "Services/Basket/Basket.Api/"] 
+COPY Basket.Api.csproj ./
+#COPY ["Services/Discount/Discount.Grpc/Protos/discount.proto", "Services/Discount/Discount.Grpc/Protos/"]
 # # Copy necessary files and restore as distinct layer
 # #COPY *.csproj ./
-RUN dotnet restore Services/Basket/Basket.Api/Basket.Api.csproj
+RUN dotnet restore  
 
 # # Copy everything else and build
-COPY . ./
-#WORKDIR "/basketwork/Basket"
+COPY . ./ 
 
-RUN dotnet publish Services/Basket/Basket.Api/Basket.Api.csproj --no-restore -o out -c Release
+RUN dotnet publish   --no-restore -o out -c Release
 # #--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "-p" , "Services/Basket/Basket.Api/", "--no-launch-profile"] 
-#ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
+ENTRYPOINT ["dotnet", "run",  "--no-launch-profile"]  
 # # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 

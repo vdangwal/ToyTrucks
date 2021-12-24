@@ -1,4 +1,3 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS debug
 ENV ASPNETCORE_URLS=http://+:80  
@@ -10,20 +9,20 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 
 
 WORKDIR /mvcwork
-COPY ["Frontends/Mvc/Web/Web.csproj", "Frontends/Mvc/Web/"]
+COPY Web.csproj ./
 
-RUN dotnet restore "Frontends/Mvc/Web/Web.csproj"
+RUN dotnet restore
 
 COPY . ./
-RUN dotnet publish Frontends/Mvc/Web/Web.csproj --no-restore -o out -c Release
-#--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "-p", "Frontends/Mvc/Web/", "--no-launch-profile"] 
+RUN dotnet publish --no-restore -o out -c Release
+# #--no-launch-profile means it doesnt access launchSettings.json
+ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
 
-# Build runtime image
+# # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 
 WORKDIR /app/
-#COPY --from=Debug /out/ /app/
+# #COPY --from=Debug /out/ /app/
 COPY --from=debug /mvcwork/out /app/
 RUN chmod +x /app/ 
 CMD dotnet Web.dll

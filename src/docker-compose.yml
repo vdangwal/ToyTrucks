@@ -51,62 +51,59 @@ services:
       driver: none
 
   catalog_api:
-    image: hesstrucks/catalogapi:1.0
+    image: marcusquigley/catalogapi:1.0
     container_name: catalog_api
     build:
-      context: .
-      dockerfile: Services/Catalog/Catalog.Api/Dockerfile
+      context: Services/Catalog/Catalog.Api
+      #dockerfile: /Dockerfile
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - 3500:80
     volumes:
-      - ./Services/Catalog/Catalog.Api/:/work/Services/Catalog/Catalog.Api/
+      - ./Services/Catalog/Catalog.Api/:/work/
     depends_on:
       - catalogdb
 
   basket_api:
-    image: hesstrucks/basketapi:1.0
+    image: marcusquigley/basketapi:1.0
     container_name: basket_api
     build:
-      context: .
-      dockerfile: Services/Basket/Basket.Api/Dockerfile
+      context: Services/Basket/Basket.Api
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - 3502:443
     volumes:
-      - ./Services/Basket/Basket.Api/:/basketwork/Services/Basket/Basket.Api/
+      - ./Services/Basket/Basket.Api/:/basketwork/
     depends_on:
       - basketdb #basket_redis_db
       - rabbitmq
 
   order_api:
-    image: hesstrucks/orderapi:1.0
+    image: marcusquigley/orderapi:1.0
     container_name: order_api
     build:
-      context: .
-      dockerfile: Services/Orders/Orders.Api/Dockerfile
+      context: Services/Orders/Orders.Api
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     ports:
       - 3508:80
     volumes:
-      - ./Services/Orders/Orders.Api/:/orderapiwork/Services/Orders/Orders.Api/
+      - ./Services/Orders/Orders.Api/:/orderapiwork/
     depends_on:
       #- catalogdb 
       - rabbitmq
       - orderdb
 
   mvc_frontend:
-    image: hesstrucks/mvcfrontend:1.0
+    image: marcusquigley/mvcfrontend:1.0
     container_name: mvc_frontend
     build:
-      context: .
-      dockerfile: Frontends/Mvc/Web/Dockerfile
+      context: Frontends/Mvc/Web
       target: debug
     environment:
       #ASPNETCORE_URLS: "https://+;http://+"
@@ -126,11 +123,10 @@ services:
       - ocelot_api
 
   ocelot_api:
-    image: hesstrucks/apigateway:1.0
+    image: marcusquigley/apigateway:1.0
     container_name: ocelot_api
     build:
-      context: .
-      dockerfile: ApiGateways/OcelotApi/Dockerfile
+      context: ApiGateways/OcelotApi
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -142,11 +138,10 @@ services:
       - basket_api
 
   identity_service:
-    image: hesstrucks/identityservice:1.0
+    image: marcusquigley/identityservice:1.0
     container_name: identity_service
     build:
-      context: .
-      dockerfile: Security/Identity/Dockerfile
+      context: Security/Identity
       target: debug
     environment:
       ASPNETCORE_ENVIRONMENT: Local
