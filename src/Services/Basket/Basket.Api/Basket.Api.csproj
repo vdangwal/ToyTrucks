@@ -18,7 +18,7 @@
     <PackageReference Include="IdentityModel.AspNetCore" Version="2.0.0"/>
     <PackageReference Include="ToyTrucks.Messaging" Version="1.0.1"/>
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client"/>
-  </ItemGroup>
+  </ItemGroup> -->
 </Project>

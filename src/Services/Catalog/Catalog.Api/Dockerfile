@@ -11,23 +11,22 @@ WORKDIR /work
 
 # Copy necessary files and restore as distinct layer
 
-COPY ["Services/Catalog/Catalog.Api/Catalog.Api.csproj", "Services/Catalog/Catalog.Api/"]
+# COPY ["Services/Catalog/Catalog.Api/Catalog.Api.csproj", "Services/Catalog/Catalog.Api/"]
+COPY Catalog.Api.csproj ./
 
-# 
-# RUN dotnet publish --no-restore -o out -c Release
-RUN dotnet restore Services/Catalog/Catalog.Api/Catalog.Api.csproj
+RUN dotnet restore 
 
 COPY . ./
-# Copy everything else and build
-RUN dotnet publish Services/Catalog/Catalog.Api/Catalog.Api.csproj --no-restore -o out -c Release
-#--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "-p", "Services/Catalog/Catalog.Api/", "--no-launch-profile"] 
+# # Copy everything else and build
+RUN dotnet publish   --no-restore -o out -c Release
+# #--no-launch-profile means it doesnt access launchSettings.json
+ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
 
-# Build runtime image
+# # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 
 WORKDIR /app/
-#COPY --from=Debug /out/ /app/
+
 COPY --from=debug /work/out /app/
 RUN chmod +x /app/ 
 CMD dotnet Catalog.Api.dll

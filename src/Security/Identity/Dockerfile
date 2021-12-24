@@ -8,14 +8,14 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 
 
 WORKDIR /identitywork
-COPY ["Security/Identity/Identity.csproj", "Security/Identity/"]
+COPY Identity.csproj ./
 
-RUN dotnet restore "Security/Identity/Identity.csproj"
+RUN dotnet restore 
 
 COPY . ./
-RUN dotnet publish Security/Identity/Identity.csproj --no-restore -o out -c Release
+RUN dotnet publish  --no-restore -o out -c Release
 #--no-launch-profile means it doesnt access launchSettings.json
-ENTRYPOINT ["dotnet", "run", "-p", "Security/Identity/", "--no-launch-profile"] 
+ENTRYPOINT ["dotnet", "run", "--no-launch-profile"] 
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 as prod
