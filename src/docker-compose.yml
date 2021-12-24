@@ -55,8 +55,7 @@ services:
     container_name: catalog_api
     build:
       context: Services/Catalog/Catalog.Api
-      #dockerfile: /Dockerfile
-      target: debug
+      target: prod
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     ports:
@@ -71,7 +70,7 @@ services:
     container_name: basket_api
     build:
       context: Services/Basket/Basket.Api
-      target: debug
+      target: prod
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     ports:
@@ -87,7 +86,7 @@ services:
     container_name: order_api
     build:
       context: Services/Orders/Orders.Api
-      target: debug
+      target: prod
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     ports:
@@ -104,7 +103,7 @@ services:
     container_name: mvc_frontend
     build:
       context: Frontends/Mvc/Web
-      target: debug
+      target: prod
     environment:
       #ASPNETCORE_URLS: "https://+;http://+"
       ASPNETCORE_URLS: "http://+"
@@ -127,7 +126,7 @@ services:
     container_name: ocelot_api
     build:
       context: ApiGateways/OcelotApi
-      target: debug
+      target: prod
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     ports:
@@ -142,7 +141,7 @@ services:
     container_name: identity_service
     build:
       context: Security/Identity
-      target: debug
+      target: prod
     environment:
       ASPNETCORE_ENVIRONMENT: Local
     ports:
