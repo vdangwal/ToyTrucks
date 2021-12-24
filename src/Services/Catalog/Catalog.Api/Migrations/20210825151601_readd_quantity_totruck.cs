@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Catalog.Api.Migrations
+namespace ToyTrucks.Catalog.Api.Migrations
 {
     public partial class readd_quantity_totruck : Migration
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.Models.Api
+namespace ToyTrucks.Web.Models.Api
 {
     public class BasketLineForUpdate
     {

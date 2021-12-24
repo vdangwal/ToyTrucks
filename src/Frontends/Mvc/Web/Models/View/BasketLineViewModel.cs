@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Web.Models.View
+namespace ToyTrucks.Web.Models.View
 {
     public class BasketLineViewModel
     {

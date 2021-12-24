@@ -11,9 +11,9 @@ using Ocelot.Middleware;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using OcelotApi.DelegatingHandlers;
+using ToyTrucks.OcelotApi.DelegatingHandlers;
 
-namespace OcelotApi
+namespace ToyTrucks.OcelotApi
 {
     public class Startup
     {

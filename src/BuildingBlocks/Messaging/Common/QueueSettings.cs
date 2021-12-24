@@ -1,4 +1,4 @@
-namespace EventBus.Messages.Common
+namespace ToyTrucks.Messaging.Common
 {
     public class QueueSettings
     {

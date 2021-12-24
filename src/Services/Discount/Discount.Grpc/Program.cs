@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Discount.Grpc.Extensions;
+using ToyTrucks.Discount.Grpc.Extensions;
 
-namespace Discount.Grpc
+namespace ToyTrucks.Discount.Grpc
 {
     public class Program
     {

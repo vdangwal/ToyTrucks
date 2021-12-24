@@ -1,7 +1,7 @@
 using AutoMapper;
-using Catalog.Api.Models;
-using Catalog.Api.Entities;
-using EventBus.Messages.Events;
+using ToyTrucks.Catalog.Api.Models;
+using ToyTrucks.Catalog.Api.Entities;
+using ToyTrucks.Messaging.Events;
 namespace Catalog.Api.Profiles
 {
     public class AllProfiles : Profile

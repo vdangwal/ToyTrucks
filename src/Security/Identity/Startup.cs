@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Identity.Services;
+using ToyTrucks.Identity.Services;
 
-namespace Identity
+namespace ToyTrucks.Identity
 {
     public class Startup
     {

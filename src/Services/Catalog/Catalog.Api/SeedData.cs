@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Catalog.Api.DbContexts;
+using ToyTrucks.Catalog.Api.DbContexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace Catalog.Api
+namespace ToyTrucks.Catalog.Api
 {
     public class SeedData
     {

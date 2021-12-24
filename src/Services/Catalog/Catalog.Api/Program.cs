@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.Api.DbContexts;
-using Catalog.Api.Extensions;
+using ToyTrucks.Catalog.Api.DbContexts;
+using ToyTrucks.Catalog.Api.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Catalog.Api.Events;
-namespace Catalog.Api
+using ToyTrucks.Catalog.Api.Events;
+namespace ToyTrucks.Catalog.Api
 {
     public class Program
     {

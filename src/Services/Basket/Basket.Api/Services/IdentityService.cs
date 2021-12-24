@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace Basket.Api.Services
+namespace ToyTrucks.Basket.Api.Services
 {
     public class IdentityService : IIdentityService
     {

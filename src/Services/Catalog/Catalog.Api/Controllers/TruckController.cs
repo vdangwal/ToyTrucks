@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Catalog.Api.Filters;
-using Catalog.Api.Models;
-using Catalog.Api.Services;
+using ToyTrucks.Catalog.Api.Filters;
+using ToyTrucks.Catalog.Api.Models;
+using ToyTrucks.Catalog.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 
-namespace Catalog.Api.Controllers
+namespace ToyTrucks.Catalog.Api.Controllers
 {
     [Route("api/trucks")]
     [ApiVersion("1.0")]

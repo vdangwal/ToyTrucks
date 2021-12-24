@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
-using Discount.Grpc.Services;
-namespace Discount.Grpc
+using ToyTrucks.Discount.Grpc.Services;
+namespace ToyTrucks.Discount.Grpc
 {
     public class Startup
     {

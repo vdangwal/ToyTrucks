@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.Models.View
+namespace ToyTrucks.Web.Models.View
 {
     public class BasketCheckoutViewModel
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Orders.Api.Models
+namespace ToyTrucks.Orders.Api.Models
 {
     public class OrderLineDto
     {

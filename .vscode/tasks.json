@@ -4,35 +4,18 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\BuildWorkspace.bat",
+            "command": "${workspaceFolder}/BuildWorkspace.bat",
             "problemMatcher": []
         },
         {
             "label": "clean",
             "type": "shell",
-            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\CleanWorkspace.bat"
+            "command": "${workspaceFolder}/CleanWorkspace.bat"
         },
         {
             "label": "restore",
             "type": "shell",
-            "command": "C:\\Code\\Core\\Work\\ProductAppMicroservices\\restoreWorkspace.bat"
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build: debug",
-            "dependsOn": [
-                "build"
-            ],
-            "dockerBuild": {
-                "tag": "productappmicroservices:dev",
-                "target": "base",
-                "dockerfile": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            },
-            "netCore": {
-                "appProject": "${workspaceFolder}/src/ApiGateways/Shopping.Aggregator/Shopping.Aggregator.csproj"
-            }
+            "command": "${workspaceFolder}/restoreWorkspace.bat"
         },
         {
             "type": "docker-build",

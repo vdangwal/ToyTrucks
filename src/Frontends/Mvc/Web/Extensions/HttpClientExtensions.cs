@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Web.Extensions
+namespace ToyTrucks.Web.Extensions
 {
     public static class HttpClientExtensions
     {

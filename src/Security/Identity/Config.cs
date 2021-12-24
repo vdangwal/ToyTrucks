@@ -6,7 +6,7 @@ using IdentityServer4.Models;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
-namespace Identity
+namespace ToyTrucks.Identity
 {
     public static class Config
     {

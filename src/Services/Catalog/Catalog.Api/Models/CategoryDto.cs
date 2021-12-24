@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.Api.Models
+namespace ToyTrucks.Catalog.Api.Models
 {
     public class CategoryDto
     {
@@ -11,6 +11,6 @@ namespace Catalog.Api.Models
         public string Name { get; set; }
         public bool IsMiniTruck { get; set; }
         public int CategoryOrder { get; set; }
-      //  public virtual ICollection<TruckDto> Trucks { get; set; }
+        //  public virtual ICollection<TruckDto> Trucks { get; set; }
     }
 }

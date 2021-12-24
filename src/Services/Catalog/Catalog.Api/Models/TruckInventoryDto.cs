@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace Catalog.Api.Models
+namespace ToyTrucks.Catalog.Api.Models
 {
     public class TruckInventoryDto
     {

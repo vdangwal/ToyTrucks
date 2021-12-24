@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Catalog.Api.Entities;
+using ToyTrucks.Catalog.Api.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.Api.DbContexts
+namespace ToyTrucks.Catalog.Api.DbContexts
 {
     public class CatalogDbContext : DbContext
     {

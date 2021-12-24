@@ -1,8 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Http;
-using Web.Models;
+using ToyTrucks.Web.Models;
 
-namespace Web.Extensions
+namespace ToyTrucks.Web.Extensions
 {
     public static class RequestCookieCollection
     {

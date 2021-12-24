@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Basket.Api.Services;
+using ToyTrucks.Basket.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,15 +15,15 @@ using StackExchange.Redis;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Basket.Api.Events;
+using ToyTrucks.Basket.Api.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System.IdentityModel.Tokens.Jwt;
-using Basket.Api.Helpers;
+using ToyTrucks.Basket.Api.Helpers;
 using RabbitMQ.Client;
-using EventBus.Messages.Common;
-namespace Basket.Api
+using ToyTrucks.Messaging.Common;
+namespace ToyTrucks.Basket.Api
 {
     public class Startup
     {

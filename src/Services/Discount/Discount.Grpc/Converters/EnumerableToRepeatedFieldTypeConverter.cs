@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using Google.Protobuf.Collections;
 
-namespace Discount.Grpc.Converters
+namespace ToyTrucks.Discount.Grpc.Converters
 {
     public class EnumerableToRepeatedFieldTypeConverter<TItemSource, TItemDest> : ITypeConverter<IEnumerable<TItemSource>, RepeatedField<TItemDest>>
     {

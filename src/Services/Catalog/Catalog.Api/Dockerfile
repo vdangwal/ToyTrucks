@@ -11,9 +11,8 @@ WORKDIR /work
 
 # Copy necessary files and restore as distinct layer
 
-
 COPY ["Services/Catalog/Catalog.Api/Catalog.Api.csproj", "Services/Catalog/Catalog.Api/"]
-COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+
 # 
 # RUN dotnet publish --no-restore -o out -c Release
 RUN dotnet restore Services/Catalog/Catalog.Api/Catalog.Api.csproj

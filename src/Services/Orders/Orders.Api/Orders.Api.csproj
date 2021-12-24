@@ -27,8 +27,6 @@
     <PackageReference Include="IdentityModel" Version="4.4.0"/>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0"/>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0"/>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj"/>
+    <PackageReference Include="ToyTrucks.Messaging" Version="1.0.1"/>
   </ItemGroup>
 </Project>

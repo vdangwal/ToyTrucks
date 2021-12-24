@@ -1,6 +1,6 @@
 using System;
 
-namespace Web.Models
+namespace ToyTrucks.Web.Models
 {
     public class Settings
     {

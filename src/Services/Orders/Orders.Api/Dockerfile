@@ -10,7 +10,7 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 WORKDIR /orderapiwork
 
 COPY ["Services/Orders/Orders.Api/Orders.Api.csproj", "Services/Orders/Orders.Api/"]
-COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+#COPY ["BuildingBlocks/Messaging/Messaging.csproj", "BuildingBlocks/Messaging/"]
 RUN dotnet restore Services/Orders/Orders.Api/Orders.Api.csproj
 
 # Copy everything else and build

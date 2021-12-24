@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace OcelotApi
+namespace ToyTrucks.OcelotApi
 {
     public class Program
     {

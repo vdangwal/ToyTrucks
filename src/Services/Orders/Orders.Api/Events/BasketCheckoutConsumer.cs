@@ -6,12 +6,12 @@ using AutoMapper;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-using Orders.Api.Services;
-using Orders.Api.Models;
-using EventBus.Messages.Events;
-using Orders.Api.Helpers;
+using ToyTrucks.Orders.Api.Services;
+using ToyTrucks.Orders.Api.Models;
+using ToyTrucks.Messaging.Events;
+using ToyTrucks.Orders.Api.Helpers;
 
-namespace Orders.Api.Entities
+namespace ToyTrucks.Orders.Api.Entities
 {
     public class BasketCheckoutConsumer : IConsumer<BasketCheckoutEvent>
     {

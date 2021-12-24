@@ -1,11 +1,11 @@
 using AutoMapper;
-using Basket.Api.Dtos;
-using Basket.Api.Events;
-using Basket.Api.Services;
+using ToyTrucks.Basket.Api.Dtos;
+using ToyTrucks.Basket.Api.Events;
+using ToyTrucks.Basket.Api.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using EventBus.Messages.Events;
+using ToyTrucks.Messaging.Events;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,11 +13,11 @@ using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Basket.Api.Helpers;
+using ToyTrucks.Basket.Api.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 
-namespace Basket.Api.Controllers
+namespace ToyTrucks.Basket.Api.Controllers
 {
     [Route("api/v1/basket")]
     //[Authorize]

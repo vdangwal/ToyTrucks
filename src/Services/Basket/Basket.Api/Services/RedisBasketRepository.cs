@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Basket.Api.Dtos;
+using ToyTrucks.Basket.Api.Dtos;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-namespace Basket.Api.Services
+namespace ToyTrucks.Basket.Api.Services
 {
     public class RedisBasketRepository : IBasketRepository
     {

@@ -1,5 +1,5 @@
 using System;
-namespace Catalog.Api.Entities
+namespace ToyTrucks.Catalog.Api.Entities
 {
     public class TruckInventory
     {

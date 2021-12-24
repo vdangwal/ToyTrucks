@@ -9,15 +9,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Orders.Api.DBContexts;
-using Orders.Api.Services;
+using ToyTrucks.Orders.Api.DBContexts;
+using ToyTrucks.Orders.Api.Services;
 using MassTransit;
-using EventBus.Messages.Common;
-using Orders.Api.Entities;
+using ToyTrucks.Messaging.Common;
+using ToyTrucks.Orders.Api.Entities;
 using MongoDB;
-using Orders.Api.Helpers;
+using ToyTrucks.Orders.Api.Helpers;
 
-namespace Orders.Api
+namespace ToyTrucks.Orders.Api
 {
     public class Startup
     {

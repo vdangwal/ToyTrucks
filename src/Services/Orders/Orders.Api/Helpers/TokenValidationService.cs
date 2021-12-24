@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 
-namespace Orders.Api.Helpers
+namespace ToyTrucks.Orders.Api.Helpers
 {
     public class TokenValidationService
     {

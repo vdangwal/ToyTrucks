@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Identity.Services
+namespace ToyTrucks.Identity.Services
 {
-       public class TokenExchangeExtensionGrantValidator : IExtensionGrantValidator
+    public class TokenExchangeExtensionGrantValidator : IExtensionGrantValidator
     {
         private readonly ITokenValidator _validator;
 

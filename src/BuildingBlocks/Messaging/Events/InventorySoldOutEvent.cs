@@ -1,6 +1,6 @@
 using System;
 
-namespace EventBus.Messages.Events
+namespace ToyTrucks.Messaging.Events
 {
     public class InventorySoldOutEvent
     {

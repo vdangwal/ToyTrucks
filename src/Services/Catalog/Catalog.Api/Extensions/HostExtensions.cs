@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Polly;
 using System;
-using Catalog.Api.Events;
+using ToyTrucks.Catalog.Api.Events;
 
-namespace Catalog.Api.Extensions
+namespace ToyTrucks.Catalog.Api.Extensions
 {
     public static class HostExtensions
     {

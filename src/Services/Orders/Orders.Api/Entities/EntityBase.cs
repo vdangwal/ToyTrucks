@@ -1,7 +1,7 @@
 using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-namespace Orders.Api.Entities
+namespace ToyTrucks.Orders.Api.Entities
 {
     public abstract class EntityBase
     {

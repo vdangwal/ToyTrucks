@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Orders.Api.DBContexts;
-using Orders.Api.Entities;
-namespace Orders.Api.Services
+using ToyTrucks.Orders.Api.DBContexts;
+using ToyTrucks.Orders.Api.Entities;
+namespace ToyTrucks.Orders.Api.Services
 {
     public class OrdersRepository : IOrdersRepository
     {
@@ -59,7 +59,7 @@ namespace Orders.Api.Services
         public async Task<Order> AddOrderAsync(Order order)
         {
             if (order == null)
-                throw new ArgumentNullException(nameof(order)); 
+                throw new ArgumentNullException(nameof(order));
 
             await _context.Orders.InsertOneAsync(order);
             return await Task.FromResult(order);
