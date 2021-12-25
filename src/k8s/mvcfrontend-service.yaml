@@ -9,4 +9,5 @@ spec:
     - name: "bingo"
       port: 3426
       targetPort: 80
+      protocol: TCP
   type: LoadBalancer

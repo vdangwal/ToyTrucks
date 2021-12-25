@@ -5,9 +5,8 @@ metadata:
 spec:
   selector:
     app: basketdb-pod
-  type: NodePort
   ports:
     - name: "redisbaby"
       port: 6379
       targetPort: 6379
-      nodePort: 30003
+      protocol: TCP

@@ -9,4 +9,4 @@ spec:
     - name: "bingo4"
       port: 14006
       targetPort: 80
-  type: LoadBalancer
+      protocol: TCP

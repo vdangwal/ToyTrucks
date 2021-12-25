@@ -10,7 +10,6 @@
 #     - name: "http-admin"
 #       port: 15672
 #       targetPort: 15672
-#       nodePort: 30001
 #     - name: "data"
 #       port: 5672
 #       targetPort: 5672

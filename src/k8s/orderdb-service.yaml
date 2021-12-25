@@ -5,9 +5,7 @@ metadata:
 spec:
   selector:
     app: orderdb-pod
-  type: NodePort
   ports:
     - name: "mongobaby"
       port: 27017
       targetPort: 27017
-      nodePort: 30004
