@@ -16,7 +16,7 @@ spec:
         - env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Kubernetes
-          image: hesstrucks/mvcfrontend:1.0
+          image: marcusquigley/mvcfrontend:1.0
           name: mvcfrontend-container
           ports:
             - containerPort: 80

@@ -16,7 +16,7 @@ spec:
         - env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Kubernetes
-          image: hesstrucks/basketapi:1.0
+          image: marcusquigley/basketapi:1.0
           name: basketapi-container
           ports:
             - containerPort: 80

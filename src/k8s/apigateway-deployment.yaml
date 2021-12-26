@@ -16,7 +16,7 @@ spec:
         - env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Kubernetes
-          image: hesstrucks/apigateway:1.0
+          image: marcusquigley/apigateway:1.0
           name: apigateway-container
           ports:
             - containerPort: 80

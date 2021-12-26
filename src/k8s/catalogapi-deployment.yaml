@@ -16,7 +16,7 @@ spec:
         - env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Kubernetes
-          image: hesstrucks/catalogapi:1.0
+          image: marcusquigley/catalogapi:1.0
           name: catalogapi-container
           ports:
             - containerPort: 80

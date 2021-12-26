@@ -16,7 +16,7 @@ spec:
         - env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Kubernetes
-          image: hesstrucks/orderapi:1.0
+          image: marcusquigley/orderapi:1.0
           name: orderapi-container
           ports:
             - containerPort: 80
