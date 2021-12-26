@@ -6,7 +6,7 @@ dotnet restore .\src\BuildingBlocks\Messaging\
 dotnet restore .\src\Services\Catalog\Catalog.Api\
 dotnet restore .\src\Services\Basket\Basket.Api\
 dotnet restore .\src\Services\Orders\Orders.Api\
-dotnet build .\src\Security\Identity\
+dotnet restore .\src\Security\Identity\
  
  
 dotnet restore .\src\ApiGateways\OcelotApi\

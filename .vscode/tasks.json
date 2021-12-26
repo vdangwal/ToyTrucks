@@ -5,17 +5,49 @@
             "label": "build",
             "type": "shell",
             "command": "${workspaceFolder}/BuildWorkspace.bat",
-            "problemMatcher": []
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": [
+                            "/d",
+                            "/c"
+                        ]
+                    }
+                },
+            }
         },
         {
             "label": "clean",
             "type": "shell",
-            "command": "${workspaceFolder}/CleanWorkspace.bat"
+            "command": "${workspaceFolder}/CleanWorkspace.bat",
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": [
+                            "/d",
+                            "/c"
+                        ]
+                    }
+                },
+            }
         },
         {
             "label": "restore",
             "type": "shell",
-            "command": "${workspaceFolder}/restoreWorkspace.bat"
+            "command": "${workspaceFolder}/restoreWorkspace.bat",
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": [
+                            "/d",
+                            "/c"
+                        ]
+                    }
+                },
+            }
         },
         {
             "type": "docker-build",
