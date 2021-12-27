@@ -9,9 +9,9 @@ DONE
 
 Add exception handling
 Add logging to app
-take photo for 2009/2013
+DONE take photo for 2009/2013
 
-add solution to aws
+DONE add solution to aws
 Set up payment service
 
 MINI trucks?? Need to create a page for them

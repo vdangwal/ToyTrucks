@@ -1,0 +1,6 @@
+change version # of image in docker compose if service has been updated
+tag it.. eg. docker tag marcusquigley/orderapi:1.1 marcusquigley/orderapi:latest...
+push it.. eg docker push marcusquigley/orderapi:latest
+
+
+checkout out https://app.pluralsight.com/guides/create-docker-images-docker-hub

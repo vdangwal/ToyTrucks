@@ -51,7 +51,7 @@ services:
       driver: none
 
   catalog_api:
-    image: marcusquigley/catalogapi:1.0
+    image: marcusquigley/catalogapi:1.1
     container_name: catalog_api
     build:
       context: Services/Catalog/Catalog.Api
@@ -66,7 +66,7 @@ services:
       - catalogdb
 
   basket_api:
-    image: marcusquigley/basketapi:1.0
+    image: marcusquigley/basketapi:1.1
     container_name: basket_api
     build:
       context: Services/Basket/Basket.Api
@@ -82,7 +82,7 @@ services:
       - rabbitmq
 
   order_api:
-    image: marcusquigley/orderapi:1.0
+    image: marcusquigley/orderapi:1.1
     container_name: order_api
     build:
       context: Services/Orders/Orders.Api
