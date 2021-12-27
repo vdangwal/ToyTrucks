@@ -25,7 +25,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 as prod
 WORKDIR /app/
 #COPY --from=Debug /out/ /app/
 COPY --from=debug /orderapiwork/out/ /app/
-RUN chmod +x /app/ 
+RUN chmod +x /app/
+RUN touch /app/healthfile
 CMD dotnet Orders.Api.dll
 
 

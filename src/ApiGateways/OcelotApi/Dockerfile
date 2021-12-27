@@ -30,4 +30,5 @@ WORKDIR /app/
 #COPY --from=Debug /out/ /app/
 COPY --from=debug /apigatewaywork/out /app/
 RUN chmod +x /app/ 
+RUN touch /app/healthfile
 CMD dotnet OcelotApi.dll

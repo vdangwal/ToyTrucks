@@ -28,4 +28,7 @@ WORKDIR /app/
 
 COPY --from=debug /basketwork/out /app/
 RUN chmod +x /app/ 
+#will be used for healthcheck
+RUN touch /app/healthfile 
+
 CMD dotnet Basket.Api.dll

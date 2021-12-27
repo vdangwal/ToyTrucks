@@ -24,4 +24,5 @@ WORKDIR /app/
 #COPY --from=Debug /out/ /app/
 COPY --from=debug /identitywork/out /app/
 RUN chmod +x /app/ 
+RUN touch /app/healthfile
 CMD dotnet Identity.dll

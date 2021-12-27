@@ -29,5 +29,6 @@ WORKDIR /app/
 
 COPY --from=debug /work/out /app/
 RUN chmod +x /app/ 
+RUN touch /app/healthfile
 CMD dotnet Catalog.Api.dll
 
