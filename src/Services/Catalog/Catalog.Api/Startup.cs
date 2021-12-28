@@ -59,6 +59,8 @@ namespace ToyTrucks.Catalog.Api
               options.ApiVersionReader = new HeaderApiVersionReader("api-version");
           });
 
+            services.AddHealthChecks();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
@@ -114,6 +116,7 @@ namespace ToyTrucks.Catalog.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/liveness");
             });
         }
     }

@@ -33,4 +33,10 @@ spec:
               command:
                 - cat
                 - healthfile
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
       restartPolicy: Always

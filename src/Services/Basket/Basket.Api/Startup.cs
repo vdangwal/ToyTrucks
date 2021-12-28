@@ -23,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using ToyTrucks.Basket.Api.Helpers;
 using RabbitMQ.Client;
 using ToyTrucks.Messaging.Common;
+
 namespace ToyTrucks.Basket.Api
 {
     public class Startup
@@ -56,7 +57,7 @@ namespace ToyTrucks.Basket.Api
               options.ReportApiVersions = true;
               options.ApiVersionReader = new HeaderApiVersionReader("api-version");
           });
-
+            services.AddHealthChecks();
             services.AddMyMassTransit(Configuration);
 
 
@@ -116,6 +117,7 @@ namespace ToyTrucks.Basket.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/liveness");
             });
         }
     }

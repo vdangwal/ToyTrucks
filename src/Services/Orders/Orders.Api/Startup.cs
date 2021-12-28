@@ -46,6 +46,7 @@ namespace ToyTrucks.Orders.Api
             services.AddScoped<BasketCheckoutConsumer>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHealthChecks();
 
             services.AddClientMassTransit(Configuration);
 
@@ -82,6 +83,7 @@ namespace ToyTrucks.Orders.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/liveness");
             });
         }
     }

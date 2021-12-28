@@ -33,4 +33,11 @@ spec:
               command:
                 - cat
                 - healthfile
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - healthfile
+            initialDelaySeconds: 10
+            periodSeconds: 10
       restartPolicy: Always

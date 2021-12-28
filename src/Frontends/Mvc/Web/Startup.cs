@@ -47,7 +47,7 @@ namespace ToyTrucks.Web
             {
                 c.BaseAddress = new Uri(_config["OrdersUri"]);
             }).AddUserAccessTokenHandler();
-
+            services.AddHealthChecks();
             services.AddHttpContextAccessor();
             services.AddSingleton<Settings>();
             System.Console.WriteLine($"FrontEnd useAuth = {_config["UseOAuth"]}");
@@ -126,6 +126,7 @@ namespace ToyTrucks.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=TruckCatalog}/{action=Index}/{id?}");
+                endpoints.MapHealthChecks("/liveness");
             });
         }
     }
