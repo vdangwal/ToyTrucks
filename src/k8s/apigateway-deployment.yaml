@@ -21,8 +21,11 @@ spec:
           ports:
             - containerPort: 80
           resources:
-            limits:
+            requests:
               memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "500Mi"
               cpu: "500m"
           readinessProbe:
             initialDelaySeconds: 5
