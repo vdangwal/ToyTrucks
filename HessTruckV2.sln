@@ -42,15 +42,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders.Api", "Orders.Api", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.Api", "src\Services\Orders\Orders.Api\Orders.Api.csproj", "{B18AFE81-0A49-43C8-AA53-5F84AD1F8BD4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Api", "src\Services\Inventory\Inventory.Api\Inventory.Api.csproj", "{7B9527A8-D49C-45E6-A1D0-86659648F7FF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discount.Grpc", "src\Services\Discount\Discount.Grpc\Discount.Grpc.csproj", "{37642765-98DA-49B6-BFDB-578B8E2EC26C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Api", "src\Services\Catalog\Catalog.Api\Catalog.Api.csproj", "{6329FE47-2AEE-4F14-8CEE-848700BC31CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.Api", "src\Services\Basket\Basket.Api\Basket.Api.csproj", "{40E7ABF4-8526-4341-BDED-B7CD45BA3F43}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.Messages", "src\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj", "{7147E44A-0188-45AE-9533-FB2761D0CDF1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApi", "src\ApiGateways\OcelotApi\OcelotApi.csproj", "{A3F1C55C-DB69-45D7-98CF-712BB47F6FA0}"
 EndProject
